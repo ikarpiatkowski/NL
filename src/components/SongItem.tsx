@@ -47,7 +47,7 @@ const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
       >
         <Image
           className="object-cover"
-          src={imagePath || '/images/licked.png'}
+          src={imagePath || '/images/favfood.png'}
           fill
           alt="Image"
         />
@@ -63,7 +63,7 @@ const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
             truncate
           "
         >
-          By {data.author}
+          {data.author}
         </p>
       </div>
       <div

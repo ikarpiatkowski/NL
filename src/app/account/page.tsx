@@ -6,7 +6,8 @@ const Account = () => {
   return (
     <div
       className="
-        bg-neutral-900 
+      bg-neutral-300
+      dark:bg-neutral-900 
         rounded-lg 
         h-full 
         w-full 

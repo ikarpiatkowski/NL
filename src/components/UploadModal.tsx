@@ -45,7 +45,7 @@ const UploadModal = () => {
       const imageFile = values.image?.[0];
       const songFile = values.song?.[0];
 
-      if (!imageFile || !songFile || !user) {
+      if (!imageFile || !user) {
         toast.error('Missing fields');
         return;
       }
@@ -62,7 +62,8 @@ const UploadModal = () => {
 
       if (songError) {
         setIsLoading(false);
-        return toast.error('Failed song upload');
+        console.log(songError);
+        return toast.error('Failed food upload (polish characters)');
       }
 
       // Upload image
@@ -96,7 +97,7 @@ const UploadModal = () => {
 
       router.refresh();
       setIsLoading(false);
-      toast.success('Song created!');
+      toast.success('Food created!');
       reset();
       uploadModal.onClose();
     } catch (error) {
@@ -108,8 +109,8 @@ const UploadModal = () => {
 
   return (
     <Modal
-      title="Add a song"
-      description="Upload an mp3 file"
+      title="Add custom food"
+      description="Of your choice"
       isOpen={uploadModal.isOpen}
       onChange={onChange}
     >
@@ -118,16 +119,16 @@ const UploadModal = () => {
           id="title"
           disabled={isLoading}
           {...register('title', { required: true })}
-          placeholder="Song title"
+          placeholder="Food Name"
         />
         <Input
           id="author"
           disabled={isLoading}
           {...register('author', { required: true })}
-          placeholder="Song author"
+          placeholder="Nutrition Values"
         />
-        <div>
-          <div className="pb-1">Select a song file</div>
+        {/* <div>
+          <div className="pb-1">Select a sound of food</div>
           <Input
             placeholder="test"
             disabled={isLoading}
@@ -136,9 +137,9 @@ const UploadModal = () => {
             id="song"
             {...register('song', { required: true })}
           />
-        </div>
+        </div> */}
         <div>
-          <div className="pb-1">Select an image</div>
+          <div className="pb-1">Select an image of food</div>
           <Input
             placeholder="test"
             disabled={isLoading}

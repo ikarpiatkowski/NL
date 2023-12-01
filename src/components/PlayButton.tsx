@@ -1,4 +1,4 @@
-import { FaPlay } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
 
 const PlayButton = () => {
   return (
@@ -10,7 +10,7 @@ const PlayButton = () => {
         flex 
         items-center 
         justify-center 
-        bg-green-500 
+        bg-violet-500 
         p-4 
         drop-shadow-md 
         translate
@@ -20,7 +20,7 @@ const PlayButton = () => {
         hover:scale-110
       "
     >
-      <FaPlay className="text-black" />
+      <FaHeart className="text-black" />
     </button>
   );
 };
