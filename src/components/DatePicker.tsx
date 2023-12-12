@@ -15,7 +15,6 @@ import {
 
 export function DatePickerDemo() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
-  console.log(date);
   return (
     <Popover>
       <PopoverTrigger asChild>

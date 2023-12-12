@@ -4,6 +4,10 @@ import BarChart from './components/BarChart';
 import { Polar } from './components/Polar';
 import NutriProgress from '@/components/NutriProgress';
 import { DatePickerDemo } from '@/components/DatePicker';
+import FoodCard from './components/FoodCard';
+import { App } from './components/App';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 export const revalidate = 0;
 
 interface SearchProps {
@@ -86,26 +90,33 @@ interface FoodData {
   fdcId: number;
 }
 const Dashboard = async ({ searchParams }: SearchProps) => {
-  const { data } = await supabaseAdmin
+  const supabase = createServerComponentClient({
+    cookies: cookies,
+  });
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError) {
+    console.log(sessionError.message);
+    return [];
+  }
+  let { data: userFood, error } = await supabaseAdmin
     .from('userFood')
-    .select('food')
-    .eq('user_id', 'd972799c-4d23-4c47-947c-c48da61ee28e')
-    .eq('created_at', '2023-11-30 00:03:38.777005+00');
+    .select('*')
+    .eq('user_id', sessionData.session?.user.id);
+  let totalEnergy = 0;
+  let totalFat = 0;
+  let totalProtein = 0;
+  let totalCarbs = 0;
+  let totalSugar = 0;
   return (
     <>
-      {data?.map((i: any) => (
-        <div key={i.fdcId}>{i.foodClass}</div>
-      ))}
-      {data!.map((foodData) => {
-        <div
-          key={foodData.food.fdcId}
-          className="rounded-3xl bg-neutral-300 dark:bg-neutral-600 m-4 p-2 w-64"
-        >
-          <p className="rounded-3xl bg-neutral-400 dark:bg-neutral-700 font-bold text-center capitalize">
-            {foodData.food.fdcId} 🧧
-          </p>
-          <p>🍕 Calories: {foodData.food[0]}</p>
-        </div>;
+      {userFood?.forEach((f: any) => {
+        totalEnergy += f.energy;
+        totalFat += f.fat;
+        totalProtein += f.protein;
+        totalCarbs += f.carbs;
+        totalSugar += f.sugar;
       })}
       <div
         className="
@@ -129,28 +140,48 @@ const Dashboard = async ({ searchParams }: SearchProps) => {
           </div>
           <div className="flex justify-center m-4">
             <div className="flex flex-col p-2 text-center">
-              Calories (Energy) 77%
-              <NutriProgress value={77} />
+              Energy {totalEnergy}/2000
+              <NutriProgress
+                value={parseFloat(((totalEnergy / 2000) * 100).toFixed(0))}
+              />
             </div>
             <div className="flex flex-col p-2 text-center">
-              Protein 49%
-              <NutriProgress value={49} />
+              Fat {totalFat}/60
+              <NutriProgress
+                value={parseFloat(((totalFat / 60) * 100).toFixed(0))}
+              />
             </div>
             <div className="flex flex-col p-2 text-center">
-              Carbs 27%
-              <NutriProgress value={27} />
+              Protein {totalProtein}/120
+              <NutriProgress
+                value={parseFloat(((totalProtein / 120) * 100).toFixed(0))}
+              />
             </div>
             <div className="flex flex-col p-2 text-center">
-              Fat 93%
-              <NutriProgress value={93} />
+              Carbs {totalCarbs}/90
+              <NutriProgress
+                value={parseFloat(((totalCarbs / 90) * 100).toFixed(0))}
+              />
             </div>
+            <div className="flex flex-col p-2 text-center">
+              Sugar {totalSugar}/60
+              <NutriProgress
+                value={parseFloat(((totalSugar / 60) * 100).toFixed(0))}
+              />
+            </div>
+          </div>
+          <div className="flex">
+            <FoodCard foodData={userFood} />
           </div>
           <div className="flex mt-10 justify-center">
             <div className="flex w-[600px] h-[400px]">
-              <BarChart />
+              <BarChart energy={totalEnergy} />
             </div>
             <div className="flex w-[600px] h-[400px]">
               <Polar />
+            </div>
+            <div className="flex w-[600px] h-[400px]">
+              <App />
             </div>
           </div>
         </div>

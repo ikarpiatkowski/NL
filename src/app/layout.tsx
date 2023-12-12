@@ -9,8 +9,6 @@ import ToasterProvider from '@/providers/ToasterProvider';
 import getSongsByUserId from '@/actions/getSongsByUserId';
 import getActiveProductsWithPrices from '@/actions/getActiveProductsWithPrices';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Theme } from '@radix-ui/themes';
-import { ModeToggle } from '@/components/ModeToggle';
 export const metadata: Metadata = {
   title: 'Nourish Log',
   description: 'Your personal food tracker!',

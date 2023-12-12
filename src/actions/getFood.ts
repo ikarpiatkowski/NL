@@ -1,11 +1,11 @@
-import FetchNutriValues from '@/components/FetchNutriValues';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 
-const Test = async () => {
+const getFood = async () => {
   const supabase = createServerComponentClient({
     cookies: cookies,
   });
+
   const { data: sessionData, error: sessionError } =
     await supabase.auth.getSession();
 
@@ -13,11 +13,18 @@ const Test = async () => {
     console.log(sessionError.message);
     return [];
   }
-  return (
-    <>
-      <FetchNutriValues userId={sessionData.session?.user.id!} />
-    </>
-  );
+
+  const { data, error } = await supabase
+    .from('userFood')
+    .select('*')
+    .eq('user_id', sessionData.session?.user.id)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.log(error.message);
+  }
+
+  return (data as any) || [];
 };
 
-export default Test;
+export default getFood;

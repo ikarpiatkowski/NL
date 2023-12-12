@@ -20,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-const BarChart = () => {
+const BarChart = ({ energy }) => {
   const [chartData, setChartData] = useState({
     datasets: [],
   });
@@ -33,9 +33,9 @@ const BarChart = () => {
       datasets: [
         {
           label: 'Calories (Energy)',
-          data: [2000, 1800, 1970, 3350, 3020, 1800, 2400],
-          borderColor: 'rgb(16, 185, 129)',
-          backgroundColor: 'rgb(16, 185, 129)',
+          data: [2000, 1800, 1970, 3350, 3020, 1800, energy],
+          borderColor: 'rgb(139 92 246)',
+          backgroundColor: 'rgb(139 92 246)',
         },
       ],
     });

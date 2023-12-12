@@ -23,7 +23,7 @@ const NutriProgress: React.FC<NutriProgressProps> = ({ value }) => {
       value={progress}
     >
       <Progress.Indicator
-        className="bg-emerald-500 w-full h-full rounded-lg transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]"
+        className="bg-violet-500 w-full h-full rounded-lg transition-transform ease-[cubic-bezier(0.65, 0, 0.35, 1)]"
         style={{ transform: `translateX(-${100 - progress}%)` }}
       />
     </Progress.Root>

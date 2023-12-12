@@ -6,6 +6,22 @@ import { Input } from '@/componentsShadCn/ui/input';
 import { Button } from '@/componentsShadCn/ui/button';
 import { BiSearch } from 'react-icons/bi';
 import SearchFood from '@/app/search/components/SearchFood';
+import {
+  CardTitle,
+  CardDescription,
+  CardHeader,
+  CardContent,
+  CardFooter,
+  Card,
+} from '@/componentsShadCn/ui/card';
+import {
+  HoverCardTrigger,
+  HoverCardContent,
+  HoverCard,
+} from '@/componentsShadCn/ui/hover-card';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import toast from 'react-hot-toast';
+
 interface foods {
   fdcId: number;
   description: string;
@@ -59,8 +75,10 @@ interface FoodData {
   foods: foods[]; // Adjust the type as needed
   aggregations: any[]; // Adjust the type as needed
 }
-
-const FetchNutriValues: React.FC = () => {
+interface FetchNutriValuesProps {
+  userId: string; // Change the type to the actual type of your 'id' prop
+}
+const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
   const [data, setData] = useState<FoodData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -84,27 +102,115 @@ const FetchNutriValues: React.FC = () => {
       setLoading(false);
     }
   };
-  const allowedNutrients = [
-    'Protein',
-    'Carbohydrate',
-    'Total lipid (fat)',
-    'Fatty acids, total polyunsaturated',
-    'Fatty acids, total monounsaturated',
-    'Fat',
+  const mainNutrients = [
     'Energy',
-    'Fiber',
+    'Total lipid (fat)',
     'Carbohydrate, by difference',
     'Sugars, total including NLEA',
-    'Sugars',
+    'Protein',
+  ];
+  const allowedNutrients = [
+    'Protein',
+    'Total lipid (fat)',
+    'Carbohydrate, by difference',
+    'Energy',
+    'Alcohol, ethyl',
+    'Water',
+    'Caffeine',
+    'Theobromine',
+    'Sugars, total including NLEA',
     'Fiber, total dietary',
+    'Calcium, Ca',
+    'Iron, Fe',
+    'Magnesium, Mg',
+    'Phosphorus, P',
+    'Potassium, K',
+    'Sodium, Na',
+    'Zinc, Zn',
+    'Copper, Cu',
+    'Selenium, Se',
+    'Retinol',
+    'Vitamin A, RAE',
+    'Carotene, beta',
+    'Carotene, alpha',
+    'Vitamin E (alpha-tocopherol)',
+    'Vitamin D (D2 + D3)',
+    'Cryptoxanthin, beta',
+    'Lycopene',
+    'Lutein + zeaxanthin',
+    'Vitamin C, total ascorbic acid',
+    'Thiamin',
+    'Riboflavin',
+    'Niacin',
+    'Vitamin B-6',
+    'Folate, total',
+    'Vitamin B-12',
+    'Choline, total',
+    'Vitamin K (phylloquinone)',
+    'Folic acid',
+    'Folate, food',
+    'Folate, DFE',
+    'Vitamin E, added',
+    'Vitamin B-12, added',
+    'Cholesterol',
+    'Fatty acids, total saturated',
+    'SFA 4:0',
+    'SFA 6:0',
+    'SFA 8:0',
+    'SFA 10:0',
+    'SFA 12:0',
+    'SFA 14:0',
+    'SFA 16:0',
+    'SFA 18:0',
+    'MUFA 18:1',
+    'PUFA 18:2',
+    'PUFA 18:3',
+    'PUFA 20:4',
+    'PUFA 22:6 n-3 (DHA)',
+    'MUFA 16:1',
+    'PUFA 18:4',
+    'MUFA 20:1',
+    'PUFA 20:5 n-3 (EPA)',
+    'MUFA 22:1',
+    'PUFA 22:5 n-3 (DPA)',
+    'Fatty acids, total monounsaturated',
+    'Fatty acids, total polyunsaturated',
   ];
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
-
+  const supabaseClient = useSupabaseClient();
+  const addFood = async ({
+    json,
+    energy,
+    protein,
+    fat,
+    carbs,
+    sugar,
+    name,
+  }: any) => {
+    const { error: supabaseError } = await supabaseClient
+      .from('userFood')
+      .insert({
+        food: json,
+        energy: energy,
+        protein: protein,
+        fat: fat,
+        carbs: carbs,
+        sugar: sugar,
+        name: name,
+        user_id: userId,
+      });
+    if (supabaseError) {
+      return toast.error(supabaseError.message);
+    }
+    console.log(json);
+  };
   const handleFetchClick = () => {
     fetchData();
   };
+
+  // console.log(data?.foods[0].foodNutrients[0].nutrientId);
   return (
     <div className="bg-neutral-300 dark:bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
       <div className="mb-2 flex flex-col gap-y-6">
@@ -137,35 +243,100 @@ const FetchNutriValues: React.FC = () => {
           ) : (
             data &&
             data.foods.length > 0 && (
-              <div className="flex flex-col w-full">
+              <div className="flex flex-wrap">
                 {data.foods.map((food) => (
-                  <div
-                    className="flex flex-col border-2 rounded-lg p-2 m-2"
-                    key={food.fdcId}
-                  >
-                    <div className="flex flex-row justify-between">
-                      <div>
-                        <h3>Description: {food.description}</h3>
-                        <p>Category: {food.foodCategory}</p>
-                      </div>
-                      <Button className="w-12">Add</Button>
-                    </div>
-                    <ul className="flex flex-wrap">
-                      {food.foodNutrients
-                        .filter((nutrient) => nutrient.value !== 0)
-                        .filter((nutrient) =>
-                          allowedNutrients.includes(nutrient.nutrientName)
-                        )
-                        .map((nutrient) => (
-                          <li
-                            className="border-2 m-1 p-1 rounded-lg"
-                            key={nutrient.nutrientId}
+                  <div key={food.fdcId}>
+                    <Card className="bg-white shadow rounded-xl overflow-hidden w-fit m-2">
+                      <CardHeader className="p-4">
+                        <CardTitle className="text-lg font-bold w-[200px]">
+                          {food.description}
+                        </CardTitle>
+                        <CardDescription className="text-sm text-gray-500">
+                          Serving Size: 1 cup (100g)
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="p-4">
+                        <div className="grid gap-2">
+                          {food.foodNutrients
+                            .filter((nutrient) => nutrient.value !== 0)
+                            .filter((nutrient) =>
+                              mainNutrients.includes(nutrient.nutrientName)
+                            )
+                            .map((nutrient) => (
+                              <div
+                                key={nutrient.nutrientId}
+                                className="flex justify-between"
+                              >
+                                <p className="text-sm">
+                                  {nutrient.nutrientName}
+                                </p>
+                                <p className="text-sm">
+                                  {nutrient.value}
+                                  {nutrient.unitName !== 'KCAL' && (
+                                    <span>{nutrient.unitName}</span>
+                                  )}
+                                </p>
+                              </div>
+                            ))}
+                          <Button
+                            onClick={() => {
+                              addFood({
+                                protein: food.foodNutrients[8].value,
+                                energy: food.foodNutrients[3].value,
+                                fat: food.foodNutrients[1].value,
+                                sugar: food.foodNutrients[0].value,
+                                carbs: food.foodNutrients[2].value,
+                                name: food.description,
+                              });
+                            }}
+                            className="w-12"
                           >
-                            <strong>{nutrient.nutrientName}:</strong>{' '}
-                            <p>{nutrient.value}</p> <p> {nutrient.unitName}</p>
-                          </li>
-                        ))}
-                    </ul>
+                            Add
+                          </Button>
+                        </div>
+                      </CardContent>
+                      <CardFooter className="p-4 ">
+                        <HoverCard>
+                          <HoverCardTrigger asChild>
+                            <Button className="text-blue-500" variant="link">
+                              View More
+                            </Button>
+                          </HoverCardTrigger>
+                          <HoverCardContent className="w-80">
+                            <div className="p-4">
+                              <h4 className="text-sm font-semibold">
+                                Detailed Nutrition Facts
+                              </h4>
+                              <p className="text-sm">
+                                {food.foodNutrients
+                                  .filter((nutrient) => nutrient.value !== 0)
+                                  .filter((nutrient) =>
+                                    allowedNutrients.includes(
+                                      nutrient.nutrientName
+                                    )
+                                  )
+                                  .map((nutrient) => (
+                                    <div
+                                      key={nutrient.nutrientId}
+                                      className="flex justify-between"
+                                    >
+                                      <p className="text-sm">
+                                        {nutrient.nutrientName}
+                                      </p>
+                                      <p className="text-sm">
+                                        {nutrient.value}
+                                        {nutrient.unitName !== 'KCAL' && (
+                                          <span>{nutrient.unitName}</span>
+                                        )}
+                                      </p>
+                                    </div>
+                                  ))}
+                              </p>
+                            </div>
+                          </HoverCardContent>
+                        </HoverCard>
+                      </CardFooter>
+                    </Card>
                   </div>
                 ))}
               </div>

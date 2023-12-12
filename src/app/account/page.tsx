@@ -1,8 +1,11 @@
+'use client';
 import Header from '@/components/Header';
 
 import AccountContent from './components/AccountContent';
+import { useUser } from '@/hooks/useUser';
 
 const Account = () => {
+  const { user } = useUser();
   return (
     <div
       className="
@@ -23,6 +26,7 @@ const Account = () => {
         </div>
       </Header>
       <AccountContent />
+      {user?.id}
     </div>
   );
 };
