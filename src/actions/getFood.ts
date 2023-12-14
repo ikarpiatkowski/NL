@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 
-const getFood = async () => {
+const getFood = async ({ date }: { date: string }): Promise<any> => {
   const supabase = createServerComponentClient({
     cookies: cookies,
   });
@@ -18,7 +18,7 @@ const getFood = async () => {
     .from('userFood')
     .select('*')
     .eq('user_id', sessionData.session?.user.id)
-    .order('created_at', { ascending: false });
+    .eq('created_at', date);
 
   if (error) {
     console.log(error.message);

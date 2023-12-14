@@ -1,4 +1,3 @@
-'use client';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useUser } from '@/hooks/useUser';
 import useAuthModal from '@/hooks/useAuthModal';

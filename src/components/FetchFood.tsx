@@ -1,3 +1,6 @@
+import { supabaseAdmin } from '@/libs/supabaseAdmin';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 import {
   CardTitle,
   CardDescription,
@@ -12,15 +15,29 @@ import {
   HoverCardContent,
   HoverCard,
 } from '@/componentsShadCn/ui/hover-card';
+const FetchFood = async ({ foodData, date, id }: any) => {
+  const supabase = createServerComponentClient({
+    cookies: cookies,
+  });
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
 
-export default function FoodCard({ foodData }: any) {
+  if (sessionError) {
+    console.log(sessionError.message);
+    return [];
+  }
+  let { data: userFood, error } = await supabaseAdmin
+    .from('userFood')
+    .select('*')
+    .eq('user_id', sessionData.session?.user.id)
+    .eq('created_at', '2023-12-12');
   return (
     <>
-      {foodData?.map((f: any) => (
+      {userFood?.map((f: any) => (
         <div key={f.id}>
           <Card className="bg-white shadow rounded-xl overflow-hidden w-fit m-2">
             <CardHeader className="p-4">
-              <CardTitle className="text-lg font-bold w-60">{f.name}</CardTitle>
+              <CardTitle className="text-lg font-bold">{f.name}</CardTitle>
               <CardDescription className="text-sm text-gray-500">
                 Serving Size 100g
               </CardDescription>
@@ -49,10 +66,7 @@ export default function FoodCard({ foodData }: any) {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="p-2 justify-between">
-              <Button className="text-blue-500" variant="outline">
-                Edit
-              </Button>
+            <CardFooter className="p-2">
               <HoverCard>
                 <HoverCardTrigger asChild>
                   <Button className="text-blue-500" variant="link">
@@ -66,13 +80,12 @@ export default function FoodCard({ foodData }: any) {
                   </div>
                 </HoverCardContent>
               </HoverCard>
-              <Button className="text-blue-500" variant="destructive">
-                Delete
-              </Button>
             </CardFooter>
           </Card>
         </div>
       ))}
     </>
   );
-}
+};
+
+export default FetchFood;

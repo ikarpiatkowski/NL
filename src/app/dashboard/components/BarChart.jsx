@@ -33,7 +33,7 @@ const BarChart = ({ energy }) => {
       datasets: [
         {
           label: 'Calories (Energy)',
-          data: [2000, 1800, 1970, 3350, 3020, 1800, energy],
+          data: [110, 16, 59, 119, 113, 28, energy],
           borderColor: 'rgb(139 92 246)',
           backgroundColor: 'rgb(139 92 246)',
         },
@@ -48,7 +48,7 @@ const BarChart = ({ energy }) => {
       maintainAspectRatio: false,
       responsive: true,
     });
-  }, []);
+  }, [energy]);
 
   return (
     <>

@@ -9,6 +9,7 @@ import Box from './Box';
 import SidebarItem from './SidebarItem';
 import Library from './Library';
 import { Song } from '@/types';
+import useDateStore from '@/hooks/dataStore';
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -16,6 +17,8 @@ interface SidebarProps {
 }
 const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
   const pathname = usePathname();
+  const { selectedDate, setNewDate } = useDateStore();
+  const splitDateUrl = selectedDate.toISOString().split('T')[0];
   const routes = useMemo(
     () => [
       {
