@@ -11,7 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/componentsShadCn/ui/popover';
-import getFood from '@/actions/getFood';
 import { useRouter } from 'next/navigation';
 
 export function DatePickerDemo() {
@@ -20,7 +19,6 @@ export function DatePickerDemo() {
   //   new Date()
   // );
   const router = useRouter();
-  console.log(selectedDate);
   const handleDateSelect = (newDate: any) => {
     // Format the selected date to the desired format (e.g., '2023-12-12')
     const formattedDate = format(newDate, 'yyyy-MM-dd');

@@ -203,8 +203,10 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
       });
     if (supabaseError) {
       return toast.error(supabaseError.message);
+    } else {
+      toast.success('Food added successfully');
+      console.log(protein);
     }
-    console.log(json);
   };
   const handleFetchClick = () => {
     fetchData();
@@ -212,7 +214,7 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
 
   // console.log(data?.foods[0].foodNutrients[0].nutrientId);
   return (
-    <div className="bg-neutral-300 dark:bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
+    <div className="bg-violet-200 dark:bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
       <div className="mb-2 flex flex-col gap-y-6">
         <Header>
           <div className="mb-2 flex flex-col gap-y-6">
@@ -221,29 +223,27 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
         </Header>
         {error && <p>Error: {error}</p>}
         <div className="flex flex-col gap-y-2 w-full px-6">
-          <div>
-            <div className="flex flex-col justify-center">
-              <div className="flex justify-center">
-                <Input
-                  type="text"
-                  placeholder="Search for food with USDA"
-                  onChange={handleQueryChange}
-                  className="w-60 mr-4"
-                />
-                <Button type="submit" onClick={handleFetchClick}>
-                  <BiSearch size={22} />
-                  Search
-                </Button>
-              </div>
-              <SearchFood />
+          <div className="flex flex-col justify-center">
+            <div className="flex justify-center">
+              <Input
+                type="text"
+                placeholder="Search for food with USDA"
+                onChange={handleQueryChange}
+                className="w-60 mr-4"
+              />
+              <Button type="submit" onClick={handleFetchClick}>
+                <BiSearch size={22} />
+                Search
+              </Button>
             </div>
+            <SearchFood />
           </div>
           {loading ? (
             <Loading />
           ) : (
             data &&
             data.foods.length > 0 && (
-              <div className="flex flex-wrap">
+              <div className="flex flex-wrap justify-center">
                 {data.foods.map((food) => (
                   <div key={food.fdcId}>
                     <Card className="bg-white shadow rounded-xl overflow-hidden w-fit m-2">
@@ -252,7 +252,7 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                           {food.description}
                         </CardTitle>
                         <CardDescription className="text-sm text-gray-500">
-                          Serving Size: 1 cup (100g)
+                          Serving Size: 100g
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="p-4">
@@ -278,24 +278,24 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                                 </p>
                               </div>
                             ))}
-                          <Button
-                            onClick={() => {
-                              addFood({
-                                protein: food.foodNutrients[8].value,
-                                energy: food.foodNutrients[3].value,
-                                fat: food.foodNutrients[1].value,
-                                sugar: food.foodNutrients[0].value,
-                                carbs: food.foodNutrients[2].value,
-                                name: food.description,
-                              });
-                            }}
-                            className="w-12"
-                          >
-                            Add
-                          </Button>
                         </div>
                       </CardContent>
                       <CardFooter className="p-4 ">
+                        <Button
+                          onClick={() => {
+                            addFood({
+                              protein: food.foodNutrients[0].value,
+                              energy: food.foodNutrients[3].value,
+                              fat: food.foodNutrients[1].value,
+                              sugar: food.foodNutrients[4].value,
+                              carbs: food.foodNutrients[2].value,
+                              name: food.description,
+                            });
+                          }}
+                          className="w-12"
+                        >
+                          Add
+                        </Button>
                         <HoverCard>
                           <HoverCardTrigger asChild>
                             <Button className="text-blue-500" variant="link">
@@ -303,35 +303,33 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                             </Button>
                           </HoverCardTrigger>
                           <HoverCardContent className="w-80">
-                            <div className="p-4">
-                              <h4 className="text-sm font-semibold">
-                                Detailed Nutrition Facts
-                              </h4>
-                              <p className="text-sm">
-                                {food.foodNutrients
-                                  .filter((nutrient) => nutrient.value !== 0)
-                                  .filter((nutrient) =>
-                                    allowedNutrients.includes(
-                                      nutrient.nutrientName
-                                    )
+                            <h4 className="text-sm font-semibold pb-2">
+                              Detailed Nutrition Facts
+                            </h4>
+                            <div className="text-sm">
+                              {food.foodNutrients
+                                .filter((nutrient) => nutrient.value !== 0)
+                                .filter((nutrient) =>
+                                  allowedNutrients.includes(
+                                    nutrient.nutrientName
                                   )
-                                  .map((nutrient) => (
-                                    <div
-                                      key={nutrient.nutrientId}
-                                      className="flex justify-between"
-                                    >
-                                      <p className="text-sm">
-                                        {nutrient.nutrientName}
-                                      </p>
-                                      <p className="text-sm">
-                                        {nutrient.value}
-                                        {nutrient.unitName !== 'KCAL' && (
-                                          <span>{nutrient.unitName}</span>
-                                        )}
-                                      </p>
-                                    </div>
-                                  ))}
-                              </p>
+                                )
+                                .map((nutrient) => (
+                                  <div
+                                    key={nutrient.nutrientId}
+                                    className="flex justify-between"
+                                  >
+                                    <p className="text-sm">
+                                      {nutrient.nutrientName}
+                                    </p>
+                                    <p className="text-sm">
+                                      {nutrient.value}
+                                      {nutrient.unitName !== 'KCAL' && (
+                                        <span>{nutrient.unitName}</span>
+                                      )}
+                                    </p>
+                                  </div>
+                                ))}
                             </div>
                           </HoverCardContent>
                         </HoverCard>

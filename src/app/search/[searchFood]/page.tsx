@@ -15,7 +15,7 @@ export default function SearchFoodPage({
   return (
     <>
       <div
-        className="flex flex-row flex-wrap justify-center w-full h-full bg-neutral-300
+        className="flex flex-row flex-wrap justify-center w-full h-full bg-violet-200
         dark:bg-neutral-900 "
       >
         <Search />

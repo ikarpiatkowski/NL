@@ -1,3 +1,4 @@
+'use client';
 import {
   CardTitle,
   CardDescription,
@@ -12,8 +13,33 @@ import {
   HoverCardContent,
   HoverCard,
 } from '@/componentsShadCn/ui/hover-card';
-
+import toast from 'react-hot-toast';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/navigation';
+import useEditModal from '@/hooks/useEditModal';
 export default function FoodCard({ foodData }: any) {
+  const router = useRouter();
+  const editModal = useEditModal();
+  const { setFoodId } = editModal;
+  const supabaseClient = useSupabaseClient();
+  const handleEdit = ({ foodId }: any) => {
+    setFoodId(foodId);
+    return editModal.onOpen();
+  };
+  const handleDelete = async ({ foodId }: any) => {
+    const { error } = await supabaseClient
+      .from('userFood')
+      .delete()
+      .eq('id', foodId);
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success('Food removed successfully');
+    }
+    router.refresh();
+  };
+  // console.log(foodId);
   return (
     <>
       {foodData?.map((f: any) => (
@@ -50,7 +76,11 @@ export default function FoodCard({ foodData }: any) {
               </div>
             </CardContent>
             <CardFooter className="p-2 justify-between">
-              <Button className="text-blue-500" variant="outline">
+              <Button
+                className="text-blue-500"
+                variant="outline"
+                onClick={() => handleEdit({ foodId: f.id })}
+              >
                 Edit
               </Button>
               <HoverCard>
@@ -66,7 +96,11 @@ export default function FoodCard({ foodData }: any) {
                   </div>
                 </HoverCardContent>
               </HoverCard>
-              <Button className="text-blue-500" variant="destructive">
+              <Button
+                className="text-blue-500"
+                variant="destructive"
+                onClick={() => handleDelete({ foodId: f.id })}
+              >
                 Delete
               </Button>
             </CardFooter>

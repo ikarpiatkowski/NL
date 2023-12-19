@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <div
       className=" 
-      bg-neutral-300
+      bg-violet-200
     dark:bg-neutral-900 
       rounded-lg 
       h-full 
@@ -23,12 +23,13 @@ export default async function Home() {
         <div className="mb-2">
           <h1
             className="
-            text-white 
+            text-black
+            dark:text-white 
               text-3xl 
               font-semibold
             "
           >
-            Welcome to NourishLog, your personal food tracker!
+            Welcome again!
           </h1>
           <div
             className="

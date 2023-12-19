@@ -46,13 +46,13 @@ export default function SearchNinja({
   return (
     <>
       <div
-        className="flex flex-row flex-wrap items-center justify-center w-full bg-neutral-300
+        className="flex flex-row flex-wrap items-center justify-center w-full bg-neutral-400
         dark:bg-neutral-900"
       >
         {searchResult.map((food: SearchResult) => (
           <div
             key={food.name}
-            className="duration-300 rounded-3xl bg-neutral-300 dark:bg-neutral-600 m-4 p-2"
+            className="duration-300 rounded-3xl bg-neutral-400 dark:bg-neutral-600 m-4 p-2"
           >
             <p className="rounded-3xl font-bold bg-neutral-400 dark:bg-neutral-700 text-center capitalize">
               {food.name} 🧧

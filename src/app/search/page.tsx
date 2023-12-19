@@ -15,7 +15,7 @@ const Search = async ({ searchParams }: SearchProps) => {
   return (
     <div
       className="
-      bg-neutral-300
+      bg-violet-200
       dark:bg-neutral-900 
         rounded-lg 
         h-full 

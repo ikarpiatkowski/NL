@@ -28,9 +28,9 @@ const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
         rounded-md 
         overflow-hidden 
         gap-x-4 
-        bg-neutral-400/5 
+        bg-violet-900/10 
         cursor-pointer 
-        hover:bg-neutral-400/10 
+        hover:bg-violet-900/20
         transition 
         p-3
       "

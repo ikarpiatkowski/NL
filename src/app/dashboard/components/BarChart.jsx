@@ -20,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-const BarChart = ({ energy }) => {
+const BarChart = ({ day1, day2, day3, day4, day5, day6, day7 }) => {
   const [chartData, setChartData] = useState({
     datasets: [],
   });
@@ -29,11 +29,19 @@ const BarChart = ({ energy }) => {
 
   useEffect(() => {
     setChartData({
-      labels: ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'],
+      labels: [
+        '7 days ago',
+        '6 days ago',
+        '5 days ago',
+        '4 days ago',
+        '3 days ago',
+        'Yesterday',
+        'Today',
+      ],
       datasets: [
         {
-          label: 'Calories (Energy)',
-          data: [110, 16, 59, 119, 113, 28, energy],
+          label: 'Calories consumed',
+          data: [day7, day6, day5, day4, day3, day2, day1],
           borderColor: 'rgb(139 92 246)',
           backgroundColor: 'rgb(139 92 246)',
         },
@@ -48,7 +56,7 @@ const BarChart = ({ energy }) => {
       maintainAspectRatio: false,
       responsive: true,
     });
-  }, [energy]);
+  }, [day1, day2, day3, day4, day5, day6, day7]);
 
   return (
     <>
