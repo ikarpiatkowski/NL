@@ -19,7 +19,7 @@ const SearchInput = () => {
     };
 
     const url = qs.stringifyUrl({
-      url: '/search',
+      url: '/community',
       query,
     });
 

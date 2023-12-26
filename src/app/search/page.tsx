@@ -1,39 +1,23 @@
-import getSongsByTitle from '@/actions/getSongsByTitle';
-import SearchInput from '@/components/SearchInput';
-import Header from '@/components/Header';
-import SearchContent from './components/SearchContent';
+import FetchNutriValues from '@/components/FetchNutriValues';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
-interface SearchProps {
-  searchParams: { title: string };
-}
+const SearchPage = async () => {
+  const supabase = createServerComponentClient({
+    cookies: cookies,
+  });
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
 
-export const revalidate = 0;
-
-const Search = async ({ searchParams }: SearchProps) => {
-  const songs = await getSongsByTitle(searchParams.title);
-
+  if (sessionError) {
+    console.log(sessionError.message);
+    return [];
+  }
   return (
-    <div
-      className="
-      bg-neutral-200
-      dark:bg-neutral-900 
-        rounded-lg 
-        h-full 
-        w-full 
-        overflow-hidden 
-        overflow-y-auto
-      "
-    >
-      <Header className="bg-from-neutral-900">
-        <div className=" flex flex-col">
-          <h1 className="text-white text-3xl font-semibold">Saved</h1>
-          <div className="p-2"></div>
-          <SearchInput />
-        </div>
-      </Header>
-      <SearchContent songs={songs} />
-    </div>
+    <>
+      <FetchNutriValues userId={sessionData.session?.user.id!} />
+    </>
   );
 };
 
-export default Search;
+export default SearchPage;

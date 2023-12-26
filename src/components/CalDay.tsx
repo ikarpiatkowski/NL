@@ -1,13 +1,12 @@
 import getFood from '@/actions/getFood';
 import { DatePickerDemo } from '@/components/DatePicker';
 import NutriProgress from '@/components/NutriProgress';
-import FoodCard from '../components/FoodCard';
-import { Polar } from '../components/Polar';
-import { App } from '../components/App';
 import getFoodEnergy from '@/actions/getFoodEnergy';
 import { format, subDays } from 'date-fns';
-import { BarChart } from '../components/BarChart';
 import getFoodTargets from '@/actions/getFoodTargets';
+import { BarChart } from '@/components/BarChart';
+import { App } from '@/components/App';
+import FoodCard from '@/components/FoodCard';
 
 type CalDayProps = {
   params: {
@@ -78,12 +77,12 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
         <div className="flex justify-center m-4 flex-wrap">
           <div className="flex flex-col p-2 text-center">
             <div className="w-full flex justify-between">
-              <p>
+              <p className="text-yellow-400 font-bold">
                 Calories{' '}
                 {parseFloat(((totalEnergy / calories_target) * 100).toFixed(0))}
                 %
               </p>
-              <p>
+              <p className="text-yellow-400 font-bold">
                 {totalEnergy.toFixed(0)} / {calories_target}kcal
               </p>
             </div>
@@ -97,13 +96,13 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
           </div>
           <div className="flex flex-col p-2 text-center">
             <div className="w-full flex justify-between">
-              <p>
+              <p className="text-green-500 font-bold">
                 Protein{' '}
                 {parseFloat(((totalProtein / protein_target) * 100).toFixed(0))}
                 %
               </p>
-              <p>
-                {totalProtein.toFixed(1)} / {protein_target}g
+              <p className="text-green-500 font-bold">
+                {totalProtein.toFixed(1)}g / {protein_target}g
               </p>
             </div>
             <NutriProgress
@@ -116,11 +115,11 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
           </div>
           <div className="flex flex-col p-2 text-center">
             <div className="w-full flex justify-between">
-              <p>
+              <p className="text-red-500 font-bold">
                 Fat {parseFloat(((totalFat / fat_target) * 100).toFixed(0))}%
               </p>
-              <p>
-                {totalFat.toFixed(1)} / {fat_target}g
+              <p className="text-red-500 font-bold">
+                {totalFat.toFixed(1)}g / {fat_target}g
               </p>
             </div>
             <NutriProgress
@@ -134,12 +133,12 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
 
           <div className="flex flex-col p-2 text-center">
             <div className="w-full flex justify-between">
-              <p>
+              <p className="text-purple-500 font-bold">
                 Carbs{' '}
                 {parseFloat(((totalCarbs / carbs_target) * 100).toFixed(0))}%
               </p>
-              <p>
-                {totalCarbs.toFixed(1)} / {carbs_target}g
+              <p className="text-purple-500 font-bold">
+                {totalCarbs.toFixed(1)}g / {carbs_target}g
               </p>
             </div>
             <NutriProgress
@@ -152,12 +151,12 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
           </div>
           <div className="flex flex-col p-2 text-center">
             <div className="w-full flex justify-between">
-              <p>
+              <p className="text-pink-500 font-bold">
                 Sugar{' '}
                 {parseFloat(((totalSugar / sugar_target) * 100).toFixed(0))}%
               </p>
-              <p>
-                {totalSugar.toFixed(1)} / {sugar_target}g
+              <p className="text-pink-500 font-bold">
+                {totalSugar.toFixed(1)}g / {sugar_target}g
               </p>
             </div>
             <NutriProgress

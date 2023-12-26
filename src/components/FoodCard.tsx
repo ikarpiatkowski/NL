@@ -49,11 +49,11 @@ export default function FoodCard({ foodData }: any) {
                 {f.name}
               </CardTitle>
               <CardDescription className="flex justify-between text-sm text-gray-500">
-                <p>Serving {f.portion}g</p>
+                <p>Portion {f.portion}g</p>
                 <p>in 100g:</p>
               </CardDescription>
             </CardHeader>
-            <CardContent className="px-4 pt-2">
+            <CardContent className="px-4">
               <div className="grid gap-2">
                 <div className="flex justify-between">
                   <p className="text-sm font-bold text-yellow-400">Calories</p>
@@ -62,20 +62,24 @@ export default function FoodCard({ foodData }: any) {
                   </p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm text-green-500">Protein</p>
-                  <p className="text-sm text-green-500">{f.protein}g</p>
+                  <p className="text-sm font-bold text-green-500">Protein</p>
+                  <p className="text-sm font-bold text-green-500">
+                    {f.protein}g
+                  </p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm text-red-500">Fat</p>
-                  <p className="text-sm text-red-500">{f.fat}g</p>
+                  <p className="text-sm font-bold text-red-500">Fat</p>
+                  <p className="text-sm font-bold text-red-500">{f.fat}g</p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm text-purple-500">Carbs</p>
-                  <p className="text-sm text-purple-500">{f.carbs}g</p>
+                  <p className="text-sm font-bold text-purple-500">Carbs</p>
+                  <p className="text-sm font-bold text-purple-500">
+                    {f.carbs}g
+                  </p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm text-pink-500">Sugar</p>
-                  <p className="text-sm text-pink-500">{f.sugar}g</p>
+                  <p className="text-sm font-bold text-pink-500">Sugar</p>
+                  <p className="text-sm font-bold text-pink-500">{f.sugar}g</p>
                 </div>
               </div>
             </CardContent>

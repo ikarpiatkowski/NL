@@ -2,8 +2,7 @@ import Image from 'next/image';
 
 import getLikedSongs from '@/actions/getLikedSongs';
 import Header from '@/components/Header';
-
-import LikedContent from './components/LikedContent';
+import LikedContent from '@/components/LikedContent';
 
 export const revalidate = 0;
 
@@ -13,7 +12,7 @@ const Liked = async () => {
   return (
     <div
       className="
-      bg-neutral-200
+      bg-neutral-100
       dark:bg-neutral-900 
         rounded-lg 
         h-full 

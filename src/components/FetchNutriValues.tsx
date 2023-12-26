@@ -5,7 +5,6 @@ import Loading from '@/app/(site)/loading';
 import { Input } from '@/componentsShadCn/ui/input';
 import { Button } from '@/componentsShadCn/ui/button';
 import { BiSearch } from 'react-icons/bi';
-import SearchFood from '@/app/search/components/SearchFood';
 import {
   CardTitle,
   CardDescription,
@@ -71,9 +70,9 @@ interface FoodData {
   currentPage: number;
   totalPages: number;
   pageList: number[];
-  foodSearchCriteria: any; // Adjust the type as needed
-  foods: foods[]; // Adjust the type as needed
-  aggregations: any[]; // Adjust the type as needed
+  foodSearchCriteria: any;
+  foods: foods[];
+  aggregations: any[];
 }
 interface FetchNutriValuesProps {
   userId: string;
@@ -102,13 +101,6 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
       setLoading(false);
     }
   };
-  const mainNutrients = [
-    'Energy',
-    'Total lipid (fat)',
-    'Carbohydrate, by difference',
-    'Sugars, total including NLEA',
-    'Protein',
-  ];
   const idNutrients = [1005, 1000, 1003, 1004, 2000, 1008];
   const allowedNutrients = [
     'Protein',
@@ -204,30 +196,29 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
   };
 
   return (
-    <div className="bg-neutral-200 dark:bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
+    <div className="bg-neutral-100 dark:bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
       <div className="mb-2 flex flex-col gap-y-6">
         <Header>
           <div className="mb-2 flex flex-col gap-y-6">
             <h1 className="text-white text-3xl font-semibold">Search</h1>
+            <div className="flex flex-col justify-center">
+              <div className="flex justify-center">
+                <Input
+                  type="text"
+                  placeholder="Search for food with USDA"
+                  onChange={handleQueryChange}
+                  className="w-60 mr-4"
+                />
+                <Button type="submit" onClick={handleFetchClick}>
+                  <BiSearch size={22} />
+                  Search
+                </Button>
+              </div>
+            </div>
           </div>
         </Header>
         {error && <p>Error: {error}</p>}
         <div className="flex flex-col gap-y-2 w-full px-6">
-          <div className="flex flex-col justify-center">
-            <div className="flex justify-center">
-              <Input
-                type="text"
-                placeholder="Search for food with USDA"
-                onChange={handleQueryChange}
-                className="w-60 mr-4"
-              />
-              <Button type="submit" onClick={handleFetchClick}>
-                <BiSearch size={22} />
-                Search
-              </Button>
-            </div>
-            <SearchFood />
-          </div>
           {loading ? (
             <Loading />
           ) : (

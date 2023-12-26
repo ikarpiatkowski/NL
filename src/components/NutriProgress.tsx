@@ -17,7 +17,7 @@ const NutriProgress: React.FC<NutriProgressProps> = ({ value, color }) => {
 
   return (
     <Progress.Root
-      className="relative overflow-hidden bg-white rounded-full w-[260px] h-[18px]"
+      className="relative overflow-hidden dark:bg-neutral-800 bg-neutral-300 rounded-full w-[260px] h-[18px]"
       style={{
         transform: 'translateZ(0)',
       }}

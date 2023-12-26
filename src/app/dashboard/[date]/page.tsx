@@ -1,7 +1,6 @@
+import CalDay from '@/components/CalDay';
 import Header from '@/components/Header';
-import CalDay from '../components/CalDay';
 export const revalidate = 0;
-const today = new Date().toISOString().split('T')[0];
 type CalDayProps = {
   params: {
     date: string;
@@ -12,7 +11,7 @@ const Dashboard = async ({ params: { date } }: CalDayProps) => {
     <>
       <div
         className="
-        bg-neutral-200
+        bg-neutral-100
         dark:bg-neutral-900 
         rounded-lg 
         h-full 

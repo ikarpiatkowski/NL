@@ -11,7 +11,7 @@ const PlayButton = () => {
         items-center 
         justify-center 
         dark:bg-neutral-600
-        bg-neutral-200
+        bg-neutral-100
         p-4 
         drop-shadow-md 
         translate

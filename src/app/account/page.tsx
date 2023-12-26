@@ -1,16 +1,16 @@
 'use client';
 import Header from '@/components/Header';
 
-import AccountContent from './components/AccountContent';
 import { useUser } from '@/hooks/useUser';
 import { DrawerDemo } from '@/components/Drawer';
+import AccountContent from '@/components/AccountContent';
 
 const Account = () => {
   const { user } = useUser();
   return (
     <div
       className="
-      bg-neutral-200
+      bg-neutral-100
       dark:bg-neutral-900 
         rounded-lg 
         h-full 
