@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { format, subDays } from 'date-fns';
-const getFoodEnergy = async ({ date }: { date: string }): Promise<any> => {
+
+const getCaloriesTarget = async (): Promise<any> => {
   const supabase = createServerComponentClient({
     cookies: cookies,
   });
@@ -13,13 +13,11 @@ const getFoodEnergy = async ({ date }: { date: string }): Promise<any> => {
     console.log(sessionError.message);
     return [];
   }
-  const Week = subDays(new Date(), 7);
+
   const { data, error } = await supabase
-    .from('userFood')
-    .select('energy, created_at')
-    .eq('user_id', sessionData.session?.user.id)
-    .gte('created_at', format(Week, 'yyyy-MM-dd'))
-    .lte('created_at', format(new Date(), 'yyyy-MM-dd'));
+    .from('users')
+    .select('calories_target')
+    .eq('id', sessionData.session?.user.id);
 
   if (error) {
     console.log(error.message);
@@ -28,4 +26,4 @@ const getFoodEnergy = async ({ date }: { date: string }): Promise<any> => {
   return (data as any) || [];
 };
 
-export default getFoodEnergy;
+export default getCaloriesTarget;

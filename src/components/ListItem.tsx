@@ -48,7 +48,7 @@ const ListItem: React.FC<ListItemProps> = ({ image, name, href }) => {
       flex 
       items-center 
       justify-center 
-      bg-violet-500 
+      bg-neutral-900
       p-4 
       drop-shadow-md 
       right-5

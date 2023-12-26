@@ -1,5 +1,5 @@
 'use client';
-import { HiBookOpen, HiArchive } from 'react-icons/hi';
+import { HiBookOpen, HiUserGroup } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
@@ -33,8 +33,8 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
         classs: '',
       },
       {
-        icon: HiArchive,
-        label: 'Saved',
+        icon: HiUserGroup,
+        label: 'Community food',
         href: '/search',
         active: pathname === '/search',
         classs: '',

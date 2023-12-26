@@ -1,20 +1,34 @@
-import NutriProgress from '@/components/NutriProgress';
-import FoodCard from './FoodCard';
-import BarChart from './BarChart';
-import { Polar } from './Polar';
-import { App } from './App';
-import { DatePickerDemo } from '@/components/DatePicker';
 import getFood from '@/actions/getFood';
+import { DatePickerDemo } from '@/components/DatePicker';
+import NutriProgress from '@/components/NutriProgress';
+import FoodCard from '../components/FoodCard';
+import { Polar } from '../components/Polar';
+import { App } from '../components/App';
 import getFoodEnergy from '@/actions/getFoodEnergy';
 import { format, subDays } from 'date-fns';
+import { BarChart } from '../components/BarChart';
+import getCaloriesTarget from '@/actions/getCaloriesTarget';
 
-const FoodFetch = async () => {
+type CalDayProps = {
+  params: {
+    date: string;
+  };
+};
+
+export const revalidate = 0;
+
+export default async function CalDay({ params: { date } }: CalDayProps) {
+  const foods = await getFood({ date: date });
+  const today = new Date().toISOString().split('T')[0];
+  const foodEnergy = await getFoodEnergy({ date: today });
+  const currentDate = new Date();
+  const [{ calories_target }] = await getCaloriesTarget();
+
   let totalEnergy = 0;
   let totalFat = 0;
   let totalProtein = 0;
   let totalCarbs = 0;
   let totalSugar = 0;
-  let totalEnergyFromPreviousDays = 0;
   let day1 = 0;
   let day2 = 0;
   let day3 = 0;
@@ -22,11 +36,7 @@ const FoodFetch = async () => {
   let day5 = 0;
   let day6 = 0;
   let day7 = 0;
-  const splitDateUrl = new Date().toISOString().split('T')[0];
-  const foods = await getFood({ date: splitDateUrl });
-  const foodEnergy = await getFoodEnergy({ date: splitDateUrl });
-  const totalEnergyMap = new Map<string, number>();
-  const currentDate = new Date();
+
   return (
     <>
       {foods?.forEach((f: any) => {
@@ -38,7 +48,6 @@ const FoodFetch = async () => {
       })}
       {foodEnergy?.forEach((f: any) => {
         const { energy, created_at } = f;
-        totalEnergyFromPreviousDays += f.energy;
         if (created_at == format(currentDate, 'yyyy-MM-dd')) {
           day1 += f.energy;
         }
@@ -60,11 +69,6 @@ const FoodFetch = async () => {
         if (created_at == format(subDays(currentDate, 6), 'yyyy-MM-dd')) {
           day7 += f.energy;
         }
-        const formattedDate = new Date(created_at).toISOString().split('T')[0];
-        totalEnergyMap.set(
-          formattedDate,
-          (totalEnergyMap.get(formattedDate) || 0) + energy
-        );
       })}
       <div className="flex flex-col m-4">
         <div className="flex justify-center">
@@ -72,44 +76,64 @@ const FoodFetch = async () => {
         </div>
         <div className="flex justify-center m-4 flex-wrap">
           <div className="flex flex-col p-2 text-center">
-            Energy {totalEnergy.toFixed(0)}/2000
+            <div className="w-full flex justify-between">
+              <p>Energy {totalEnergy.toFixed(0)}/2400kcal </p>
+              <p>{parseFloat(((totalEnergy / 2400) * 100).toFixed(0))}%</p>
+            </div>
             <NutriProgress
+              color="bg-yellow-400"
               value={Math.min(
                 100,
-                parseFloat(((totalEnergy / 2000) * 100).toFixed(0))
+                parseFloat(((totalEnergy / 2400) * 100).toFixed(0))
               )}
             />
           </div>
           <div className="flex flex-col p-2 text-center">
-            Fat {totalFat.toFixed(0)}/60
+            <div className="w-full flex justify-between">
+              <p>Fat {totalFat.toFixed(0)}/80g </p>
+              <p>{parseFloat(((totalFat / 80) * 100).toFixed(0))}%</p>
+            </div>
             <NutriProgress
+              color="bg-red-500"
               value={Math.min(
                 100,
-                parseFloat(((totalFat / 60) * 100).toFixed(0))
+                parseFloat(((totalFat / 80) * 100).toFixed(0))
               )}
             />
           </div>
           <div className="flex flex-col p-2 text-center">
-            Protein {totalProtein.toFixed(0)}/120
+            <div className="w-full flex justify-between">
+              <p>Protein {totalProtein.toFixed(0)}/150g </p>
+              <p>{parseFloat(((totalProtein / 150) * 100).toFixed(0))}%</p>
+            </div>
             <NutriProgress
+              color="bg-green-500"
               value={Math.min(
                 100,
-                parseFloat(((totalProtein / 120) * 100).toFixed(0))
+                parseFloat(((totalProtein / 150) * 100).toFixed(0))
               )}
             />
           </div>
           <div className="flex flex-col p-2 text-center">
-            Carbs {totalCarbs.toFixed(0)}/90
+            <div className="w-full flex justify-between">
+              <p>Carbs {totalCarbs.toFixed(0)}/260g </p>
+              <p>{parseFloat(((totalCarbs / 260) * 100).toFixed(0))}%</p>
+            </div>
             <NutriProgress
+              color="bg-purple-500"
               value={Math.min(
                 100,
-                parseFloat(((totalCarbs / 90) * 100).toFixed(0))
+                parseFloat(((totalCarbs / 260) * 100).toFixed(0))
               )}
             />
           </div>
           <div className="flex flex-col p-2 text-center">
-            Sugar {totalSugar.toFixed(0)}/60
+            <div className="w-full flex justify-between">
+              <p>Sugar {totalSugar.toFixed(0)}/60 </p>
+              <p>{parseFloat(((totalSugar / 60) * 100).toFixed(0))}%</p>
+            </div>
             <NutriProgress
+              color="bg-pink-500"
               value={Math.min(
                 100,
                 parseFloat(((totalSugar / 60) * 100).toFixed(0))
@@ -119,7 +143,6 @@ const FoodFetch = async () => {
         </div>
         <div className="flex flex-wrap justify-center">
           <FoodCard foodData={foods} />
-          {/* <FetchFood /> */}
         </div>
         <div className="flex mt-10 justify-center flex-wrap">
           <div className="flex w-[600px] h-[400px] justify-center">
@@ -131,6 +154,7 @@ const FoodFetch = async () => {
               day5={day5}
               day6={day6}
               day7={day7}
+              caloriesTaget={calories_target}
             />
           </div>
           <div className="flex w-[600px] h-[400px] justify-center">
@@ -143,5 +167,4 @@ const FoodFetch = async () => {
       </div>
     </>
   );
-};
-export default FoodFetch;
+}

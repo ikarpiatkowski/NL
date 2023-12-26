@@ -1,7 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx';
 import { FaUserAlt } from 'react-icons/fa';
 import { HiHome } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
@@ -10,6 +9,7 @@ import useAuthModal from '@/hooks/useAuthModal';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUser } from '@/hooks/useUser';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
   const authModal = useAuthModal();
   const supabaseClient = useSupabaseClient();
-  const { user } = useUser();
+  const { user, userDetails } = useUser();
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
     router.refresh();
@@ -44,7 +44,10 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
             className="
               rounded-full 
               p-2 
-              bg-violet-500
+            dark:bg-neutral-600/10 
+            dark:hover:bg-neutral-600/20
+            bg-neutral-900/10 
+            hover:bg-neutral-900/20
               flex 
               items-center 
               justify-center 
@@ -60,7 +63,10 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
             className="
               rounded-full 
               p-2 
-              bg-violet-500
+            dark:bg-neutral-600/10 
+            dark:hover:bg-neutral-600/20
+            bg-neutral-900/10 
+            hover:bg-neutral-900/20
               flex 
               items-center 
               justify-center 
@@ -78,23 +84,34 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
             <div className="flex gap-x-4 items-center">
               <Button
                 onClick={handleLogout}
-                className="bg-violet-500 text-white dark:text-black px-6 py-2"
+                className="dark:bg-neutral-800 dark:text-white text-black px-6 py-2"
               >
                 Logout
               </Button>
-              <Button
-                onClick={() => router.push('/account')}
-                className="bg-violet-500 text-white dark:text-black"
-              >
-                <FaUserAlt />
-              </Button>
+              {userDetails?.avatar_url ? (
+                <Image
+                  src={userDetails?.avatar_url!}
+                  onClick={() => router.push('/account')}
+                  className="rounded-full cursor-pointer"
+                  alt="avatar"
+                  width={50}
+                  height={50}
+                />
+              ) : (
+                <Button
+                  onClick={() => router.push('/account')}
+                  className="dark:bg-neutral-800 dark:text-white text-black"
+                >
+                  <FaUserAlt />
+                </Button>
+              )}
             </div>
           ) : (
             <>
               <div>
                 <Button
                   onClick={authModal.onOpen}
-                  className="bg-violet-500 text-white dark:text-black px-6 py-2"
+                  className="dark:bg-neutral-800 dark:text-white text-black px-6 py-2"
                 >
                   Log in
                 </Button>

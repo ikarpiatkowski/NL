@@ -12,23 +12,19 @@ import {
   PopoverTrigger,
 } from '@/componentsShadCn/ui/popover';
 import { useRouter } from 'next/navigation';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 export function DatePickerDemo() {
   const { selectedDate, setNewDate } = useDateStore();
-  // const [selectedDate, setNewDate] = React.useState<Date | undefined>(
-  //   new Date()
-  // );
   const router = useRouter();
+  const supabaseClient = useSupabaseClient();
   const handleDateSelect = (newDate: any) => {
-    // Format the selected date to the desired format (e.g., '2023-12-12')
     const formattedDate = format(newDate, 'yyyy-MM-dd');
-
-    // Set the new date in the state
     setNewDate(newDate);
-
-    // Redirect to the '/dashboard' route with the selected date
     router.push(`/dashboard/${formattedDate}`);
+    router.refresh();
   };
+
   return (
     <Popover>
       <PopoverTrigger asChild>

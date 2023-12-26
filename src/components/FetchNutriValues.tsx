@@ -76,13 +76,13 @@ interface FoodData {
   aggregations: any[]; // Adjust the type as needed
 }
 interface FetchNutriValuesProps {
-  userId: string; // Change the type to the actual type of your 'id' prop
+  userId: string;
 }
 const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
   const [data, setData] = useState<FoodData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>(); // Default query
+  const [query, setQuery] = useState<string>();
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -109,6 +109,7 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
     'Sugars, total including NLEA',
     'Protein',
   ];
+  const idNutrients = [1005, 1000, 1003, 1004, 2000, 1008];
   const allowedNutrients = [
     'Protein',
     'Total lipid (fat)',
@@ -180,19 +181,10 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
     setQuery(event.target.value);
   };
   const supabaseClient = useSupabaseClient();
-  const addFood = async ({
-    json,
-    energy,
-    protein,
-    fat,
-    carbs,
-    sugar,
-    name,
-  }: any) => {
+  const addFood = async ({ energy, protein, fat, carbs, sugar, name }: any) => {
     const { error: supabaseError } = await supabaseClient
       .from('userFood')
       .insert({
-        food: json,
         energy: energy,
         protein: protein,
         fat: fat,
@@ -205,16 +197,14 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
       return toast.error(supabaseError.message);
     } else {
       toast.success('Food added successfully');
-      console.log(protein);
     }
   };
   const handleFetchClick = () => {
     fetchData();
   };
 
-  // console.log(data?.foods[0].foodNutrients[0].nutrientId);
   return (
-    <div className="bg-violet-200 dark:bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
+    <div className="bg-neutral-200 dark:bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
       <div className="mb-2 flex flex-col gap-y-6">
         <Header>
           <div className="mb-2 flex flex-col gap-y-6">
@@ -258,9 +248,17 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                       <CardContent className="p-4">
                         <div className="grid gap-2">
                           {food.foodNutrients
-                            .filter((nutrient) => nutrient.value !== 0)
+                            .filter(
+                              (nutrient) =>
+                                nutrient.nutrientId === 1005 ||
+                                1000 ||
+                                1003 ||
+                                1004 ||
+                                2000 ||
+                                1008
+                            )
                             .filter((nutrient) =>
-                              mainNutrients.includes(nutrient.nutrientName)
+                              idNutrients.includes(nutrient.nutrientId)
                             )
                             .map((nutrient) => (
                               <div
@@ -284,11 +282,21 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                         <Button
                           onClick={() => {
                             addFood({
-                              protein: food.foodNutrients[0].value,
-                              energy: food.foodNutrients[3].value,
-                              fat: food.foodNutrients[1].value,
-                              sugar: food.foodNutrients[4].value,
-                              carbs: food.foodNutrients[2].value,
+                              protein: food.foodNutrients.find(
+                                (nutrient) => nutrient.nutrientId === 1003
+                              )?.value,
+                              energy: food.foodNutrients.find(
+                                (nutrient) => nutrient.nutrientId === 1008
+                              )?.value,
+                              fat: food.foodNutrients.find(
+                                (nutrient) => nutrient.nutrientId === 1004
+                              )?.value,
+                              sugar: food.foodNutrients.find(
+                                (nutrient) => nutrient.nutrientId === 2000
+                              )?.value,
+                              carbs: food.foodNutrients.find(
+                                (nutrient) => nutrient.nutrientId === 1005
+                              )?.value,
                               name: food.description,
                             });
                           }}

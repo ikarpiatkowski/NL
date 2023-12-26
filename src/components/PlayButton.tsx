@@ -10,7 +10,8 @@ const PlayButton = () => {
         flex 
         items-center 
         justify-center 
-        bg-violet-500 
+        dark:bg-neutral-600
+        bg-neutral-200
         p-4 
         drop-shadow-md 
         translate
@@ -20,7 +21,7 @@ const PlayButton = () => {
         hover:scale-110
       "
     >
-      <FaHeart className="text-black" />
+      <FaHeart className="dark:text-white text-black" />
     </button>
   );
 };

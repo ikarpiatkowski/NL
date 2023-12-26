@@ -26,7 +26,10 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
         items-center 
         gap-x-3 
         cursor-pointer 
-        hover:bg-violet-900/50 
+        dark:bg-neutral-600/10 
+        dark:hover:bg-neutral-600/20
+        bg-neutral-900/10 
+        hover:bg-neutral-900/20
         w-full 
         p-2 
         rounded-md

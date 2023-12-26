@@ -1,12 +1,13 @@
 import Header from '@/components/Header';
-import FoodFetch from './components/FoodFetch';
+import CalDay from './components/CalDay';
 export const revalidate = 0;
+const today = new Date().toISOString().split('T')[0];
 const Dashboard = async () => {
   return (
     <>
       <div
         className="
-        bg-violet-200
+        bg-neutral-200
         dark:bg-neutral-900 
         rounded-lg 
         h-full 
@@ -20,7 +21,7 @@ const Dashboard = async () => {
             <h1 className="text-white text-3xl font-semibold">Dashboard</h1>
           </div>
         </Header>
-        <FoodFetch />
+        <CalDay params={{ date: today }} />
       </div>
     </>
   );
