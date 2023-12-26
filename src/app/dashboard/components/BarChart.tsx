@@ -51,7 +51,7 @@ export const BarChart = ({
       {
         type: 'line' as const,
         label: 'Target calories',
-        borderColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(239 68 68)',
         borderWidth: 2,
         fill: false,
         data: [
@@ -67,9 +67,9 @@ export const BarChart = ({
       {
         type: 'bar' as const,
         label: 'Calories consumed',
-        backgroundColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgb(250 204 21)',
         data: [day7, day6, day5, day4, day3, day2, day1],
-        borderColor: 'rgb(139 92 246)',
+        borderColor: 'rgb(0 0 0)',
         borderWidth: 2,
       },
     ],

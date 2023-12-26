@@ -39,45 +39,48 @@ export default function FoodCard({ foodData }: any) {
     }
     router.refresh();
   };
-  // console.log(foodId);
   return (
     <>
       {foodData?.map((f: any) => (
         <div key={f.id}>
           <Card className="bg-white shadow rounded-xl overflow-hidden w-fit m-2">
             <CardHeader className="p-4">
-              <CardTitle className="text-lg font-bold w-60">{f.name}</CardTitle>
-              <CardDescription className="text-sm text-gray-500">
-                Serving Size 100g
+              <CardTitle className="text-lg font-bold w-60 truncate">
+                {f.name}
+              </CardTitle>
+              <CardDescription className="flex justify-between text-sm text-gray-500">
+                <p>Serving {f.portion}g</p>
+                <p>in 100g:</p>
               </CardDescription>
             </CardHeader>
             <CardContent className="px-4 pt-2">
               <div className="grid gap-2">
                 <div className="flex justify-between">
-                  <p className="text-sm">Calories</p>
-                  <p className="text-sm">{f.energy}</p>
+                  <p className="text-sm font-bold text-yellow-400">Calories</p>
+                  <p className="text-sm font-bold text-yellow-400">
+                    {f.energy} kcal
+                  </p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm">Protein</p>
-                  <p className="text-sm">{f.protein}</p>
+                  <p className="text-sm text-green-500">Protein</p>
+                  <p className="text-sm text-green-500">{f.protein}g</p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm">Fat</p>
-                  <p className="text-sm">{f.fat}</p>
+                  <p className="text-sm text-red-500">Fat</p>
+                  <p className="text-sm text-red-500">{f.fat}g</p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm">Carbs</p>
-                  <p className="text-sm">{f.carbs}</p>
+                  <p className="text-sm text-purple-500">Carbs</p>
+                  <p className="text-sm text-purple-500">{f.carbs}g</p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm">Sugar</p>
-                  <p className="text-sm">{f.sugar}</p>
+                  <p className="text-sm text-pink-500">Sugar</p>
+                  <p className="text-sm text-pink-500">{f.sugar}g</p>
                 </div>
               </div>
             </CardContent>
             <CardFooter className="p-2 justify-between">
               <Button
-                className="text-blue-500"
                 variant="outline"
                 onClick={() => handleEdit({ foodId: f.id })}
               >
@@ -85,9 +88,7 @@ export default function FoodCard({ foodData }: any) {
               </Button>
               <HoverCard>
                 <HoverCardTrigger asChild>
-                  <Button className="text-blue-500" variant="link">
-                    View More
-                  </Button>
+                  <Button variant="link">View More</Button>
                 </HoverCardTrigger>
                 <HoverCardContent className="w-80">
                   <div className="">
@@ -97,7 +98,6 @@ export default function FoodCard({ foodData }: any) {
                 </HoverCardContent>
               </HoverCard>
               <Button
-                className="text-blue-500"
                 variant="destructive"
                 onClick={() => handleDelete({ foodId: f.id })}
               >

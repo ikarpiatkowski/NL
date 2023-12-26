@@ -7,7 +7,7 @@ import { App } from '../components/App';
 import getFoodEnergy from '@/actions/getFoodEnergy';
 import { format, subDays } from 'date-fns';
 import { BarChart } from '../components/BarChart';
-import getCaloriesTarget from '@/actions/getCaloriesTarget';
+import getFoodTargets from '@/actions/getFoodTargets';
 
 type CalDayProps = {
   params: {
@@ -22,7 +22,9 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
   const today = new Date().toISOString().split('T')[0];
   const foodEnergy = await getFoodEnergy({ date: today });
   const currentDate = new Date();
-  const [{ calories_target }] = await getCaloriesTarget();
+  const [
+    { calories_target, protein_target, carbs_target, fat_target, sugar_target },
+  ] = await getFoodTargets();
 
   let totalEnergy = 0;
   let totalFat = 0;
@@ -36,7 +38,6 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
   let day5 = 0;
   let day6 = 0;
   let day7 = 0;
-
   return (
     <>
       {foods?.forEach((f: any) => {
@@ -77,66 +78,93 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
         <div className="flex justify-center m-4 flex-wrap">
           <div className="flex flex-col p-2 text-center">
             <div className="w-full flex justify-between">
-              <p>Energy {totalEnergy.toFixed(0)}/2400kcal </p>
-              <p>{parseFloat(((totalEnergy / 2400) * 100).toFixed(0))}%</p>
+              <p>
+                Calories{' '}
+                {parseFloat(((totalEnergy / calories_target) * 100).toFixed(0))}
+                %
+              </p>
+              <p>
+                {totalEnergy.toFixed(0)} / {calories_target}kcal
+              </p>
             </div>
             <NutriProgress
               color="bg-yellow-400"
               value={Math.min(
                 100,
-                parseFloat(((totalEnergy / 2400) * 100).toFixed(0))
+                parseFloat(((totalEnergy / calories_target) * 100).toFixed(0))
               )}
             />
           </div>
           <div className="flex flex-col p-2 text-center">
             <div className="w-full flex justify-between">
-              <p>Fat {totalFat.toFixed(0)}/80g </p>
-              <p>{parseFloat(((totalFat / 80) * 100).toFixed(0))}%</p>
-            </div>
-            <NutriProgress
-              color="bg-red-500"
-              value={Math.min(
-                100,
-                parseFloat(((totalFat / 80) * 100).toFixed(0))
-              )}
-            />
-          </div>
-          <div className="flex flex-col p-2 text-center">
-            <div className="w-full flex justify-between">
-              <p>Protein {totalProtein.toFixed(0)}/150g </p>
-              <p>{parseFloat(((totalProtein / 150) * 100).toFixed(0))}%</p>
+              <p>
+                Protein{' '}
+                {parseFloat(((totalProtein / protein_target) * 100).toFixed(0))}
+                %
+              </p>
+              <p>
+                {totalProtein.toFixed(1)} / {protein_target}g
+              </p>
             </div>
             <NutriProgress
               color="bg-green-500"
               value={Math.min(
                 100,
-                parseFloat(((totalProtein / 150) * 100).toFixed(0))
+                parseFloat(((totalProtein / protein_target) * 100).toFixed(0))
               )}
             />
           </div>
           <div className="flex flex-col p-2 text-center">
             <div className="w-full flex justify-between">
-              <p>Carbs {totalCarbs.toFixed(0)}/260g </p>
-              <p>{parseFloat(((totalCarbs / 260) * 100).toFixed(0))}%</p>
+              <p>
+                Fat {parseFloat(((totalFat / fat_target) * 100).toFixed(0))}%
+              </p>
+              <p>
+                {totalFat.toFixed(1)} / {fat_target}g
+              </p>
+            </div>
+            <NutriProgress
+              color="bg-red-500"
+              value={Math.min(
+                100,
+                parseFloat(((totalFat / fat_target) * 100).toFixed(0))
+              )}
+            />
+          </div>
+
+          <div className="flex flex-col p-2 text-center">
+            <div className="w-full flex justify-between">
+              <p>
+                Carbs{' '}
+                {parseFloat(((totalCarbs / carbs_target) * 100).toFixed(0))}%
+              </p>
+              <p>
+                {totalCarbs.toFixed(1)} / {carbs_target}g
+              </p>
             </div>
             <NutriProgress
               color="bg-purple-500"
               value={Math.min(
                 100,
-                parseFloat(((totalCarbs / 260) * 100).toFixed(0))
+                parseFloat(((totalCarbs / carbs_target) * 100).toFixed(0))
               )}
             />
           </div>
           <div className="flex flex-col p-2 text-center">
             <div className="w-full flex justify-between">
-              <p>Sugar {totalSugar.toFixed(0)}/60 </p>
-              <p>{parseFloat(((totalSugar / 60) * 100).toFixed(0))}%</p>
+              <p>
+                Sugar{' '}
+                {parseFloat(((totalSugar / sugar_target) * 100).toFixed(0))}%
+              </p>
+              <p>
+                {totalSugar.toFixed(1)} / {sugar_target}g
+              </p>
             </div>
             <NutriProgress
               color="bg-pink-500"
               value={Math.min(
                 100,
-                parseFloat(((totalSugar / 60) * 100).toFixed(0))
+                parseFloat(((totalSugar / sugar_target) * 100).toFixed(0))
               )}
             />
           </div>
@@ -158,10 +186,12 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
             />
           </div>
           <div className="flex w-[600px] h-[400px] justify-center">
-            <Polar />
-          </div>
-          <div className="flex w-[600px] h-[400px] justify-center">
-            <App />
+            <App
+              protein={totalProtein}
+              carbs={totalCarbs}
+              fat={totalFat}
+              sugar={totalSugar}
+            />
           </div>
         </div>
       </div>

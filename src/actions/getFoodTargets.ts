@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 
-const getCaloriesTarget = async (): Promise<any> => {
+const getFoodTargets = async (): Promise<any> => {
   const supabase = createServerComponentClient({
     cookies: cookies,
   });
@@ -16,7 +16,9 @@ const getCaloriesTarget = async (): Promise<any> => {
 
   const { data, error } = await supabase
     .from('users')
-    .select('calories_target')
+    .select(
+      'calories_target, carbs_target, fat_target, protein_target, sugar_target'
+    )
     .eq('id', sessionData.session?.user.id);
 
   if (error) {
@@ -26,4 +28,4 @@ const getCaloriesTarget = async (): Promise<any> => {
   return (data as any) || [];
 };
 
-export default getCaloriesTarget;
+export default getFoodTargets;

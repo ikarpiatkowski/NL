@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -18,7 +18,43 @@ const EditFoodModal = ({ id }: any) => {
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
   const router = useRouter();
-  const { register, handleSubmit, reset } = useForm<FieldValues>();
+  const { register, handleSubmit, reset, setValue } = useForm<FieldValues>();
+
+  useEffect(() => {
+    const fetchFoodData = async () => {
+      try {
+        setIsLoading(true);
+        const { data, error } = await supabaseClient
+          .from('userFood')
+          .select('name, energy, protein, carbs, fat, sugar, created_at')
+          .eq('id', foodId);
+
+        if (error) {
+          setIsLoading(false);
+          return toast.error('Failed to fetch food data');
+        }
+
+        if (data && data.length > 0) {
+          const foodData = data[0];
+          setValue('name', foodData.name);
+          setValue('calories', foodData.energy.toString());
+          setValue('protein', foodData.protein.toString());
+          setValue('carbs', foodData.carbs.toString());
+          setValue('fat', foodData.fat.toString());
+          setValue('sugar', foodData.sugar.toString());
+          setValue('date', foodData.created_at);
+        }
+      } catch (error) {
+        toast.error('Something went wrong while fetching food data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (foodId) {
+      fetchFoodData();
+    }
+  }, [foodId, supabaseClient, setValue]);
 
   const onChange = (open: boolean) => {
     if (!open) {
@@ -47,7 +83,6 @@ const EditFoodModal = ({ id }: any) => {
         })
         .eq('id', foodId)
         .select();
-      console.log(id);
       if (error) {
         setIsLoading(false);
         return toast.error('Failed edit food');
@@ -71,49 +106,70 @@ const EditFoodModal = ({ id }: any) => {
       isOpen={editModal.isOpen}
       onChange={onChange}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
-        <Input
-          id="name"
-          disabled={isLoading}
-          {...register('name', { required: true })}
-          placeholder="Food Name"
-        />
-        <Input
-          id="calories"
-          disabled={isLoading}
-          {...register('calories', { required: false })}
-          placeholder="Calories"
-        />
-        <Input
-          id="protein"
-          disabled={isLoading}
-          {...register('protein', { required: false })}
-          placeholder="Protein"
-        />
-        <Input
-          id="fat"
-          disabled={isLoading}
-          {...register('fat', { required: false })}
-          placeholder="Fat"
-        />
-        <Input
-          id="carbs"
-          disabled={isLoading}
-          {...register('carbs', { required: false })}
-          placeholder="Carbs"
-        />
-        <Input
-          id="sugar"
-          disabled={isLoading}
-          {...register('sugar', { required: false })}
-          placeholder="Sugar"
-        />
-        <Input
-          id="date"
-          disabled={isLoading}
-          {...register('date', { required: true })}
-          placeholder="Date (YYYY-MM-DD)"
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-2">
+        <div className="flex items-center gap-x-2">
+          <p className="w-20">Name</p>
+          <Input
+            id="name"
+            disabled={isLoading}
+            {...register('name', { required: true })}
+            placeholder="Food Name"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20">Calories</p>
+          <Input
+            id="calories"
+            disabled={isLoading}
+            {...register('calories', { required: false })}
+            placeholder="Calories"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20">Protein</p>
+          <Input
+            id="protein"
+            disabled={isLoading}
+            {...register('protein', { required: false })}
+            placeholder="Protein"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20">Fat</p>
+          <Input
+            id="fat"
+            disabled={isLoading}
+            {...register('fat', { required: false })}
+            placeholder="Fat"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20">Carbs</p>
+          <Input
+            id="carbs"
+            disabled={isLoading}
+            {...register('carbs', { required: false })}
+            placeholder="Carbs"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20">Sugar</p>
+          <Input
+            id="sugar"
+            disabled={isLoading}
+            {...register('sugar', { required: false })}
+            placeholder="Sugar"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20">Date</p>
+          <Input
+            id="date"
+            disabled={isLoading}
+            {...register('date', { required: true })}
+            placeholder="Date (YYYY-MM-DD)"
+          />
+        </div>
         <Button disabled={isLoading} type="submit">
           Edit
         </Button>
