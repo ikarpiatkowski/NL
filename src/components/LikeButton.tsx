@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import { useSessionContext } from '@supabase/auth-helpers-react';
 
+import { useSessionContext } from '@supabase/auth-helpers-react';
 import { useUser } from '@/hooks/useUser';
 import useAuthModal from '@/hooks/useAuthModal';
 
@@ -14,12 +14,14 @@ interface LikeButtonProps {
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({ songId }) => {
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+
   const router = useRouter();
-  const { supabaseClient } = useSessionContext();
   const authModal = useAuthModal();
+  const { supabaseClient } = useSessionContext();
   const { user } = useUser();
 
-  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 
   useEffect(() => {
     if (!user?.id) {
@@ -41,8 +43,6 @@ const LikeButton: React.FC<LikeButtonProps> = ({ songId }) => {
 
     fetchData();
   }, [songId, supabaseClient, user?.id]);
-
-  const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 
   const handleLike = async () => {
     if (!user) {

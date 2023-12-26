@@ -28,7 +28,7 @@ const SearchInput = () => {
 
   return (
     <Input
-      placeholder="Type to find user custom food..."
+      placeholder="Type here to find custom food"
       value={value}
       onChange={(e) => setValue(e.target.value)}
     />

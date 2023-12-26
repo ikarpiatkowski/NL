@@ -16,7 +16,6 @@ import Button from './Button';
 
 const AddFood = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const uploadModal = useUploadModal();
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
@@ -44,15 +43,13 @@ const AddFood = () => {
 
       const imageFile = values.image?.[0];
       const songFile = values.song?.[0];
+      const uniqueID = uniqid();
 
       if (!imageFile || !user) {
         toast.error('Missing fields');
         return;
       }
 
-      const uniqueID = uniqid();
-
-      // Upload song
       const { data: songData, error: songError } = await supabaseClient.storage
         .from('songs')
         .upload(`song-${values.title}-${uniqueID}`, songFile, {
@@ -66,7 +63,6 @@ const AddFood = () => {
         return toast.error('Failed food upload (polish characters)');
       }
 
-      // Upload image
       const { data: imageData, error: imageError } =
         await supabaseClient.storage
           .from('images')
@@ -80,7 +76,6 @@ const AddFood = () => {
         return toast.error('Failed image upload');
       }
 
-      // Create record
       const { error: supabaseError } = await supabaseClient
         .from('songs')
         .insert({

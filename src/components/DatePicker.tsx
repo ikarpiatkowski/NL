@@ -1,7 +1,9 @@
 'use client';
-import * as React from 'react';
+
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
 import useDateStore from '@/hooks/dataStore';
 import { cn } from '@/lib/utils';
 import { Button } from '@/componentsShadCn/ui/button';
@@ -11,13 +13,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/componentsShadCn/ui/popover';
-import { useRouter } from 'next/navigation';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 export function DatePickerDemo() {
   const { selectedDate, setNewDate } = useDateStore();
   const router = useRouter();
-  const supabaseClient = useSupabaseClient();
+
   const handleDateSelect = (newDate: any) => {
     const formattedDate = format(newDate, 'yyyy-MM-dd');
     setNewDate(newDate);

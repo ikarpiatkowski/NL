@@ -1,17 +1,19 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUser } from '@/hooks/useUser';
+import useEditModal from '@/hooks/useEditModal';
+
 import Modal from './Modal';
 import Input from './Input';
 import Button from './Button';
-import useEditModal from '@/hooks/useEditModal';
 
-const EditFoodModal = ({ id }: any) => {
+const EditFoodModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const editModal = useEditModal();
   const { foodId } = editModal;
@@ -66,10 +68,12 @@ const EditFoodModal = ({ id }: any) => {
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     try {
       setIsLoading(true);
+
       if (!user) {
         toast.error('Missing fields');
         return;
       }
+
       const { error } = await supabaseClient
         .from('userFood')
         .update({
@@ -83,10 +87,12 @@ const EditFoodModal = ({ id }: any) => {
         })
         .eq('id', foodId)
         .select();
+
       if (error) {
         setIsLoading(false);
         return toast.error('Failed edit food');
       }
+
       router.refresh();
       setIsLoading(false);
       toast.success('Food edited!');

@@ -24,10 +24,11 @@ const Community = async ({ searchParams }: SearchProps) => {
         overflow-y-auto
       "
     >
-      <Header className="bg-from-neutral-900">
-        <div className=" flex flex-col">
-          <h1 className="text-white text-3xl font-semibold">Saved</h1>
-          <div className="p-2"></div>
+      <Header>
+        <div className="flex flex-col">
+          <h1 className="text-white text-3xl font-semibold pb-4">
+            Community food
+          </h1>
           <SearchInput />
         </div>
       </Header>

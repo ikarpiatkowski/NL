@@ -52,7 +52,6 @@ const UploadModal = () => {
 
       const uniqueID = uniqid();
 
-      // Upload song
       const { data: songData, error: songError } = await supabaseClient.storage
         .from('songs')
         .upload(`song-${values.title}-${uniqueID}`, songFile, {
@@ -66,7 +65,6 @@ const UploadModal = () => {
         return toast.error('Failed food upload (polish characters)');
       }
 
-      // Upload image
       const { data: imageData, error: imageError } =
         await supabaseClient.storage
           .from('images')
@@ -80,7 +78,6 @@ const UploadModal = () => {
         return toast.error('Failed image upload');
       }
 
-      // Create record
       const { error: supabaseError } = await supabaseClient
         .from('songs')
         .insert({
@@ -127,17 +124,6 @@ const UploadModal = () => {
           {...register('author', { required: true })}
           placeholder="Nutrition Values"
         />
-        {/* <div>
-          <div className="pb-1">Select a sound of food</div>
-          <Input
-            placeholder="test"
-            disabled={isLoading}
-            type="file"
-            accept=".mp3"
-            id="song"
-            {...register('song', { required: true })}
-          />
-        </div> */}
         <div>
           <div className="pb-1">Select an image of food</div>
           <Input

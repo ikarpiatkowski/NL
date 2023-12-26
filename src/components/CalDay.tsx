@@ -17,10 +17,10 @@ type CalDayProps = {
 export const revalidate = 0;
 
 export default async function CalDay({ params: { date } }: CalDayProps) {
-  const foods = await getFood({ date: date });
-  const today = new Date().toISOString().split('T')[0];
-  const foodEnergy = await getFoodEnergy({ date: today });
   const currentDate = new Date();
+  const today = new Date().toISOString().split('T')[0];
+  const foods = await getFood({ date: date });
+  const foodEnergy = await getFoodEnergy({ date: today });
   const [
     { calories_target, protein_target, carbs_target, fat_target, sugar_target },
   ] = await getFoodTargets();
@@ -37,6 +37,7 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
   let day5 = 0;
   let day6 = 0;
   let day7 = 0;
+
   return (
     <>
       {foods?.forEach((f: any) => {

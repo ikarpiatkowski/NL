@@ -1,5 +1,8 @@
 'use client';
+
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+
 import Header from '@/components/Header';
 import Loading from '@/app/(site)/loading';
 import { Input } from '@/componentsShadCn/ui/input';
@@ -19,7 +22,6 @@ import {
   HoverCard,
 } from '@/componentsShadCn/ui/hover-card';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import toast from 'react-hot-toast';
 
 interface foods {
   fdcId: number;
@@ -82,25 +84,9 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>();
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(
-        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=ZXncLTW53E18uucYcJUTYULmteiaQ5lSYVYYZfr9&query=${query}`
-      );
 
-      if (!res.ok) {
-        throw new Error('Failed to fetch data');
-      }
+  const supabaseClient = useSupabaseClient();
 
-      const result = await res.json();
-      setData(result);
-    } catch (error: any) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
   const idNutrients = [1005, 1000, 1003, 1004, 2000, 1008];
   const allowedNutrients = [
     'Protein',
@@ -169,10 +155,31 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
     'Fatty acids, total monounsaturated',
     'Fatty acids, total polyunsaturated',
   ];
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=ZXncLTW53E18uucYcJUTYULmteiaQ5lSYVYYZfr9&query=${query}`
+      );
+
+      if (!res.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const result = await res.json();
+      setData(result);
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
-  const supabaseClient = useSupabaseClient();
+
   const addFood = async ({ energy, protein, fat, carbs, sugar, name }: any) => {
     const { error: supabaseError } = await supabaseClient
       .from('userFood')
@@ -185,14 +192,12 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
         name: name,
         user_id: userId,
       });
+
     if (supabaseError) {
       return toast.error(supabaseError.message);
     } else {
       toast.success('Food added successfully');
     }
-  };
-  const handleFetchClick = () => {
-    fetchData();
   };
 
   return (
@@ -209,7 +214,7 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                   onChange={handleQueryChange}
                   className="w-60 mr-4"
                 />
-                <Button type="submit" onClick={handleFetchClick}>
+                <Button type="submit" onClick={fetchData}>
                   <BiSearch size={22} />
                   Search
                 </Button>

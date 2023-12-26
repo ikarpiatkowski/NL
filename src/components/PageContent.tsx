@@ -1,4 +1,5 @@
 'use client';
+
 import { Song } from '@/types';
 import SongItem from '@/components/SongItem';
 

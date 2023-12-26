@@ -1,6 +1,7 @@
 'use client';
-import React from 'react';
+
 import * as Progress from '@radix-ui/react-progress';
+import { useEffect, useState } from 'react';
 
 interface NutriProgressProps {
   value?: number;
@@ -8,11 +9,10 @@ interface NutriProgressProps {
 }
 
 const NutriProgress: React.FC<NutriProgressProps> = ({ value, color }) => {
-  const [progress, setProgress] = React.useState(0);
+  const [progress, setProgress] = useState(0);
 
-  React.useEffect(() => {
-    const timer = setTimeout(() => setProgress(value || 0), 100);
-    return () => clearTimeout(timer);
+  useEffect(() => {
+    setProgress(value || 0);
   }, [value]);
 
   return (

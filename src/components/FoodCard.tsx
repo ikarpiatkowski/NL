@@ -1,4 +1,7 @@
 'use client';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+
 import {
   CardTitle,
   CardDescription,
@@ -13,15 +16,16 @@ import {
   HoverCardContent,
   HoverCard,
 } from '@/componentsShadCn/ui/hover-card';
-import toast from 'react-hot-toast';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useRouter } from 'next/navigation';
 import useEditModal from '@/hooks/useEditModal';
+
 export default function FoodCard({ foodData }: any) {
   const router = useRouter();
   const editModal = useEditModal();
-  const { setFoodId } = editModal;
   const supabaseClient = useSupabaseClient();
+
+  const { setFoodId } = editModal;
+
   const handleEdit = ({ foodId }: any) => {
     setFoodId(foodId);
     return editModal.onOpen();
@@ -37,6 +41,7 @@ export default function FoodCard({ foodData }: any) {
     } else {
       toast.success('Food removed successfully');
     }
+
     router.refresh();
   };
   return (

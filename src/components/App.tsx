@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
@@ -21,6 +21,7 @@ export function App({ protein, fat, carbs, sugar }: any) {
     (sugar / (protein + fat + carbs + sugar)) *
     100
   ).toFixed(1);
+
   const data = {
     labels: ['Protein', 'Fat', 'Carbs', 'Sugar'],
     datasets: [

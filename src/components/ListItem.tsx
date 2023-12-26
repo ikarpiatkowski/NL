@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { AiFillHeart } from 'react-icons/ai';
 
 interface ListItemProps {
   image: string;
@@ -11,12 +11,14 @@ interface ListItemProps {
 }
 const ListItem: React.FC<ListItemProps> = ({ image, name, href }) => {
   const router = useRouter();
+
   const onClick = () => {
     // if (!user) {
     //   return authModal.onOpen();
     // }
     router.push(href);
   };
+
   return (
     <button
       onClick={onClick}

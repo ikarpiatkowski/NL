@@ -1,19 +1,22 @@
 'use client';
+
 import { HiBookOpen, HiUserGroup } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { Song } from '@/types';
+
 import Box from './Box';
 import SidebarItem from './SidebarItem';
 import Library from './Library';
-import { Song } from '@/types';
 
 interface SidebarProps {
   children: React.ReactNode;
   songs: Song[];
 }
+
 const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
   const pathname = usePathname();
   const routes = useMemo(
@@ -42,6 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
     ],
     [pathname]
   );
+
   const mainRoute = useMemo(
     () => [
       {
@@ -54,6 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
     ],
     [pathname]
   );
+
   return (
     <div className={twMerge(`flex h-full`)}>
       <div
