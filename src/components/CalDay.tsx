@@ -7,7 +7,9 @@ import getFoodTargets from '@/actions/getFoodTargets';
 import { BarChart } from '@/components/BarChart';
 import { App } from '@/components/App';
 import FoodCard from '@/components/FoodCard';
-
+import Header from './Header';
+import { Button } from '@/componentsShadCn/ui/button';
+import AddFood from './AddFood';
 type CalDayProps = {
   params: {
     date: string;
@@ -41,36 +43,43 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
   return (
     <>
       {foods?.forEach((f: any) => {
-        totalEnergy += f.energy;
-        totalFat += f.fat;
-        totalProtein += f.protein;
-        totalCarbs += f.carbs;
-        totalSugar += f.sugar;
+        const { energy, portion, fat, protein, carbs, sugar } = f;
+        totalEnergy += (energy * portion) / 100;
+        totalFat += (fat * portion) / 100;
+        totalProtein += (protein * portion) / 100;
+        totalCarbs += (carbs * portion) / 100;
+        totalSugar += (sugar * portion) / 100;
       })}
       {foodEnergy?.forEach((f: any) => {
-        const { energy, created_at } = f;
+        const { energy, created_at, portion } = f;
         if (created_at == format(currentDate, 'yyyy-MM-dd')) {
-          day1 += f.energy;
+          day1 += (energy * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 1), 'yyyy-MM-dd')) {
-          day2 += f.energy;
+          day2 += (energy * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 2), 'yyyy-MM-dd')) {
-          day3 += f.energy;
+          day3 += (energy * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 3), 'yyyy-MM-dd')) {
-          day4 += f.energy;
+          day4 += (energy * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 4), 'yyyy-MM-dd')) {
-          day5 += f.energy;
+          day5 += (energy * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 5), 'yyyy-MM-dd')) {
-          day6 += f.energy;
+          day6 += (energy * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 6), 'yyyy-MM-dd')) {
-          day7 += f.energy;
+          day7 += (energy * portion) / 100;
         }
       })}
+      <Header>
+        <div className=" flex flex-col ">
+          <h1 className="text-white text-3xl font-semibold">Dashboard</h1>
+          <AddFood />
+        </div>
+      </Header>
       <div className="flex flex-col m-4">
         <div className="flex justify-center">
           <DatePickerDemo />

@@ -30,6 +30,7 @@ export default function FoodCard({ foodData }: any) {
     setFoodId(foodId);
     return editModal.onOpen();
   };
+
   const handleDelete = async ({ foodId }: any) => {
     const { error } = await supabaseClient
       .from('userFood')
@@ -54,37 +55,55 @@ export default function FoodCard({ foodData }: any) {
                 {f.name}
               </CardTitle>
               <CardDescription className="flex justify-between text-sm text-gray-500">
-                <p>Portion {f.portion}g</p>
-                <p>in 100g:</p>
+                <p className="text-sm w-[60px]">Serving</p>
+                <p className="text-sm">per 100g</p>
+                <p className="text-sm">in {f.portion}g</p>
               </CardDescription>
             </CardHeader>
             <CardContent className="px-4">
               <div className="grid gap-2">
                 <div className="flex justify-between">
-                  <p className="text-sm font-bold text-yellow-400">Calories</p>
+                  <p className="text-sm w-[60px] font-bold text-yellow-400">
+                    Calories
+                  </p>
+                  <p className="text-sm text-yellow-400">({f.energy} kcal)</p>
                   <p className="text-sm font-bold text-yellow-400">
-                    {f.energy} kcal
+                    {((f.energy * f.portion) / 100).toFixed(0)} kcal
                   </p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm font-bold text-green-500">Protein</p>
+                  <p className="text-sm w-[60px] font-bold text-green-500">
+                    Protein
+                  </p>
+                  <p className="text-sm  text-green-500">({f.protein}g)</p>
                   <p className="text-sm font-bold text-green-500">
-                    {f.protein}g
+                    {((f.protein * f.portion) / 100).toFixed(1)}g
                   </p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm font-bold text-red-500">Fat</p>
-                  <p className="text-sm font-bold text-red-500">{f.fat}g</p>
+                  <p className="text-sm w-[60px] font-bold text-red-500">Fat</p>
+                  <p className="text-sm  text-red-500">({f.fat}g)</p>
+                  <p className="text-sm font-bold text-red-500">
+                    {(f.fat / f.portion / 100).toFixed(1)}g
+                  </p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm font-bold text-purple-500">Carbs</p>
+                  <p className="text-sm w-[60px] font-bold text-purple-500">
+                    Carbs
+                  </p>
+                  <p className="text-sm  text-purple-500">({f.carbs}g)</p>
                   <p className="text-sm font-bold text-purple-500">
-                    {f.carbs}g
+                    {((f.carbs * f.portion) / 100).toFixed(1)}g
                   </p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm font-bold text-pink-500">Sugar</p>
-                  <p className="text-sm font-bold text-pink-500">{f.sugar}g</p>
+                  <p className="text-sm w-[60px] font-bold text-pink-500">
+                    Sugar
+                  </p>
+                  <p className="text-sm  text-pink-500">({f.sugar}g)</p>
+                  <p className="text-sm font-bold text-pink-500">
+                    {((f.sugar * f.portion) / 100).toFixed(1)}g
+                  </p>
                 </div>
               </div>
             </CardContent>

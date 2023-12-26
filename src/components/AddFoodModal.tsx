@@ -1,39 +1,30 @@
 'use client';
 
-import uniqid from 'uniqid';
-import React, { useState } from 'react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-import useUploadModal from '@/hooks/useUploadModal';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUser } from '@/hooks/useUser';
+import { Button } from '@/componentsShadCn/ui/button';
 
 import Modal from './Modal';
 import Input from './Input';
-import Button from './Button';
+import useAddFood from '@/hooks/useAddFood';
 
-const AddFood = () => {
+const AddFoodModal = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const uploadModal = useUploadModal();
+  const addFoodModal = useAddFood();
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
   const router = useRouter();
-
-  const { register, handleSubmit, reset } = useForm<FieldValues>({
-    defaultValues: {
-      author: '',
-      title: '',
-      song: null,
-      image: null,
-    },
-  });
+  const { register, handleSubmit, reset } = useForm<FieldValues>();
 
   const onChange = (open: boolean) => {
     if (!open) {
       reset();
-      uploadModal.onClose();
+      addFoodModal.onClose();
     }
   };
 
@@ -41,60 +32,36 @@ const AddFood = () => {
     try {
       setIsLoading(true);
 
-      const imageFile = values.image?.[0];
-      const songFile = values.song?.[0];
-      const uniqueID = uniqid();
-
-      if (!imageFile || !user) {
+      if (!user) {
         toast.error('Missing fields');
         return;
       }
 
-      const { data: songData, error: songError } = await supabaseClient.storage
-        .from('songs')
-        .upload(`song-${values.title}-${uniqueID}`, songFile, {
-          cacheControl: '3600',
-          upsert: false,
-        });
-
-      if (songError) {
-        setIsLoading(false);
-        console.log(songError);
-        return toast.error('Failed food upload (polish characters)');
-      }
-
-      const { data: imageData, error: imageError } =
-        await supabaseClient.storage
-          .from('images')
-          .upload(`image-${values.title}-${uniqueID}`, imageFile, {
-            cacheControl: '3600',
-            upsert: false,
-          });
-
-      if (imageError) {
-        setIsLoading(false);
-        return toast.error('Failed image upload');
-      }
-
-      const { error: supabaseError } = await supabaseClient
-        .from('songs')
+      const { data, error } = await supabaseClient
+        .from('userFood')
         .insert({
+          name: values.name,
+          energy: parseFloat(values.calories),
+          protein: parseFloat(values.protein),
+          carbs: parseFloat(values.carbs),
+          fat: parseFloat(values.fat),
+          sugar: parseFloat(values.sugar),
+          portion: parseFloat(values.portion),
+          created_at: values.date,
           user_id: user.id,
-          title: values.title,
-          author: values.author,
-          image_path: imageData.path,
-          song_path: songData.path,
-        });
+        })
+        .select();
 
-      if (supabaseError) {
-        return toast.error(supabaseError.message);
+      if (error) {
+        setIsLoading(false);
+        return toast.error('Failed adding food');
       }
 
       router.refresh();
       setIsLoading(false);
-      toast.success('Food created!');
+      toast.success('Food added!');
       reset();
-      uploadModal.onClose();
+      addFoodModal.onClose();
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
@@ -104,41 +71,90 @@ const AddFood = () => {
 
   return (
     <Modal
-      title="Add custom food"
-      description="Of your choice"
-      isOpen={uploadModal.isOpen}
+      title="Add food product"
+      description="Change whatever you want!"
+      isOpen={addFoodModal.isOpen}
       onChange={onChange}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
-        <Input
-          id="title"
-          disabled={isLoading}
-          {...register('title', { required: true })}
-          placeholder="Food Name"
-        />
-        <Input
-          id="author"
-          disabled={isLoading}
-          {...register('author', { required: true })}
-          placeholder="Nutrition Values"
-        />
-        <div>
-          <div className="pb-1">Select an image of food</div>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-2">
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 font-bold">Name</p>
           <Input
-            placeholder="test"
+            id="name"
             disabled={isLoading}
-            type="file"
-            accept="image/*"
-            id="image"
-            {...register('image', { required: true })}
+            {...register('name', { required: true })}
+            placeholder="Food Name"
           />
         </div>
-        <Button disabled={isLoading} type="submit">
-          Create
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-gray-500 font-bold">Portion</p>
+          <Input
+            id="portion"
+            disabled={isLoading}
+            {...register('portion', { required: true })}
+            placeholder="Portion (in g)"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-yellow-400 font-bold">Calories</p>
+          <Input
+            id="calories"
+            disabled={isLoading}
+            {...register('calories', { required: false })}
+            placeholder="Calories"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-green-500 font-bold">Protein</p>
+          <Input
+            id="protein"
+            disabled={isLoading}
+            {...register('protein', { required: false })}
+            placeholder="Protein"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-red-500 font-bold">Fat</p>
+          <Input
+            id="fat"
+            disabled={isLoading}
+            {...register('fat', { required: false })}
+            placeholder="Fat"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-purple-500 font-bold">Carbs</p>
+          <Input
+            id="carbs"
+            disabled={isLoading}
+            {...register('carbs', { required: false })}
+            placeholder="Carbs"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-pink-500 font-bold">Sugar</p>
+          <Input
+            id="sugar"
+            disabled={isLoading}
+            {...register('sugar', { required: false })}
+            placeholder="Sugar"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 font-bold">Date</p>
+          <Input
+            id="date"
+            disabled={isLoading}
+            {...register('date', { required: true })}
+            placeholder="Date (YYYY-MM-DD)"
+          />
+        </div>
+        <Button className="mt-6" disabled={isLoading} type="submit">
+          Add
         </Button>
       </form>
     </Modal>
   );
 };
 
-export default AddFood;
+export default AddFoodModal;

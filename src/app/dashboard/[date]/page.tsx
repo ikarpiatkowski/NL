@@ -20,11 +20,6 @@ const Dashboard = async ({ params: { date } }: CalDayProps) => {
         overflow-y-auto
       "
       >
-        <Header>
-          <div className="mb-2 flex flex-col gap-y-6">
-            <h1 className="text-white text-3xl font-semibold">Dashboard</h1>
-          </div>
-        </Header>
         <CalDay params={{ date: date }} />
       </div>
     </>

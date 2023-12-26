@@ -8,10 +8,10 @@ import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUser } from '@/hooks/useUser';
 import useEditModal from '@/hooks/useEditModal';
+import { Button } from '@/componentsShadCn/ui/button';
 
 import Modal from './Modal';
 import Input from './Input';
-import Button from './Button';
 
 const EditFoodModal = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,9 @@ const EditFoodModal = () => {
         setIsLoading(true);
         const { data, error } = await supabaseClient
           .from('userFood')
-          .select('name, energy, protein, carbs, fat, sugar, created_at')
+          .select(
+            'name, energy, protein, carbs, fat, sugar, created_at, portion'
+          )
           .eq('id', foodId);
 
         if (error) {
@@ -44,6 +46,7 @@ const EditFoodModal = () => {
           setValue('carbs', foodData.carbs.toString());
           setValue('fat', foodData.fat.toString());
           setValue('sugar', foodData.sugar.toString());
+          setValue('portion', foodData.portion.toString());
           setValue('date', foodData.created_at);
         }
       } catch (error) {
@@ -83,6 +86,7 @@ const EditFoodModal = () => {
           carbs: parseFloat(values.carbs),
           fat: parseFloat(values.fat),
           sugar: parseFloat(values.sugar),
+          portion: parseFloat(values.portion),
           created_at: values.date,
         })
         .eq('id', foodId)
@@ -114,7 +118,7 @@ const EditFoodModal = () => {
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-2">
         <div className="flex items-center gap-x-2">
-          <p className="w-20">Name</p>
+          <p className="w-20 font-bold">Name</p>
           <Input
             id="name"
             disabled={isLoading}
@@ -123,7 +127,16 @@ const EditFoodModal = () => {
           />
         </div>
         <div className="flex items-center gap-x-2">
-          <p className="w-20">Calories</p>
+          <p className="w-20 text-gray-500 font-bold">Portion</p>
+          <Input
+            id="portion"
+            disabled={isLoading}
+            {...register('portion', { required: true })}
+            placeholder="Portion (in g)"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-yellow-400 font-bold">Calories</p>
           <Input
             id="calories"
             disabled={isLoading}
@@ -132,7 +145,7 @@ const EditFoodModal = () => {
           />
         </div>
         <div className="flex items-center gap-x-2">
-          <p className="w-20">Protein</p>
+          <p className="w-20 text-green-500 font-bold">Protein</p>
           <Input
             id="protein"
             disabled={isLoading}
@@ -141,7 +154,7 @@ const EditFoodModal = () => {
           />
         </div>
         <div className="flex items-center gap-x-2">
-          <p className="w-20">Fat</p>
+          <p className="w-20 text-red-500 font-bold">Fat</p>
           <Input
             id="fat"
             disabled={isLoading}
@@ -150,7 +163,7 @@ const EditFoodModal = () => {
           />
         </div>
         <div className="flex items-center gap-x-2">
-          <p className="w-20">Carbs</p>
+          <p className="w-20 text-purple-500 font-bold">Carbs</p>
           <Input
             id="carbs"
             disabled={isLoading}
@@ -159,7 +172,7 @@ const EditFoodModal = () => {
           />
         </div>
         <div className="flex items-center gap-x-2">
-          <p className="w-20">Sugar</p>
+          <p className="w-20 text-pink-500 font-bold">Sugar</p>
           <Input
             id="sugar"
             disabled={isLoading}
@@ -168,7 +181,7 @@ const EditFoodModal = () => {
           />
         </div>
         <div className="flex items-center gap-x-2">
-          <p className="w-20">Date</p>
+          <p className="w-20 font-bold">Date</p>
           <Input
             id="date"
             disabled={isLoading}
@@ -176,7 +189,7 @@ const EditFoodModal = () => {
             placeholder="Date (YYYY-MM-DD)"
           />
         </div>
-        <Button disabled={isLoading} type="submit">
+        <Button className="mt-6" disabled={isLoading} type="submit">
           Edit
         </Button>
       </form>
