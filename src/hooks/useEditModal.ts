@@ -4,8 +4,8 @@ interface EditModalStore {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
-  foodId: any;
-  setFoodId: (newId: any) => void;
+  foodId: number;
+  setFoodId: (newId: number) => void;
 }
 
 const useEditModal = create<EditModalStore>((set) => ({
