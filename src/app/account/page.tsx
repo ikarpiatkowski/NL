@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import { useUser } from '@/hooks/useUser';
 import { DrawerDemo } from '@/components/Drawer';
 import AccountContent from '@/components/AccountContent';
+import EditTarget from '@/components/EditTarget';
 
 const Account = () => {
   const { user } = useUser();
@@ -27,6 +28,7 @@ const Account = () => {
           </h1>
         </div>
       </Header>
+      <EditTarget />
       <DrawerDemo />
       <AccountContent />
       {user?.id}

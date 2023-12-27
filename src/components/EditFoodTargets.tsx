@@ -8,15 +8,14 @@ import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUser } from '@/hooks/useUser';
 import { Button } from '@/componentsShadCn/ui/button';
-import useEditModal from '@/hooks/useEditModal';
+import useEditTargets from '@/hooks/useEditTargets';
 
 import Modal from './Modal';
 import Input from './Input';
 
-const EditFoodModal = () => {
+const EditFoodTargets = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const editModal = useEditModal();
-  const { foodId } = editModal;
+  const editTargetModal = useEditTargets();
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
   const router = useRouter();
@@ -27,44 +26,42 @@ const EditFoodModal = () => {
       try {
         setIsLoading(true);
         const { data, error } = await supabaseClient
-          .from('userFood')
+          .from('users')
           .select(
-            'name, energy, protein, carbs, fat, sugar, created_at, portion'
+            'calories_target, protein_target, carbs_target, fat_target, sugar_target'
           )
-          .eq('id', foodId);
+          .eq('id', user?.id);
 
         if (error) {
           setIsLoading(false);
-          return toast.error('Failed to fetch food data');
+          return toast.error('Failed to fetch nutrition targets data');
         }
 
         if (data && data.length > 0) {
           const foodData = data[0];
-          setValue('name', foodData.name);
-          setValue('calories', foodData.energy.toString());
-          setValue('protein', foodData.protein.toString());
-          setValue('carbs', foodData.carbs.toString());
-          setValue('fat', foodData.fat.toString());
-          setValue('sugar', foodData.sugar.toString());
-          setValue('portion', foodData.portion.toString());
-          setValue('date', foodData.created_at);
+          setValue('calories', foodData.calories_target.toString());
+          setValue('protein', foodData.protein_target.toString());
+          setValue('carbs', foodData.carbs_target.toString());
+          setValue('fat', foodData.fat_target.toString());
+          setValue('sugar', foodData.sugar_target.toString());
         }
       } catch (error) {
-        toast.error('Something went wrong while fetching food data');
+        toast.error(
+          'Something went wrong while fetching nutrition targets data'
+        );
       } finally {
         setIsLoading(false);
       }
     };
-
-    if (foodId) {
+    if (user?.id) {
       fetchFoodData();
     }
-  }, [foodId, supabaseClient, setValue]);
+  }, [user?.id, supabaseClient, setValue]);
 
   const onChange = (open: boolean) => {
     if (!open) {
       reset();
-      editModal.onClose();
+      editTargetModal.onClose();
     }
   };
 
@@ -78,30 +75,27 @@ const EditFoodModal = () => {
       }
 
       const { error } = await supabaseClient
-        .from('userFood')
+        .from('users')
         .update({
-          name: values.name,
-          energy: parseFloat(values.calories),
-          protein: parseFloat(values.protein),
-          carbs: parseFloat(values.carbs),
-          fat: parseFloat(values.fat),
-          sugar: parseFloat(values.sugar),
-          portion: parseFloat(values.portion),
-          created_at: values.date,
+          calories_target: parseFloat(values.calories_target),
+          protein_target: parseFloat(values.protein_target),
+          carbs_target: parseFloat(values.carbs_target),
+          fat_target: parseFloat(values.fat_target),
+          sugar_target: parseFloat(values.sugar_target),
         })
-        .eq('id', foodId)
+        .eq('id', user.id)
         .select();
 
       if (error) {
         setIsLoading(false);
-        return toast.error('Failed edit food');
+        return toast.error('Failed edit nutrition targets');
       }
 
       router.refresh();
       setIsLoading(false);
-      toast.success('Food edited!');
+      toast.success('Nutrition targets edited!');
       reset();
-      editModal.onClose();
+      editTargetModal.onClose();
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
@@ -111,37 +105,19 @@ const EditFoodModal = () => {
 
   return (
     <Modal
-      title="Edit food product"
+      title="Edit nutrition target values"
       description="Change whatever you want!"
-      isOpen={editModal.isOpen}
+      isOpen={editTargetModal.isOpen}
       onChange={onChange}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-2">
-        <div className="flex items-center gap-x-2">
-          <p className="w-20 font-bold">Name</p>
-          <Input
-            id="name"
-            disabled={isLoading}
-            {...register('name', { required: true })}
-            placeholder="Food Name"
-          />
-        </div>
-        <div className="flex items-center gap-x-2">
-          <p className="w-20 text-gray-500 font-bold">Portion</p>
-          <Input
-            id="portion"
-            disabled={isLoading}
-            {...register('portion', { required: true })}
-            placeholder="Portion (in g)"
-          />
-        </div>
         <div className="flex items-center gap-x-2">
           <p className="w-20 text-yellow-400 font-bold">Calories</p>
           <Input
             id="calories"
             disabled={isLoading}
-            {...register('calories', { required: false })}
-            placeholder="Calories"
+            {...register('calories_target', { required: false })}
+            placeholder="2500"
           />
         </div>
         <div className="flex items-center gap-x-2">
@@ -149,8 +125,8 @@ const EditFoodModal = () => {
           <Input
             id="protein"
             disabled={isLoading}
-            {...register('protein', { required: false })}
-            placeholder="Protein"
+            {...register('protein_target', { required: false })}
+            placeholder="60"
           />
         </div>
         <div className="flex items-center gap-x-2">
@@ -158,8 +134,8 @@ const EditFoodModal = () => {
           <Input
             id="fat"
             disabled={isLoading}
-            {...register('fat', { required: false })}
-            placeholder="Fat"
+            {...register('fat_target', { required: false })}
+            placeholder="100"
           />
         </div>
         <div className="flex items-center gap-x-2">
@@ -167,8 +143,8 @@ const EditFoodModal = () => {
           <Input
             id="carbs"
             disabled={isLoading}
-            {...register('carbs', { required: false })}
-            placeholder="Carbs"
+            {...register('carbs_target', { required: false })}
+            placeholder="360"
           />
         </div>
         <div className="flex items-center gap-x-2">
@@ -176,17 +152,8 @@ const EditFoodModal = () => {
           <Input
             id="sugar"
             disabled={isLoading}
-            {...register('sugar', { required: false })}
-            placeholder="Sugar"
-          />
-        </div>
-        <div className="flex items-center gap-x-2">
-          <p className="w-20 font-bold">Date</p>
-          <Input
-            id="date"
-            disabled={isLoading}
-            {...register('date', { required: true })}
-            placeholder="Date (YYYY-MM-DD)"
+            {...register('sugar_target', { required: false })}
+            placeholder="40"
           />
         </div>
         <Button className="mt-6" disabled={isLoading} type="submit">
@@ -197,4 +164,4 @@ const EditFoodModal = () => {
   );
 };
 
-export default EditFoodModal;
+export default EditFoodTargets;
