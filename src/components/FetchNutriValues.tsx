@@ -87,7 +87,7 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
 
   const supabaseClient = useSupabaseClient();
 
-  const idNutrients = [1005, 1000, 1003, 1004, 2000, 1008];
+  const idNutrients = [2000, 1005, 1000, 1003, 1004, 1008];
   const allowedNutrients = [
     'Protein',
     'Total lipid (fat)',
@@ -155,7 +155,13 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
     'Fatty acids, total monounsaturated',
     'Fatty acids, total polyunsaturated',
   ];
-
+  const nutrientOrder = [
+    'Energy',
+    'Protein',
+    'Total lipid (fat)',
+    'Carbohydrate, by difference',
+    'Sugars, total including NLEA',
+  ];
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -234,47 +240,62 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                   <div key={food.fdcId}>
                     <Card className="bg-white shadow rounded-xl overflow-hidden w-fit m-2">
                       <CardHeader className="p-4">
-                        <CardTitle className="text-lg font-bold w-[200px]">
+                        <CardTitle className="text-lg font-bold w-60 truncate">
                           {food.description}
                         </CardTitle>
                         <CardDescription className="text-sm text-gray-500">
-                          Serving Size: 100g
+                          Serving per 100g
                         </CardDescription>
                       </CardHeader>
-                      <CardContent className="p-4">
+                      <CardContent className="px-4">
                         <div className="grid gap-2">
                           {food.foodNutrients
                             .filter(
                               (nutrient) =>
-                                nutrient.nutrientId === 1005 ||
+                                nutrient.nutrientId === 2000 ||
                                 1000 ||
                                 1003 ||
                                 1004 ||
-                                2000 ||
+                                1005 ||
                                 1008
                             )
                             .filter((nutrient) =>
                               idNutrients.includes(nutrient.nutrientId)
+                            )
+                            .sort(
+                              (a, b) =>
+                                nutrientOrder.indexOf(a.nutrientName) -
+                                nutrientOrder.indexOf(b.nutrientName)
                             )
                             .map((nutrient) => (
                               <div
                                 key={nutrient.nutrientId}
                                 className="flex justify-between"
                               >
-                                <p className="text-sm">
-                                  {nutrient.nutrientName}
+                                <p
+                                  className={`text-sm font-bold ${getTextColorByNutrientId(
+                                    nutrient.nutrientId
+                                  )}`}
+                                >
+                                  {getShortenedNutrientName(
+                                    nutrient.nutrientName
+                                  )}
                                 </p>
-                                <p className="text-sm">
+                                <p
+                                  className={`text-sm font-bold ${getTextColorByNutrientId(
+                                    nutrient.nutrientId
+                                  )}`}
+                                >
                                   {nutrient.value}
                                   {nutrient.unitName !== 'KCAL' && (
-                                    <span>{nutrient.unitName}</span>
+                                    <span>g</span>
                                   )}
                                 </p>
                               </div>
                             ))}
                         </div>
                       </CardContent>
-                      <CardFooter className="p-4 ">
+                      <CardFooter className="px-4 flex justify-between">
                         <Button
                           onClick={() => {
                             addFood({
@@ -307,9 +328,12 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                             </Button>
                           </HoverCardTrigger>
                           <HoverCardContent className="w-80">
-                            <h4 className="text-sm font-semibold pb-2">
+                            <h4 className="text-center text-sm font-semibold pb-2">
                               Detailed Nutrition Facts
                             </h4>
+                            <h3 className="text-sm font-bold pb-2">
+                              Name: {food.description}
+                            </h3>
                             <div className="text-sm">
                               {food.foodNutrients
                                 .filter((nutrient) => nutrient.value !== 0)
@@ -351,3 +375,34 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
 };
 
 export default FetchNutriValues;
+function getTextColorByNutrientId(nutrientId: number): string {
+  switch (nutrientId) {
+    case 1005: // Carbs
+      return 'text-purple-500';
+    case 1000: // Total lipid (fat)
+      return 'text-blue-500';
+    case 1003: // Protein
+      return 'text-green-500';
+    case 1004: // Fat
+      return 'text-red-500';
+    case 2000: // Sugars
+      return 'text-pink-500';
+    case 1008: // Calories
+      return 'text-yellow-500';
+    default:
+      return '';
+  }
+}
+
+function getShortenedNutrientName(nutrientName: string): string {
+  switch (nutrientName) {
+    case 'Total lipid (fat)':
+      return 'Fat';
+    case 'Carbohydrate, by difference':
+      return 'Carbs';
+    case 'Sugars, total including NLEA':
+      return 'Sugar';
+    default:
+      return nutrientName;
+  }
+}
