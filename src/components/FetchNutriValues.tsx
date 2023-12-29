@@ -88,79 +88,14 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
   const supabaseClient = useSupabaseClient();
 
   const idNutrients = [2000, 1005, 1000, 1003, 1004, 1008];
-  const allowedNutrients = [
-    'Protein',
-    'Total lipid (fat)',
-    'Carbohydrate, by difference',
-    'Energy',
-    'Alcohol, ethyl',
-    'Water',
-    'Caffeine',
-    'Theobromine',
-    'Sugars, total including NLEA',
-    'Fiber, total dietary',
-    'Calcium, Ca',
-    'Iron, Fe',
-    'Magnesium, Mg',
-    'Phosphorus, P',
-    'Potassium, K',
-    'Sodium, Na',
-    'Zinc, Zn',
-    'Copper, Cu',
-    'Selenium, Se',
-    'Retinol',
-    'Vitamin A, RAE',
-    'Carotene, beta',
-    'Carotene, alpha',
-    'Vitamin E (alpha-tocopherol)',
-    'Vitamin D (D2 + D3)',
-    'Cryptoxanthin, beta',
-    'Lycopene',
-    'Lutein + zeaxanthin',
-    'Vitamin C, total ascorbic acid',
-    'Thiamin',
-    'Riboflavin',
-    'Niacin',
-    'Vitamin B-6',
-    'Folate, total',
-    'Vitamin B-12',
-    'Choline, total',
-    'Vitamin K (phylloquinone)',
-    'Folic acid',
-    'Folate, food',
-    'Folate, DFE',
-    'Vitamin E, added',
-    'Vitamin B-12, added',
-    'Cholesterol',
-    'Fatty acids, total saturated',
-    'SFA 4:0',
-    'SFA 6:0',
-    'SFA 8:0',
-    'SFA 10:0',
-    'SFA 12:0',
-    'SFA 14:0',
-    'SFA 16:0',
-    'SFA 18:0',
-    'MUFA 18:1',
-    'PUFA 18:2',
-    'PUFA 18:3',
-    'PUFA 20:4',
-    'PUFA 22:6 n-3 (DHA)',
-    'MUFA 16:1',
-    'PUFA 18:4',
-    'MUFA 20:1',
-    'PUFA 20:5 n-3 (EPA)',
-    'MUFA 22:1',
-    'PUFA 22:5 n-3 (DPA)',
-    'Fatty acids, total monounsaturated',
-    'Fatty acids, total polyunsaturated',
-  ];
+
   const nutrientOrder = [
     'Energy',
     'Protein',
     'Total lipid (fat)',
     'Carbohydrate, by difference',
     'Sugars, total including NLEA',
+    'Total Sugars',
   ];
   const fetchData = async () => {
     try {
@@ -250,15 +185,6 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                       <CardContent className="px-4">
                         <div className="grid gap-2">
                           {food.foodNutrients
-                            .filter(
-                              (nutrient) =>
-                                nutrient.nutrientId === 2000 ||
-                                1000 ||
-                                1003 ||
-                                1004 ||
-                                1005 ||
-                                1008
-                            )
                             .filter((nutrient) =>
                               idNutrients.includes(nutrient.nutrientId)
                             )
@@ -286,10 +212,14 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                                     nutrient.nutrientId
                                   )}`}
                                 >
-                                  {nutrient.value}
-                                  {nutrient.unitName !== 'KCAL' && (
-                                    <span>g</span>
-                                  )}
+                                  {Number.isInteger(nutrient.value)
+                                    ? nutrient.value
+                                    : nutrient.value.toFixed(1)}
+                                  <span>
+                                    {nutrient.unitName === 'KCAL'
+                                      ? ` ${nutrient.unitName.toLowerCase()}`
+                                      : nutrient.unitName.toLowerCase()}
+                                  </span>
                                 </p>
                               </div>
                             ))}
@@ -337,11 +267,6 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                             <div className="text-sm">
                               {food.foodNutrients
                                 .filter((nutrient) => nutrient.value !== 0)
-                                .filter((nutrient) =>
-                                  allowedNutrients.includes(
-                                    nutrient.nutrientName
-                                  )
-                                )
                                 .map((nutrient) => (
                                   <div
                                     key={nutrient.nutrientId}
@@ -351,10 +276,14 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
                                       {nutrient.nutrientName}
                                     </p>
                                     <p className="text-sm">
-                                      {nutrient.value}
-                                      {nutrient.unitName !== 'KCAL' && (
-                                        <span>{nutrient.unitName}</span>
-                                      )}
+                                      {Number.isInteger(nutrient.value)
+                                        ? nutrient.value
+                                        : nutrient.value.toFixed(1)}
+                                      <span>
+                                        {nutrient.unitName === 'KCAL'
+                                          ? ` ${nutrient.unitName.toLowerCase()}`
+                                          : nutrient.unitName.toLowerCase()}
+                                      </span>
                                     </p>
                                   </div>
                                 ))}
@@ -401,7 +330,8 @@ function getShortenedNutrientName(nutrientName: string): string {
     case 'Carbohydrate, by difference':
       return 'Carbs';
     case 'Sugars, total including NLEA':
-      return 'Sugar';
+    case 'Total Sugars':
+      return 'Sugar!';
     default:
       return nutrientName;
   }

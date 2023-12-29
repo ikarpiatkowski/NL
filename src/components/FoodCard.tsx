@@ -68,41 +68,70 @@ export default function FoodCard({ foodData }: any) {
                   </p>
                   <p className="text-sm text-yellow-400">({f.energy} kcal)</p>
                   <p className="text-sm font-bold text-yellow-400">
-                    {((f.energy * f.portion) / 100).toFixed(0)} kcal
+                    {Number.isInteger((f.energy * f.portion) / 100)
+                      ? (f.energy * f.portion) / 100
+                      : ((f.energy * f.portion) / 100).toFixed(1)}{' '}
+                    kcal
                   </p>
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm w-[60px] font-bold text-green-500">
                     Protein
                   </p>
-                  <p className="text-sm  text-green-500">({f.protein}g)</p>
+                  <p className="text-sm  text-green-500">
+                    (
+                    {Number.isInteger(f.protein)
+                      ? f.protein
+                      : f.protein.toFixed(1)}
+                    g)
+                  </p>
                   <p className="text-sm font-bold text-green-500">
-                    {((f.protein * f.portion) / 100).toFixed(1)}g
+                    {Number.isInteger((f.protein * f.portion) / 100)
+                      ? (f.protein * f.portion) / 100
+                      : ((f.protein * f.portion) / 100).toFixed(1)}
+                    g
                   </p>
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm w-[60px] font-bold text-red-500">Fat</p>
-                  <p className="text-sm  text-red-500">({f.fat}g)</p>
+                  <p className="text-sm  text-red-500">
+                    ({Number.isInteger(f.fat) ? f.fat : f.fat.toFixed(1)}g)
+                  </p>
                   <p className="text-sm font-bold text-red-500">
-                    {(f.fat / f.portion / 100).toFixed(1)}g
+                    {Number.isInteger((f.carbs * f.portion) / 100)
+                      ? (f.carbs * f.portion) / 100
+                      : ((f.carbs * f.portion) / 100).toFixed(1)}
+                    g
                   </p>
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm w-[60px] font-bold text-purple-500">
                     Carbs
                   </p>
-                  <p className="text-sm  text-purple-500">({f.carbs}g)</p>
+                  <p className="text-sm  text-purple-500">
+                    ({Number.isInteger(f.carbs) ? f.carbs : f.carbs.toFixed(1)}
+                    g)
+                  </p>
                   <p className="text-sm font-bold text-purple-500">
-                    {((f.carbs * f.portion) / 100).toFixed(1)}g
+                    {Number.isInteger((f.carbs * f.portion) / 100)
+                      ? (f.carbs * f.portion) / 100
+                      : ((f.carbs * f.portion) / 100).toFixed(1)}
+                    g
                   </p>
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm w-[60px] font-bold text-pink-500">
                     Sugar
                   </p>
-                  <p className="text-sm  text-pink-500">({f.sugar}g)</p>
+                  <p className="text-sm  text-pink-500">
+                    ({Number.isInteger(f.sugar) ? f.sugar : f.sugar.toFixed(1)}
+                    g)
+                  </p>
                   <p className="text-sm font-bold text-pink-500">
-                    {((f.sugar * f.portion) / 100).toFixed(1)}g
+                    {Number.isInteger((f.sugar * f.portion) / 100)
+                      ? (f.sugar * f.portion) / 100
+                      : ((f.sugar * f.portion) / 100).toFixed(1)}
+                    g
                   </p>
                 </div>
               </div>

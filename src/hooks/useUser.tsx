@@ -77,6 +77,7 @@ export const MyUserContextProvider = (props: Props) => {
       setUserDetails(null);
       setSubscription(null);
     }
+    setIsloadingData(false);
   }, [
     user,
     isLoadingData,
