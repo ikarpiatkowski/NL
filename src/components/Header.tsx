@@ -37,6 +37,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
       toast.success('Logged out successfully');
     }
   };
+  console.log('USER AVATAR IS ', user?.user_metadata.avatar_url);
   return (
     <Box>
       <div
@@ -97,14 +98,14 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
                 >
                   Logout
                 </Button>
-                {userDetails?.avatar_url ? (
+                {user?.user_metadata.avatar_url ? (
                   <Image
-                    src={userDetails?.avatar_url!}
+                    src={user?.user_metadata.avatar_url!}
                     onClick={() => router.push('/account')}
                     className="rounded-full cursor-pointer"
                     alt="avatar"
-                    width={50}
-                    height={50}
+                    width={44}
+                    height={44}
                   />
                 ) : (
                   <Button
