@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
   const authModal = useAuthModal();
   const supabaseClient = useSupabaseClient();
-  const { user, userDetails } = useUser();
+  const { user } = useUser();
 
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
@@ -37,7 +37,6 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
       toast.success('Logged out successfully');
     }
   };
-  console.log('USER AVATAR IS ', user?.user_metadata.avatar_url);
   return (
     <Box>
       <div

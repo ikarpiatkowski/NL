@@ -15,9 +15,10 @@ import Library from './Library';
 interface SidebarProps {
   children: React.ReactNode;
   songs: Song[];
+  userId: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
+const Sidebar: React.FC<SidebarProps> = ({ children, songs, userId }) => {
   const pathname = usePathname();
   const routes = useMemo(
     () => [
@@ -58,7 +59,6 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
     ],
     [pathname]
   );
-
   return (
     <div className={twMerge(`flex h-full`)}>
       <div
@@ -83,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
           </div>
         </Box>
         <Box className="overflow-y-auto h-full content-between">
-          <Library songs={songs} />
+          <Library songs={songs} userId={userId} />
         </Box>
       </div>
       <main className="h-full flex-1 overflow-y-auto py-2 mr-2">

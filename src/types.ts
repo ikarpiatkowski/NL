@@ -7,6 +7,11 @@ export interface Song {
   title: string;
   song_path: string;
   image_path: string;
+  energy: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+  sugar: number;
 }
 
 export interface Product {

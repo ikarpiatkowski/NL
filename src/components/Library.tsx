@@ -1,3 +1,4 @@
+'use client';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { useUser } from '@/hooks/useUser';
@@ -8,16 +9,23 @@ import { Song } from '@/types';
 
 import MediaItem from './MediaItem';
 import { ModeToggle } from './ModeToggle';
+import { supabaseAdmin } from '@/libs/supabaseAdmin';
+import toast from 'react-hot-toast';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/navigation';
 interface LibraryProps {
   songs: Song[];
+  userId: string;
 }
 
-const Library: React.FC<LibraryProps> = ({ songs }) => {
+const Library: React.FC<LibraryProps> = ({ songs, userId }) => {
   const { user, subscription } = useUser();
   const authModal = useAuthModal();
   const uploadModal = useUploadModal();
   const subscribeModal = useSubscribeModal();
-
+  const supabaseClient = useSupabaseClient();
+  const router = useRouter();
   const onClick = () => {
     if (!user) {
       return authModal.onOpen();
@@ -26,6 +34,27 @@ const Library: React.FC<LibraryProps> = ({ songs }) => {
       return subscribeModal.onOpen();
     }
     return uploadModal.onOpen();
+  };
+  const addFood = async (item: any) => {
+    const { error: supabaseError } = await supabaseClient
+      .from('userFood')
+      .insert({
+        energy: item.energy,
+        protein: item.protein,
+        fat: item.fat,
+        carbs: item.carbs,
+        sugar: item.sugar,
+        name: item.name,
+        user_id: userId,
+      });
+
+    if (supabaseError) {
+      return toast.error(supabaseError.message);
+    } else {
+      toast.success('Food added successfully');
+    }
+    console.log(item);
+    router.refresh();
   };
 
   return (
@@ -45,7 +74,14 @@ const Library: React.FC<LibraryProps> = ({ songs }) => {
       </div>
       <div className="flex flex-col gap-y-2 mt-4 px-3">
         {songs.map((item) => (
-          <MediaItem onClick={() => {}} key={item.id} data={item} />
+          <MediaItem
+            onClick={() => {
+              addFood(item);
+              console.log(item);
+            }}
+            key={item.id}
+            data={item}
+          />
         ))}
       </div>
     </div>

@@ -56,9 +56,23 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
         <p className="dark:text-white text-black truncate font-semibold">
           {data.title}
         </p>
-        <p className="dark:text-neutral-400 text-neutral-600 text-sm truncate">
-          {data.author}
-        </p>
+        <div className="flex">
+          <p className="text-yellow-400 text-sm font-bold truncate pr-2">
+            {data.energy}kcal
+          </p>
+          <p className="text-green-500 text-sm font-bold truncate pr-2">
+            {data.protein}g
+          </p>
+          <p className="text-red-500 text-sm font-bold truncate pr-2">
+            {data.fat}g
+          </p>
+          <p className="text-purple-500 text-sm font-bold truncate pr-2">
+            {data.carbs}g
+          </p>
+          <p className="text-pink-500 text-sm font-bold truncate pr-2">
+            {data.sugar}g
+          </p>
+        </div>
       </div>
     </div>
   );

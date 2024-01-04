@@ -57,17 +57,23 @@ const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
       </div>
       <div className="flex flex-col items-start w-full pt-4 gap-y-1">
         <p className="font-semibold truncate w-full">{data.title}</p>
-        <p
-          className="
-            text-neutral-400 
-            text-sm 
-            pb-4 
-            w-full 
-            truncate
-          "
-        >
-          {data.author}
-        </p>
+        <div className="flex">
+          <p className="text-yellow-400 text-sm font-bold truncate pr-2">
+            {data.energy}kcal
+          </p>
+          <p className="text-green-500 text-sm font-bold truncate pr-2">
+            {data.protein}g
+          </p>
+          <p className="text-red-500 text-sm font-bold truncate pr-2">
+            {data.fat}g
+          </p>
+          <p className="text-purple-500 text-sm font-bold truncate pr-2">
+            {data.carbs}g
+          </p>
+          <p className="text-pink-500 text-sm font-bold truncate pr-2">
+            {data.sugar}g
+          </p>
+        </div>
       </div>
       <div
         className="

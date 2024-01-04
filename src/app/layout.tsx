@@ -10,6 +10,8 @@ import ToasterProvider from '@/providers/ToasterProvider';
 import getSongsByUserId from '@/actions/getSongsByUserId';
 import getActiveProductsWithPrices from '@/actions/getActiveProductsWithPrices';
 import { ThemeProvider } from '@/components/theme-provider';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Nourish Log',
@@ -25,7 +27,17 @@ export default async function RootLayout({
 }) {
   const userSongs = await getSongsByUserId();
   const products = await getActiveProductsWithPrices();
+  const supabase = createServerComponentClient({
+    cookies: cookies,
+  });
 
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError) {
+    console.log(sessionError.message);
+    return [];
+  }
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${GeistSans.className} dark:bg-black bg-white`}>
@@ -39,7 +51,9 @@ export default async function RootLayout({
           <SupabaseProvider>
             <UserProvider>
               <ModalProvider products={products} />
-              <Sidebar songs={userSongs}>{children}</Sidebar>
+              <Sidebar songs={userSongs} userId={sessionData.session?.user.id!}>
+                {children}
+              </Sidebar>
             </UserProvider>
           </SupabaseProvider>
         </ThemeProvider>
