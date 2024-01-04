@@ -8,12 +8,27 @@ import getSongs from '@/actions/getSongs';
 import Header from '@/components/Header';
 import ListItem from '@/components/ListItem';
 import PageContent from '@/components/PageContent';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 export const revalidate = 0;
 
 export default async function Home() {
   const songs = await getSongs();
   const firstTenSongs = songs.slice(0, 8);
+
+  const supabase = createServerComponentClient({
+    cookies: cookies,
+  });
+
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError) {
+    console.log(sessionError.message);
+    return [];
+  }
+
   return (
     <div
       className=" 
@@ -106,7 +121,10 @@ export default async function Home() {
           <h2 className="font-bold rounded-lg bg-neutral-100 px-3 py-1 text-sm dark:bg-neutral-800 text-center">
             Custom foods from our users
           </h2>
-          <PageContent songs={firstTenSongs} />
+          <PageContent
+            songs={firstTenSongs}
+            userId={sessionData.session?.user.id!}
+          />
         </div>
       </section>
     </div>

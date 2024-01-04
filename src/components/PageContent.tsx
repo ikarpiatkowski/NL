@@ -2,16 +2,42 @@
 
 import { Song } from '@/types';
 import SongItem from '@/components/SongItem';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface PageContentProps {
   songs: Song[];
+  userId: String;
 }
 
-const PageContent: React.FC<PageContentProps> = ({ songs }) => {
+const PageContent: React.FC<PageContentProps> = ({ songs, userId }) => {
+  const supabaseClient = useSupabaseClient();
+  const router = useRouter();
   if (songs.length === 0) {
     return <div className="mt-4 text-neutral-400">No foods available.</div>;
   }
+  const addFood = async (item: any) => {
+    const { error: supabaseError } = await supabaseClient
+      .from('userFood')
+      .insert({
+        energy: item.energy,
+        protein: item.protein,
+        fat: item.fat,
+        carbs: item.carbs,
+        sugar: item.sugar,
+        name: item.title,
+        user_id: userId,
+      });
 
+    if (supabaseError) {
+      return toast.error(supabaseError.message);
+    } else {
+      toast.success('Food added successfully');
+    }
+    console.log(item);
+    router.refresh();
+  };
   return (
     <div
       className="
@@ -28,7 +54,14 @@ const PageContent: React.FC<PageContentProps> = ({ songs }) => {
       "
     >
       {songs.map((item) => (
-        <SongItem onClick={() => {}} key={item.id} data={item} />
+        <SongItem
+          onClick={() => {
+            addFood(item);
+            console.log(item);
+          }}
+          key={item.id}
+          data={item}
+        />
       ))}
     </div>
   );

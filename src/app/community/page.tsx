@@ -2,6 +2,8 @@ import getSongsByTitle from '@/actions/getSongsByTitle';
 import SearchInput from '@/components/SearchInput';
 import Header from '@/components/Header';
 import SearchContent from '@/components/SearchContent';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 interface SearchProps {
   searchParams: { title: string };
@@ -11,6 +13,18 @@ export const revalidate = 0;
 
 const Community = async ({ searchParams }: SearchProps) => {
   const songs = await getSongsByTitle(searchParams.title);
+
+  const supabase = createServerComponentClient({
+    cookies: cookies,
+  });
+
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError) {
+    console.log(sessionError.message);
+    return [];
+  }
 
   return (
     <div
@@ -32,7 +46,7 @@ const Community = async ({ searchParams }: SearchProps) => {
           <SearchInput />
         </div>
       </Header>
-      <SearchContent songs={songs} />
+      <SearchContent songs={songs} userId={sessionData.session?.user.id!} />
     </div>
   );
 };

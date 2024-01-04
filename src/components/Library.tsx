@@ -1,4 +1,6 @@
 'use client';
+
+import { useRouter } from 'next/navigation';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { useUser } from '@/hooks/useUser';
@@ -9,11 +11,8 @@ import { Song } from '@/types';
 
 import MediaItem from './MediaItem';
 import { ModeToggle } from './ModeToggle';
-import { supabaseAdmin } from '@/libs/supabaseAdmin';
 import toast from 'react-hot-toast';
-import { SupabaseClient } from '@supabase/supabase-js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useRouter } from 'next/navigation';
 interface LibraryProps {
   songs: Song[];
   userId: string;
@@ -26,6 +25,7 @@ const Library: React.FC<LibraryProps> = ({ songs, userId }) => {
   const subscribeModal = useSubscribeModal();
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
+
   const onClick = () => {
     if (!user) {
       return authModal.onOpen();
@@ -35,6 +35,7 @@ const Library: React.FC<LibraryProps> = ({ songs, userId }) => {
     }
     return uploadModal.onOpen();
   };
+
   const addFood = async (item: any) => {
     const { error: supabaseError } = await supabaseClient
       .from('userFood')
