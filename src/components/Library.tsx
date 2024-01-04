@@ -44,7 +44,7 @@ const Library: React.FC<LibraryProps> = ({ songs, userId }) => {
         fat: item.fat,
         carbs: item.carbs,
         sugar: item.sugar,
-        name: item.name,
+        name: item.title,
         user_id: userId,
       });
 
