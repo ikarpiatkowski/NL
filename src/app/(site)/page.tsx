@@ -13,7 +13,7 @@ export const revalidate = 0;
 
 export default async function Home() {
   const songs = await getSongs();
-
+  const firstTenSongs = songs.slice(0, 8);
   return (
     <div
       className=" 
@@ -57,7 +57,7 @@ export default async function Home() {
         </div>
       </Header>
       <section className="w-full my-8">
-        <div className="container space-y-6 px-4 md:px-6">
+        <div className="container space-y-6 px-4 md:px-6 items-center">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-4">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
@@ -106,9 +106,9 @@ export default async function Home() {
           <h2 className="font-bold rounded-lg bg-neutral-100 px-3 py-1 text-sm dark:bg-neutral-800 text-center">
             Custom foods from our users
           </h2>
+          <PageContent songs={firstTenSongs} />
         </div>
       </section>
-      <PageContent songs={songs} />
     </div>
   );
 }
