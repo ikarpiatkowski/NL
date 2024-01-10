@@ -3,12 +3,25 @@ import Image from 'next/image';
 import getLikedSongs from '@/actions/getLikedSongs';
 import Header from '@/components/Header';
 import LikedContent from '@/components/LikedContent';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 export const revalidate = 0;
 
 const Liked = async () => {
   const songs = await getLikedSongs();
 
+  const supabase = createServerComponentClient({
+    cookies: cookies,
+  });
+
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError) {
+    console.log(sessionError.message);
+    return [];
+  }
   return (
     <div
       className="
@@ -58,7 +71,7 @@ const Liked = async () => {
           </div>
         </div>
       </Header>
-      <LikedContent songs={songs} />
+      <LikedContent songs={songs} userId={sessionData.session?.user.id!} />
     </div>
   );
 };

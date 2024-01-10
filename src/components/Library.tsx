@@ -54,7 +54,6 @@ const Library: React.FC<LibraryProps> = ({ songs, userId }) => {
     } else {
       toast.success('Food added successfully');
     }
-    console.log(item);
     router.refresh();
   };
 
@@ -78,7 +77,6 @@ const Library: React.FC<LibraryProps> = ({ songs, userId }) => {
           <MediaItem
             onClick={() => {
               addFood(item);
-              console.log(item);
             }}
             key={item.id}
             data={item}

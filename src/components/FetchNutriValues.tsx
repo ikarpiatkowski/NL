@@ -78,8 +78,12 @@ interface FoodData {
 }
 interface FetchNutriValuesProps {
   userId: string;
+  apiKey: string;
 }
-const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
+const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({
+  userId,
+  apiKey,
+}) => {
   const [data, setData] = useState<FoodData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -101,7 +105,7 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
     try {
       setLoading(true);
       const res = await fetch(
-        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=ZXncLTW53E18uucYcJUTYULmteiaQ5lSYVYYZfr9&query=${query}`
+        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${apiKey}&query=${query}`
       );
 
       if (!res.ok) {
@@ -148,23 +152,24 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({ userId }) => {
           <div className="mb-2 flex flex-col gap-y-6">
             <h1 className="text-white text-3xl font-semibold">Search</h1>
             <div className="flex flex-col justify-center">
-              <div className="flex justify-center">
-                <Input
-                  type="text"
-                  placeholder="Search for food with USDA"
-                  onChange={handleQueryChange}
-                  className="w-60 mr-4"
-                />
-                <Button type="submit" onClick={fetchData}>
-                  <BiSearch size={22} />
-                  Search
-                </Button>
-              </div>
+              <div className="flex justify-center"></div>
             </div>
           </div>
         </Header>
         {error && <p>Error: {error}</p>}
-        <div className="flex flex-col gap-y-2 w-full px-6">
+        <div className="flex flex-col items-center gap-y-2 w-full px-6">
+          <div className="flex">
+            <Input
+              type="text"
+              placeholder="Search for food with USDA"
+              onChange={handleQueryChange}
+              className="w-60 mr-4"
+            />
+            <Button type="submit" onClick={fetchData}>
+              <BiSearch size={22} />
+              Search
+            </Button>
+          </div>
           {loading ? (
             <Loading />
           ) : (

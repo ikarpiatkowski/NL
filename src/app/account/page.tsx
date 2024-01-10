@@ -1,14 +1,31 @@
 'use client';
+
+import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import toast from 'react-hot-toast';
 
 import { useUser } from '@/hooks/useUser';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { DrawerDemo } from '@/components/Drawer';
 import AccountContent from '@/components/AccountContent';
 import EditTarget from '@/components/EditTarget';
+import Button from '@/components/Button';
 
 const Account = () => {
+  const router = useRouter();
   const { user } = useUser();
+  const supabaseClient = useSupabaseClient();
 
+  const handleLogout = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    router.refresh();
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success('Logged out successfully');
+    }
+  };
   return (
     <div
       className="
@@ -32,6 +49,12 @@ const Account = () => {
       <DrawerDemo />
       <AccountContent />
       {user?.id}
+      <Button
+        onClick={handleLogout}
+        className="dark:bg-neutral-800 dark:text-white text-black px-6 py-2"
+      >
+        Logout
+      </Button>
     </div>
   );
 };

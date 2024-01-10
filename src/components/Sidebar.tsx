@@ -65,12 +65,13 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs, userId }) => {
         className="hidden 
           md:flex 
           flex-col 
-          gap-y-2 
+          gap-y-1 
           bg-white
           dark:bg-black 
           h-full 
           w-[300px] 
-          p-2"
+          py-1
+          pl-1"
       >
         <Box>
           <div className="flex flex-col gap-y-4 px-5 py-4">
@@ -86,9 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs, userId }) => {
           <Library songs={songs} userId={userId} />
         </Box>
       </div>
-      <main className="h-full flex-1 overflow-y-auto py-2 mr-2">
-        {children}
-      </main>
+      <main className="h-full flex-1 overflow-y-auto p-1">{children}</main>
     </div>
   );
 };

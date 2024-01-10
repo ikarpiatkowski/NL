@@ -18,7 +18,10 @@ const SearchPage = async () => {
 
   return (
     <>
-      <FetchNutriValues userId={sessionData.session?.user.id!} />
+      <FetchNutriValues
+        apiKey={process.env.USDA_API_KEY!}
+        userId={sessionData.session?.user.id!}
+      />
     </>
   );
 };

@@ -3,17 +3,17 @@
 import { useRouter } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 import { FaUserAlt } from 'react-icons/fa';
-import { HiHome } from 'react-icons/hi';
+import { HiBookOpen, HiHome, HiUserGroup } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
-import toast from 'react-hot-toast';
+
 import Image from 'next/image';
 
 import useAuthModal from '@/hooks/useAuthModal';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useUser } from '@/hooks/useUser';
 
-import Button from './Button';
+import { useUser } from '@/hooks/useUser';
 import Box from './Box';
+import Button from './Button';
+import { IoIosHeart } from 'react-icons/io';
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -23,20 +23,8 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
   const authModal = useAuthModal();
-  const supabaseClient = useSupabaseClient();
   const { user } = useUser();
 
-  const handleLogout = async () => {
-    const { error } = await supabaseClient.auth.signOut();
-
-    router.refresh();
-
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success('Logged out successfully');
-    }
-  };
   return (
     <Box>
       <div
@@ -45,9 +33,9 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           className
         )}
       >
-        <div className="w-full mb-4 flex items-start justify-between">
+        <div className="w-full mb-4 flex items-center justify-between">
           <div className="hidden md:flex gap-x-2 items-center">{children}</div>
-          <div className="flex md:hidden gap-x-2 items-center">
+          <div className="flex md:hidden gap-x-4 items-center">
             <button
               onClick={() => router.push('/')}
               className="
@@ -86,17 +74,68 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
             >
               <BiSearch className="text-black" size={20} />
             </button>
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="
+              rounded-full 
+              p-2 
+            dark:bg-neutral-600/10 
+            dark:hover:bg-neutral-600/20
+            bg-neutral-900/10 
+            hover:bg-neutral-900/20
+              flex 
+              items-center 
+              justify-center 
+              cursor-pointer 
+              hover:opacity-75 
+              transition
+            "
+            >
+              <HiBookOpen className="text-black" size={20} />
+            </button>
+            <button
+              onClick={() => router.push('/liked')}
+              className="
+              rounded-full 
+              p-2 
+            dark:bg-neutral-600/10 
+            dark:hover:bg-neutral-600/20
+            bg-neutral-900/10 
+            hover:bg-neutral-900/20
+              flex 
+              items-center 
+              justify-center 
+              cursor-pointer 
+              hover:opacity-75 
+              transition
+            "
+            >
+              <IoIosHeart className="text-black" size={20} />
+            </button>
+            <button
+              onClick={() => router.push('/community')}
+              className="
+              rounded-full 
+              p-2 
+            dark:bg-neutral-600/10 
+            dark:hover:bg-neutral-600/20
+            bg-neutral-900/10 
+            hover:bg-neutral-900/20
+              flex 
+              items-center 
+              justify-center 
+              cursor-pointer 
+              hover:opacity-75 
+              transition
+            "
+            >
+              <HiUserGroup className="text-black" size={20} />
+            </button>
           </div>
 
           <div className="flex justify-between items-center gap-x-4">
             {user ? (
               <div className="flex gap-x-4 items-center">
-                <Button
-                  onClick={handleLogout}
-                  className="dark:bg-neutral-800 dark:text-white text-black px-6 py-2"
-                >
-                  Logout
-                </Button>
                 {user?.user_metadata.avatar_url ? (
                   <Image
                     src={user?.user_metadata.avatar_url!}

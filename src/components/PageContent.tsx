@@ -35,7 +35,6 @@ const PageContent: React.FC<PageContentProps> = ({ songs, userId }) => {
     } else {
       toast.success('Food added successfully');
     }
-    console.log(item);
     router.refresh();
   };
   return (
@@ -57,7 +56,6 @@ const PageContent: React.FC<PageContentProps> = ({ songs, userId }) => {
         <SongItem
           onClick={() => {
             addFood(item);
-            console.log(item);
           }}
           key={item.id}
           data={item}

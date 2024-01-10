@@ -34,7 +34,6 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs, userId }) => {
     } else {
       toast.success('Food added successfully');
     }
-    console.log(item);
     router.refresh();
   };
   if (songs.length === 0) {
@@ -62,7 +61,6 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs, userId }) => {
             <MediaItem
               onClick={() => {
                 addFood(item);
-                console.log(item);
               }}
               data={item}
             />
