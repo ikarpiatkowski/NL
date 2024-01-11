@@ -1,5 +1,4 @@
 import getSongsByTitle from '@/actions/getSongsByTitle';
-import SearchInput from '@/components/SearchInput';
 import Header from '@/components/Header';
 import SearchContent from '@/components/SearchContent';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -43,7 +42,6 @@ const Community = async ({ searchParams }: SearchProps) => {
           <h1 className="text-white text-3xl font-semibold pb-4">
             Community food
           </h1>
-          <SearchInput />
         </div>
       </Header>
       <SearchContent songs={songs} userId={sessionData.session?.user.id!} />

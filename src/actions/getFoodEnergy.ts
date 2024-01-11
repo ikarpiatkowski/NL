@@ -16,7 +16,7 @@ const getFoodEnergy = async ({ date }: { date: string }): Promise<any> => {
   const Week = subDays(new Date(), 7);
   const { data, error } = await supabase
     .from('userFood')
-    .select('energy, created_at, portion')
+    .select('energy, protein, fat, carbs, sugar, created_at, portion')
     .eq('user_id', sessionData.session?.user.id)
     .gte('created_at', format(Week, 'yyyy-MM-dd'))
     .lte('created_at', format(new Date(), 'yyyy-MM-dd'));

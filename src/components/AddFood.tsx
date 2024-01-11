@@ -9,7 +9,7 @@ const AddFood = () => {
   };
 
   return (
-    <Button className="mt-6" onClick={() => handleAdd()}>
+    <Button className="my-4" onClick={() => handleAdd()}>
       Add
     </Button>
   );

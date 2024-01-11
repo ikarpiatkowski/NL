@@ -26,6 +26,11 @@ const UploadModal = () => {
     defaultValues: {
       author: '',
       title: '',
+      energy: 0,
+      protein: 0,
+      fat: 0,
+      carbs: 0,
+      sugar: 0,
       song: null,
       image: null,
     },
@@ -83,6 +88,11 @@ const UploadModal = () => {
         .insert({
           user_id: user.id,
           title: values.title,
+          energy: values.energy,
+          protein: values.protein,
+          fat: values.fat,
+          carbs: values.carbs,
+          sugar: values.sugar,
           author: values.author,
           image_path: imageData.path,
           song_path: songData.path,
@@ -112,18 +122,60 @@ const UploadModal = () => {
       onChange={onChange}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
-        <Input
-          id="title"
-          disabled={isLoading}
-          {...register('title', { required: true })}
-          placeholder="Food Name"
-        />
-        <Input
-          id="author"
-          disabled={isLoading}
-          {...register('author', { required: true })}
-          placeholder="Nutrition Values"
-        />
+        <div className="flex items-center gap-x-2">
+          <p className="w-20font-bold">Food name</p>
+          <Input
+            id="title"
+            disabled={isLoading}
+            {...register('title', { required: true })}
+            placeholder="Food Name"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-yellow-400 font-bold">Calories</p>
+          <Input
+            id="energy"
+            disabled={isLoading}
+            {...register('energy', { required: false })}
+            placeholder="Calories"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-green-500 font-bold">Protein</p>
+          <Input
+            id="protein"
+            disabled={isLoading}
+            {...register('protein', { required: false })}
+            placeholder="Protein"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-red-500 font-bold">Fat</p>
+          <Input
+            id="fat"
+            disabled={isLoading}
+            {...register('fat', { required: false })}
+            placeholder="Fat"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-purple-500 font-bold">Carbs</p>
+          <Input
+            id="carbs"
+            disabled={isLoading}
+            {...register('carbs', { required: false })}
+            placeholder="Carbs"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <p className="w-20 text-pink-500 font-bold">Sugar</p>
+          <Input
+            id="sugar"
+            disabled={isLoading}
+            {...register('sugar', { required: false })}
+            placeholder="Sugar"
+          />
+        </div>
         <div>
           <div className="pb-1">Select an image of food</div>
           <Input
@@ -132,7 +184,7 @@ const UploadModal = () => {
             type="file"
             accept="image/*"
             id="image"
-            {...register('image', { required: true })}
+            {...register('image', { required: false })}
           />
         </div>
         <Button disabled={isLoading} type="submit">

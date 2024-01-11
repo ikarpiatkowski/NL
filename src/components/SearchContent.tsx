@@ -6,6 +6,7 @@ import LikeButton from '@/components/LikeButton';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import SearchInput from './SearchInput';
 
 interface SearchContentProps {
   songs: Song[];
@@ -55,6 +56,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs, userId }) => {
 
   return (
     <div className="flex flex-col gap-y-2 w-full px-6 mt-4">
+      <SearchInput />
       {songs.map((item: Song) => (
         <div key={item.id} className="flex items-center gap-x-4 w-full">
           <div className="flex-1">

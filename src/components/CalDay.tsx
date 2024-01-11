@@ -8,8 +8,11 @@ import { BarChart } from '@/components/BarChart';
 import { App } from '@/components/App';
 import FoodCard from '@/components/FoodCard';
 import Header from './Header';
-import { Button } from '@/componentsShadCn/ui/button';
 import AddFood from './AddFood';
+import { ProteinChart } from './ProteinChart';
+import { FatChart } from './FatChart';
+import { CarbsChart } from './CarbsChart';
+import { SugarChart } from './SugarChart';
 type CalDayProps = {
   params: {
     date: string;
@@ -39,7 +42,34 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
   let day5 = 0;
   let day6 = 0;
   let day7 = 0;
-
+  let protein1 = 0;
+  let protein2 = 0;
+  let protein3 = 0;
+  let protein4 = 0;
+  let protein5 = 0;
+  let protein6 = 0;
+  let protein7 = 0;
+  let fat1 = 0;
+  let fat2 = 0;
+  let fat3 = 0;
+  let fat4 = 0;
+  let fat5 = 0;
+  let fat6 = 0;
+  let fat7 = 0;
+  let carbs1 = 0;
+  let carbs2 = 0;
+  let carbs3 = 0;
+  let carbs4 = 0;
+  let carbs5 = 0;
+  let carbs6 = 0;
+  let carbs7 = 0;
+  let sugar1 = 0;
+  let sugar2 = 0;
+  let sugar3 = 0;
+  let sugar4 = 0;
+  let sugar5 = 0;
+  let sugar6 = 0;
+  let sugar7 = 0;
   return (
     <>
       {foods?.forEach((f: any) => {
@@ -51,38 +81,68 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
         totalSugar += (sugar * portion) / 100;
       })}
       {foodEnergy?.forEach((f: any) => {
-        const { energy, created_at, portion } = f;
+        const { energy, protein, created_at, portion } = f;
         if (created_at == format(currentDate, 'yyyy-MM-dd')) {
           day1 += (energy * portion) / 100;
+          protein1 += (protein * portion) / 100;
+          fat1 += (protein * portion) / 100;
+          carbs1 += (protein * portion) / 100;
+          sugar1 += (protein * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 1), 'yyyy-MM-dd')) {
           day2 += (energy * portion) / 100;
+          protein2 += (protein * portion) / 100;
+          fat2 += (protein * portion) / 100;
+          carbs2 += (protein * portion) / 100;
+          sugar2 += (protein * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 2), 'yyyy-MM-dd')) {
           day3 += (energy * portion) / 100;
+          protein3 += (protein * portion) / 100;
+          fat3 += (protein * portion) / 100;
+          carbs3 += (protein * portion) / 100;
+          sugar3 += (protein * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 3), 'yyyy-MM-dd')) {
           day4 += (energy * portion) / 100;
+          protein4 += (protein * portion) / 100;
+          fat4 += (protein * portion) / 100;
+          carbs4 += (protein * portion) / 100;
+          sugar4 += (protein * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 4), 'yyyy-MM-dd')) {
           day5 += (energy * portion) / 100;
+          protein5 += (protein * portion) / 100;
+          fat5 += (protein * portion) / 100;
+          carbs5 += (protein * portion) / 100;
+          sugar5 += (protein * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 5), 'yyyy-MM-dd')) {
           day6 += (energy * portion) / 100;
+          protein6 += (protein * portion) / 100;
+          fat6 += (protein * portion) / 100;
+          carbs6 += (protein * portion) / 100;
+          sugar6 += (protein * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 6), 'yyyy-MM-dd')) {
           day7 += (energy * portion) / 100;
+          protein7 += (protein * portion) / 100;
+          fat7 += (protein * portion) / 100;
+          carbs7 += (protein * portion) / 100;
+          sugar7 += (protein * portion) / 100;
         }
       })}
       <Header>
-        <div className=" flex flex-col ">
+        <div className="flex flex-col">
           <h1 className="text-white text-3xl font-semibold">Dashboard</h1>
-          <AddFood />
         </div>
       </Header>
       <div className="flex flex-col m-4">
         <div className="flex justify-center">
-          <DatePickerDemo />
+          <div className="flex flex-col items-center">
+            <AddFood />
+            <DatePickerDemo />
+          </div>
         </div>
         <div className="flex justify-center m-4 flex-wrap">
           <div className="flex flex-col p-2 text-center">
@@ -192,6 +252,54 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
               day6={day6}
               day7={day7}
               caloriesTaget={calories_target}
+            />
+          </div>
+          <div className="flex w-[600px] h-[400px] justify-center">
+            <ProteinChart
+              protein1={protein1}
+              protein2={protein2}
+              protein3={protein3}
+              protein4={protein4}
+              protein5={protein5}
+              protein6={protein6}
+              protein7={protein7}
+              proteinTarget={protein_target}
+            />
+          </div>
+          <div className="flex w-[600px] h-[400px] justify-center">
+            <FatChart
+              fat1={fat1}
+              fat2={fat2}
+              fat3={fat3}
+              fat4={fat4}
+              fat5={fat5}
+              fat6={fat6}
+              fat7={fat7}
+              fatTarget={fat_target}
+            />
+          </div>
+          <div className="flex w-[600px] h-[400px] justify-center">
+            <CarbsChart
+              carbs1={carbs1}
+              carbs2={carbs2}
+              carbs3={carbs3}
+              carbs4={carbs4}
+              carbs5={carbs5}
+              carbs6={carbs6}
+              carbs7={carbs7}
+              carbsTarget={carbs_target}
+            />
+          </div>
+          <div className="flex w-[600px] h-[400px] justify-center">
+            <SugarChart
+              sugar1={sugar1}
+              sugar2={sugar2}
+              sugar3={sugar3}
+              sugar4={sugar4}
+              sugar5={sugar5}
+              sugar6={sugar6}
+              sugar7={sugar7}
+              sugarTarget={sugar_target}
             />
           </div>
           <div className="flex w-[600px] h-[400px] justify-center">
