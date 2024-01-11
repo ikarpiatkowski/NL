@@ -73,63 +73,63 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
   return (
     <>
       {foods?.forEach((f: any) => {
-        const { energy, portion, fat, protein, carbs, sugar } = f;
+        const { energy, portion, protein, fat, carbs, sugar } = f;
         totalEnergy += (energy * portion) / 100;
-        totalFat += (fat * portion) / 100;
         totalProtein += (protein * portion) / 100;
+        totalFat += (fat * portion) / 100;
         totalCarbs += (carbs * portion) / 100;
         totalSugar += (sugar * portion) / 100;
       })}
       {foodEnergy?.forEach((f: any) => {
-        const { energy, protein, created_at, portion } = f;
+        const { energy, protein, fat, carbs, sugar, created_at, portion } = f;
         if (created_at == format(currentDate, 'yyyy-MM-dd')) {
           day1 += (energy * portion) / 100;
           protein1 += (protein * portion) / 100;
-          fat1 += (protein * portion) / 100;
-          carbs1 += (protein * portion) / 100;
-          sugar1 += (protein * portion) / 100;
+          fat1 += (fat * portion) / 100;
+          carbs1 += (carbs * portion) / 100;
+          sugar1 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 1), 'yyyy-MM-dd')) {
           day2 += (energy * portion) / 100;
           protein2 += (protein * portion) / 100;
-          fat2 += (protein * portion) / 100;
-          carbs2 += (protein * portion) / 100;
-          sugar2 += (protein * portion) / 100;
+          fat2 += (fat * portion) / 100;
+          carbs2 += (carbs * portion) / 100;
+          sugar2 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 2), 'yyyy-MM-dd')) {
           day3 += (energy * portion) / 100;
           protein3 += (protein * portion) / 100;
-          fat3 += (protein * portion) / 100;
-          carbs3 += (protein * portion) / 100;
-          sugar3 += (protein * portion) / 100;
+          fat3 += (fat * portion) / 100;
+          carbs3 += (carbs * portion) / 100;
+          sugar3 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 3), 'yyyy-MM-dd')) {
           day4 += (energy * portion) / 100;
           protein4 += (protein * portion) / 100;
-          fat4 += (protein * portion) / 100;
-          carbs4 += (protein * portion) / 100;
-          sugar4 += (protein * portion) / 100;
+          fat4 += (fat * portion) / 100;
+          carbs4 += (carbs * portion) / 100;
+          sugar4 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 4), 'yyyy-MM-dd')) {
           day5 += (energy * portion) / 100;
           protein5 += (protein * portion) / 100;
-          fat5 += (protein * portion) / 100;
-          carbs5 += (protein * portion) / 100;
-          sugar5 += (protein * portion) / 100;
+          fat5 += (fat * portion) / 100;
+          carbs5 += (carbs * portion) / 100;
+          sugar5 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 5), 'yyyy-MM-dd')) {
           day6 += (energy * portion) / 100;
           protein6 += (protein * portion) / 100;
-          fat6 += (protein * portion) / 100;
-          carbs6 += (protein * portion) / 100;
-          sugar6 += (protein * portion) / 100;
+          fat6 += (fat * portion) / 100;
+          carbs6 += (carbs * portion) / 100;
+          sugar6 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 6), 'yyyy-MM-dd')) {
           day7 += (energy * portion) / 100;
           protein7 += (protein * portion) / 100;
-          fat7 += (protein * portion) / 100;
-          carbs7 += (protein * portion) / 100;
-          sugar7 += (protein * portion) / 100;
+          fat7 += (fat * portion) / 100;
+          carbs7 += (carbs * portion) / 100;
+          sugar7 += (sugar * portion) / 100;
         }
       })}
       <Header>
