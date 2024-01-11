@@ -9,7 +9,7 @@ const EditTarget = () => {
   };
 
   return (
-    <Button className="mt-6" onClick={() => handleEdit()}>
+    <Button className="m-4" onClick={() => handleEdit()}>
       Edit nutrition targets
     </Button>
   );

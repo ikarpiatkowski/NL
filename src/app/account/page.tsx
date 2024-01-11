@@ -46,12 +46,10 @@ const Account = () => {
         </div>
       </Header>
       <EditTarget />
-      <DrawerDemo />
       <AccountContent />
-      {user?.id}
       <Button
         onClick={handleLogout}
-        className="dark:bg-neutral-800 dark:text-white text-black px-6 py-2"
+        className="dark:bg-neutral-800 dark:text-white text-black m-4 w-[200px]"
       >
         Logout
       </Button>
