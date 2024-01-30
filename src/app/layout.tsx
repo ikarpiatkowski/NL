@@ -1,6 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font';
+import { cookies } from 'next/headers';
+import { Analytics } from '@vercel/analytics/react';
 
 import Sidebar from '@/components/Sidebar';
 import SupabaseProvider from '@/providers/SupabaseProvider';
@@ -11,7 +13,6 @@ import getSongsByUserId from '@/actions/getSongsByUserId';
 import getActiveProductsWithPrices from '@/actions/getActiveProductsWithPrices';
 import { ThemeProvider } from '@/components/theme-provider';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Nourish Log',
@@ -53,6 +54,7 @@ export default async function RootLayout({
               <ModalProvider products={products} />
               <Sidebar songs={userSongs} userId={sessionData.session?.user.id!}>
                 {children}
+                <Analytics />
               </Sidebar>
             </UserProvider>
           </SupabaseProvider>
