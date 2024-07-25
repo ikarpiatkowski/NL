@@ -17,7 +17,7 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
       return onClick(data.id);
     }
   };
-
+  console.log(data);
   return (
     <div
       onClick={handleClick}
@@ -67,7 +67,7 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
             {data.fat}g
           </p>
           <p className="text-purple-500 text-sm font-bold truncate pr-2">
-            {data.carbs}g
+            {data.carb}g
           </p>
           <p className="text-pink-500 text-sm font-bold truncate pr-2">
             {data.sugar}g

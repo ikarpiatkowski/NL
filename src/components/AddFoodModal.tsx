@@ -43,7 +43,7 @@ const AddFoodModal = () => {
           name: values.name,
           energy: parseFloat(values.calories),
           protein: parseFloat(values.protein),
-          carbs: parseFloat(values.carbs),
+          carb: parseFloat(values.carb),
           fat: parseFloat(values.fat),
           sugar: parseFloat(values.sugar),
           portion: parseFloat(values.portion),
@@ -125,9 +125,9 @@ const AddFoodModal = () => {
         <div className="flex items-center gap-x-2">
           <p className="w-20 text-purple-500 font-bold">Carbs</p>
           <Input
-            id="carbs"
+            id="carb"
             disabled={isLoading}
-            {...register('carbs', { required: false })}
+            {...register('carb', { required: false })}
             placeholder="Carbs"
           />
         </div>

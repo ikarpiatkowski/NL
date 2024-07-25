@@ -25,16 +25,7 @@ ChartJS.register(
   LineController,
   BarController
 );
-export const SugarChart = ({
-  sugar1,
-  sugar2,
-  sugar3,
-  sugar4,
-  sugar5,
-  sugar6,
-  sugar7,
-  sugarTarget,
-}: any) => {
+export const SugarChart = ({ sugars, sugarTarget }: any) => {
   const labels = [
     '7 days ago',
     '6 days ago',
@@ -68,7 +59,15 @@ export const SugarChart = ({
         type: 'bar' as const,
         label: 'Sugar consumed',
         backgroundColor: 'rgb(236 72 153)',
-        data: [sugar7, sugar6, sugar5, sugar4, sugar3, sugar2, sugar1],
+        data: [
+          sugars.sugar7,
+          sugars.sugar6,
+          sugars.sugar5,
+          sugars.sugar4,
+          sugars.sugar3,
+          sugars.sugar2,
+          sugars.sugar1,
+        ],
         borderColor: 'rgb(0 0 0)',
         borderWidth: 2,
       },

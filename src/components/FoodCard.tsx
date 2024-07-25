@@ -98,9 +98,9 @@ export default function FoodCard({ foodData }: any) {
                     ({Number.isInteger(f.fat) ? f.fat : f.fat.toFixed(1)}g)
                   </p>
                   <p className="text-sm font-bold text-red-500">
-                    {Number.isInteger((f.carbs * f.portion) / 100)
-                      ? (f.carbs * f.portion) / 100
-                      : ((f.carbs * f.portion) / 100).toFixed(1)}
+                    {Number.isInteger((f.carb * f.portion) / 100)
+                      ? (f.carb * f.portion) / 100
+                      : ((f.carb * f.portion) / 100).toFixed(1)}
                     g
                   </p>
                 </div>
@@ -109,13 +109,13 @@ export default function FoodCard({ foodData }: any) {
                     Carbs
                   </p>
                   <p className="text-sm  text-purple-500">
-                    ({Number.isInteger(f.carbs) ? f.carbs : f.carbs.toFixed(1)}
+                    ({Number.isInteger(f.carb) ? f.carb : f.carb.toFixed(1)}
                     g)
                   </p>
                   <p className="text-sm font-bold text-purple-500">
-                    {Number.isInteger((f.carbs * f.portion) / 100)
-                      ? (f.carbs * f.portion) / 100
-                      : ((f.carbs * f.portion) / 100).toFixed(1)}
+                    {Number.isInteger((f.carb * f.portion) / 100)
+                      ? (f.carb * f.portion) / 100
+                      : ((f.carb * f.portion) / 100).toFixed(1)}
                     g
                   </p>
                 </div>

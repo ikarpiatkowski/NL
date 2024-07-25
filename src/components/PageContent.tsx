@@ -24,7 +24,7 @@ const PageContent: React.FC<PageContentProps> = ({ songs, userId }) => {
         energy: item.energy,
         protein: item.protein,
         fat: item.fat,
-        carbs: item.carbs,
+        carb: item.carb,
         sugar: item.sugar,
         name: item.title,
         user_id: userId,

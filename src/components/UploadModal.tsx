@@ -29,7 +29,7 @@ const UploadModal = () => {
       energy: 0,
       protein: 0,
       fat: 0,
-      carbs: 0,
+      carb: 0,
       sugar: 0,
       song: null,
       image: null,
@@ -91,7 +91,7 @@ const UploadModal = () => {
           energy: values.energy,
           protein: values.protein,
           fat: values.fat,
-          carbs: values.carbs,
+          carb: values.carb,
           sugar: values.sugar,
           author: values.author,
           image_path: imageData.path,
@@ -161,9 +161,9 @@ const UploadModal = () => {
         <div className="flex items-center gap-x-2">
           <p className="w-20 text-purple-500 font-bold">Carbs</p>
           <Input
-            id="carbs"
+            id="carb"
             disabled={isLoading}
-            {...register('carbs', { required: false })}
+            {...register('carb', { required: false })}
             placeholder="Carbs"
           />
         </div>

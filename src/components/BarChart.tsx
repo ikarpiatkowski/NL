@@ -25,16 +25,7 @@ ChartJS.register(
   LineController,
   BarController
 );
-export const BarChart = ({
-  day1,
-  day2,
-  day3,
-  day4,
-  day5,
-  day6,
-  day7,
-  caloriesTaget,
-}: any) => {
+export const BarChart = ({ days, caloriesTaget }: any) => {
   const labels = [
     '7 days ago',
     '6 days ago',
@@ -68,7 +59,15 @@ export const BarChart = ({
         type: 'bar' as const,
         label: 'Calories consumed',
         backgroundColor: 'rgb(250 204 21)',
-        data: [day7, day6, day5, day4, day3, day2, day1],
+        data: [
+          days.day7,
+          days.day6,
+          days.day5,
+          days.day4,
+          days.day3,
+          days.day2,
+          days.day1,
+        ],
         borderColor: 'rgb(0 0 0)',
         borderWidth: 2,
       },

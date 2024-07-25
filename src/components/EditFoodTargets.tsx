@@ -41,7 +41,7 @@ const EditFoodTargets = () => {
           const foodData = data[0];
           setValue('calories', foodData.calories_target.toString());
           setValue('protein', foodData.protein_target.toString());
-          setValue('carbs', foodData.carbs_target.toString());
+          setValue('carb', foodData.carbs_target.toString());
           setValue('fat', foodData.fat_target.toString());
           setValue('sugar', foodData.sugar_target.toString());
         }
@@ -141,7 +141,7 @@ const EditFoodTargets = () => {
         <div className="flex items-center gap-x-2">
           <p className="w-20 text-purple-500 font-bold">Carbs</p>
           <Input
-            id="carbs"
+            id="carb"
             disabled={isLoading}
             {...register('carbs_target', { required: false })}
             placeholder="360"

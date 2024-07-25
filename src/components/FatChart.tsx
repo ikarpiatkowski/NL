@@ -25,16 +25,7 @@ ChartJS.register(
   LineController,
   BarController
 );
-export const FatChart = ({
-  fat1,
-  fat2,
-  fat3,
-  fat4,
-  fat5,
-  fat6,
-  fat7,
-  fatTarget,
-}: any) => {
+export const FatChart = ({ fats, fatTarget }: any) => {
   const labels = [
     '7 days ago',
     '6 days ago',
@@ -68,7 +59,15 @@ export const FatChart = ({
         type: 'bar' as const,
         label: 'Calories consumed',
         backgroundColor: 'rgb(239 68 68)',
-        data: [fat7, fat6, fat5, fat4, fat3, fat2, fat1],
+        data: [
+          fats.fat7,
+          fats.fat6,
+          fats.fat5,
+          fats.fat4,
+          fats.fat3,
+          fats.fat2,
+          fats.fat1,
+        ],
         borderColor: 'rgb(0 0 0)',
         borderWidth: 2,
       },

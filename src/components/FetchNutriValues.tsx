@@ -125,14 +125,14 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({
     setQuery(event.target.value);
   };
 
-  const addFood = async ({ energy, protein, fat, carbs, sugar, name }: any) => {
+  const addFood = async ({ energy, protein, fat, carb, sugar, name }: any) => {
     const { error: supabaseError } = await supabaseClient
       .from('userFood')
       .insert({
         energy: energy,
         protein: protein,
         fat: fat,
-        carbs: carbs,
+        carb: carb,
         sugar: sugar,
         name: name,
         user_id: userId,
@@ -246,7 +246,7 @@ const FetchNutriValues: React.FC<FetchNutriValuesProps> = ({
                               sugar: food.foodNutrients.find(
                                 (nutrient) => nutrient.nutrientId === 2000
                               )?.value,
-                              carbs: food.foodNutrients.find(
+                              carb: food.foodNutrients.find(
                                 (nutrient) => nutrient.nutrientId === 1005
                               )?.value,
                               name: food.description,

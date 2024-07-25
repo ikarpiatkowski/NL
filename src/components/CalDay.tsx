@@ -13,6 +13,7 @@ import { ProteinChart } from './ProteinChart';
 import { FatChart } from './FatChart';
 import { CarbsChart } from './CarbsChart';
 import { SugarChart } from './SugarChart';
+import { MainChart } from './MainChart';
 type CalDayProps = {
   params: {
     date: string;
@@ -35,101 +36,111 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
   let totalProtein = 0;
   let totalCarbs = 0;
   let totalSugar = 0;
-  let day1 = 0;
-  let day2 = 0;
-  let day3 = 0;
-  let day4 = 0;
-  let day5 = 0;
-  let day6 = 0;
-  let day7 = 0;
-  let protein1 = 0;
-  let protein2 = 0;
-  let protein3 = 0;
-  let protein4 = 0;
-  let protein5 = 0;
-  let protein6 = 0;
-  let protein7 = 0;
-  let fat1 = 0;
-  let fat2 = 0;
-  let fat3 = 0;
-  let fat4 = 0;
-  let fat5 = 0;
-  let fat6 = 0;
-  let fat7 = 0;
-  let carbs1 = 0;
-  let carbs2 = 0;
-  let carbs3 = 0;
-  let carbs4 = 0;
-  let carbs5 = 0;
-  let carbs6 = 0;
-  let carbs7 = 0;
-  let sugar1 = 0;
-  let sugar2 = 0;
-  let sugar3 = 0;
-  let sugar4 = 0;
-  let sugar5 = 0;
-  let sugar6 = 0;
-  let sugar7 = 0;
+  const days = {
+    day1: 0,
+    day2: 0,
+    day3: 0,
+    day4: 0,
+    day5: 0,
+    day6: 0,
+    day7: 0,
+  };
+  const proteins = {
+    protein1: 0,
+    protein2: 0,
+    protein3: 0,
+    protein4: 0,
+    protein5: 0,
+    protein6: 0,
+    protein7: 0,
+  };
+  const fats = {
+    fat1: 0,
+    fat2: 0,
+    fat3: 0,
+    fat4: 0,
+    fat5: 0,
+    fat6: 0,
+    fat7: 0,
+  };
+  const carbs = {
+    carb1: 0,
+    carb2: 0,
+    carb3: 0,
+    carb4: 0,
+    carb5: 0,
+    carb6: 0,
+    carb7: 0,
+  };
+  const sugars = {
+    sugar1: 0,
+    sugar2: 0,
+    sugar3: 0,
+    sugar4: 0,
+    sugar5: 0,
+    sugar6: 0,
+    sugar7: 0,
+  };
   return (
     <>
       {foods?.forEach((f: any) => {
-        const { energy, portion, protein, fat, carbs, sugar } = f;
+        const { energy, portion, protein, fat, carb, sugar } = f;
         totalEnergy += (energy * portion) / 100;
         totalProtein += (protein * portion) / 100;
         totalFat += (fat * portion) / 100;
-        totalCarbs += (carbs * portion) / 100;
+        totalCarbs += (carb * portion) / 100;
         totalSugar += (sugar * portion) / 100;
       })}
       {foodEnergy?.forEach((f: any) => {
-        const { energy, protein, fat, carbs, sugar, created_at, portion } = f;
+        const { energy, protein, fat, carb, sugar, created_at, portion } = f;
         if (created_at == format(currentDate, 'yyyy-MM-dd')) {
-          day1 += (energy * portion) / 100;
-          protein1 += (protein * portion) / 100;
-          fat1 += (fat * portion) / 100;
-          carbs1 += (carbs * portion) / 100;
-          sugar1 += (sugar * portion) / 100;
+          days.day1 += (energy * portion) / 100;
+          proteins.protein1 += (protein * portion) / 100;
+          fats.fat1 += (fat * portion) / 100;
+          carbs.carb1 += (carb * portion) / 100;
+          sugars.sugar1 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 1), 'yyyy-MM-dd')) {
-          day2 += (energy * portion) / 100;
-          protein2 += (protein * portion) / 100;
-          fat2 += (fat * portion) / 100;
-          carbs2 += (carbs * portion) / 100;
-          sugar2 += (sugar * portion) / 100;
+          days.day2 += (energy * portion) / 100;
+          proteins.protein2 += (protein * portion) / 100;
+          fats.fat2 += (fat * portion) / 100;
+          carbs.carb2 += (carb * portion) / 100;
+          sugars.sugar2 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 2), 'yyyy-MM-dd')) {
-          day3 += (energy * portion) / 100;
-          protein3 += (protein * portion) / 100;
-          fat3 += (fat * portion) / 100;
-          carbs3 += (carbs * portion) / 100;
-          sugar3 += (sugar * portion) / 100;
+          days.day3 += (energy * portion) / 100;
+          proteins.protein3 += (protein * portion) / 100;
+          fats.fat3 += (fat * portion) / 100;
+          carbs.carb3 += (carb * portion) / 100;
+          sugars.sugar3 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 3), 'yyyy-MM-dd')) {
-          day4 += (energy * portion) / 100;
-          protein4 += (protein * portion) / 100;
-          fat4 += (fat * portion) / 100;
-          carbs4 += (carbs * portion) / 100;
-          sugar4 += (sugar * portion) / 100;
+          days.day4 += (energy * portion) / 100;
+          proteins.protein4 += (protein * portion) / 100;
+          fats.fat4 += (fat * portion) / 100;
+          carbs.carb4 += (carb * portion) / 100;
+          sugars.sugar4 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 4), 'yyyy-MM-dd')) {
-          day5 += (energy * portion) / 100;
-          protein5 += (protein * portion) / 100;
-          fat5 += (fat * portion) / 100;
-          carbs5 += (carbs * portion) / 100;
-          sugar5 += (sugar * portion) / 100;
+          days.day5 += (energy * portion) / 100;
+          proteins.protein5 += (protein * portion) / 100;
+          fats.fat5 += (fat * portion) / 100;
+          carbs.carb5 += (carb * portion) / 100;
+          sugars.sugar5 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 5), 'yyyy-MM-dd')) {
-          day6 += (energy * portion) / 100;
-          protein6 += (protein * portion) / 100;
-          fat6 += (fat * portion) / 100;
-          carbs6 += (carbs * portion) / 100;
-          sugar6 += (sugar * portion) / 100;
+          days.day6 += (energy * portion) / 100;
+          proteins.protein6 += (protein * portion) / 100;
+          fats.fat6 += (fat * portion) / 100;
+          carbs.carb6 += (carb * portion) / 100;
+          sugars.sugar6 += (sugar * portion) / 100;
         }
         if (created_at == format(subDays(currentDate, 6), 'yyyy-MM-dd')) {
-          day7 += (energy * portion) / 100;
-          protein7 += (protein * portion) / 100;
-          fat7 += (fat * portion) / 100;
-          carbs7 += (carbs * portion) / 100;
-          sugar7 += (sugar * portion) / 100;
+          days.day7 += (energy * portion) / 100;
+          proteins.protein7 += (protein * portion) / 100;
+          fats.fat7 += (fat * portion) / 100;
+          carbs.carb7 += (carb * portion) / 100;
+          sugars.sugar7 += (sugar * portion) / 100;
         }
       })}
       <Header>
@@ -138,6 +149,7 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
         </div>
       </Header>
       <div className="flex flex-col m-4">
+        <MainChart />
         <div className="flex justify-center">
           <div className="flex flex-col items-center">
             <AddFood />
@@ -243,64 +255,19 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
         </div>
         <div className="flex mt-10 justify-center flex-wrap">
           <div className="flex w-[600px] h-[400px] justify-center">
-            <BarChart
-              day1={day1}
-              day2={day2}
-              day3={day3}
-              day4={day4}
-              day5={day5}
-              day6={day6}
-              day7={day7}
-              caloriesTaget={calories_target}
-            />
+            <BarChart days={days} caloriesTaget={calories_target} />
           </div>
           <div className="flex w-[600px] h-[400px] justify-center">
-            <ProteinChart
-              protein1={protein1}
-              protein2={protein2}
-              protein3={protein3}
-              protein4={protein4}
-              protein5={protein5}
-              protein6={protein6}
-              protein7={protein7}
-              proteinTarget={protein_target}
-            />
+            <ProteinChart proteins={proteins} proteinTarget={protein_target} />
           </div>
           <div className="flex w-[600px] h-[400px] justify-center">
-            <FatChart
-              fat1={fat1}
-              fat2={fat2}
-              fat3={fat3}
-              fat4={fat4}
-              fat5={fat5}
-              fat6={fat6}
-              fat7={fat7}
-              fatTarget={fat_target}
-            />
+            <FatChart fats={fats} fatTarget={fat_target} />
           </div>
           <div className="flex w-[600px] h-[400px] justify-center">
-            <CarbsChart
-              carbs1={carbs1}
-              carbs2={carbs2}
-              carbs3={carbs3}
-              carbs4={carbs4}
-              carbs5={carbs5}
-              carbs6={carbs6}
-              carbs7={carbs7}
-              carbsTarget={carbs_target}
-            />
+            <CarbsChart carbs={carbs} carbsTarget={carbs_target} />
           </div>
           <div className="flex w-[600px] h-[400px] justify-center">
-            <SugarChart
-              sugar1={sugar1}
-              sugar2={sugar2}
-              sugar3={sugar3}
-              sugar4={sugar4}
-              sugar5={sugar5}
-              sugar6={sugar6}
-              sugar7={sugar7}
-              sugarTarget={sugar_target}
-            />
+            <SugarChart sugars={sugars} sugarTarget={sugar_target} />
           </div>
           <div className="flex w-[600px] h-[400px] justify-center">
             <App

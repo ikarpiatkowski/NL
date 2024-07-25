@@ -10,7 +10,7 @@ export interface Song {
   energy: number;
   protein: number;
   fat: number;
-  carbs: number;
+  carb: number;
   sugar: number;
 }
 

@@ -5,20 +5,17 @@ import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function App({ protein, fat, carbs, sugar }: any) {
+export function App({ protein, fat, carb, sugar }: any) {
   let percentageProtein = (
-    (protein / (protein + fat + carbs + sugar)) *
+    (protein / (protein + fat + carb + sugar)) *
     100
   ).toFixed(1);
-  let percentageFat = ((fat / (protein + fat + carbs + sugar)) * 100).toFixed(
+  let percentageFat = ((fat / (protein + fat + carb + sugar)) * 100).toFixed(1);
+  let percentageCarbs = ((carb / (protein + fat + carb + sugar)) * 100).toFixed(
     1
   );
-  let percentageCarbs = (
-    (carbs / (protein + fat + carbs + sugar)) *
-    100
-  ).toFixed(1);
   let percentageSugar = (
-    (sugar / (protein + fat + carbs + sugar)) *
+    (sugar / (protein + fat + carb + sugar)) *
     100
   ).toFixed(1);
 

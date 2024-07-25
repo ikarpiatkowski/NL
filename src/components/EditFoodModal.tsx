@@ -29,7 +29,7 @@ const EditFoodModal = () => {
         const { data, error } = await supabaseClient
           .from('userFood')
           .select(
-            'name, energy, protein, carbs, fat, sugar, created_at, portion'
+            'name, energy, protein, carb, fat, sugar, created_at, portion'
           )
           .eq('id', foodId);
 
@@ -43,7 +43,7 @@ const EditFoodModal = () => {
           setValue('name', foodData.name);
           setValue('calories', foodData.energy.toString());
           setValue('protein', foodData.protein.toString());
-          setValue('carbs', foodData.carbs.toString());
+          setValue('carb', foodData.carb.toString());
           setValue('fat', foodData.fat.toString());
           setValue('sugar', foodData.sugar.toString());
           setValue('portion', foodData.portion.toString());
@@ -83,7 +83,7 @@ const EditFoodModal = () => {
           name: values.name,
           energy: parseFloat(values.calories),
           protein: parseFloat(values.protein),
-          carbs: parseFloat(values.carbs),
+          carb: parseFloat(values.carb),
           fat: parseFloat(values.fat),
           sugar: parseFloat(values.sugar),
           portion: parseFloat(values.portion),
@@ -165,9 +165,9 @@ const EditFoodModal = () => {
         <div className="flex items-center gap-x-2">
           <p className="w-20 text-purple-500 font-bold">Carbs</p>
           <Input
-            id="carbs"
+            id="carb"
             disabled={isLoading}
-            {...register('carbs', { required: false })}
+            {...register('carb', { required: false })}
             placeholder="Carbs"
           />
         </div>

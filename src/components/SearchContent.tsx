@@ -24,7 +24,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs, userId }) => {
         energy: item.energy,
         protein: item.protein,
         fat: item.fat,
-        carbs: item.carbs,
+        carb: item.carb,
         sugar: item.sugar,
         name: item.title,
         user_id: userId,
@@ -53,7 +53,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs, userId }) => {
       </div>
     );
   }
-
+  console.log(songs);
   return (
     <div className="flex flex-col gap-y-2 w-full px-6 mt-4">
       <SearchInput />

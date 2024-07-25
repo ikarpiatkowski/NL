@@ -25,16 +25,7 @@ ChartJS.register(
   LineController,
   BarController
 );
-export const ProteinChart = ({
-  protein1,
-  protein2,
-  protein3,
-  protein4,
-  protein5,
-  protein6,
-  protein7,
-  proteinTarget,
-}: any) => {
+export const ProteinChart = ({ proteins, proteinTarget }: any) => {
   const labels = [
     '7 days ago',
     '6 days ago',
@@ -69,13 +60,13 @@ export const ProteinChart = ({
         label: 'Calories consumed',
         backgroundColor: 'rgb(34 197 94)',
         data: [
-          protein7,
-          protein6,
-          protein5,
-          protein4,
-          protein3,
-          protein2,
-          protein1,
+          proteins.protein7,
+          proteins.protein6,
+          proteins.protein5,
+          proteins.protein4,
+          proteins.protein3,
+          proteins.protein2,
+          proteins.protein1,
         ],
         borderColor: 'rgb(0 0 0)',
         borderWidth: 2,

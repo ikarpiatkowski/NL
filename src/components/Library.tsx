@@ -43,12 +43,11 @@ const Library: React.FC<LibraryProps> = ({ songs, userId }) => {
         energy: item.energy,
         protein: item.protein,
         fat: item.fat,
-        carbs: item.carbs,
+        carb: item.carb,
         sugar: item.sugar,
         name: item.title,
         user_id: userId,
       });
-
     if (supabaseError) {
       return toast.error(supabaseError.message);
     } else {
@@ -56,7 +55,6 @@ const Library: React.FC<LibraryProps> = ({ songs, userId }) => {
     }
     router.refresh();
   };
-
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-5 pt-4">
