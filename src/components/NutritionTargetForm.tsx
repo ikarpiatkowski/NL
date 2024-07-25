@@ -70,7 +70,11 @@ export function InputForm() {
                 Calories Target
               </FormLabel>
               <FormControl>
-                <Input placeholder="2000.." {...field} />
+                <Input
+                  className="caret-yellow-500"
+                  placeholder="2000.."
+                  {...field}
+                />
               </FormControl>
               <FormDescription>This is your calories target.</FormDescription>
               <FormMessage />
