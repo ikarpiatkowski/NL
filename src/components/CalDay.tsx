@@ -16,6 +16,7 @@ import { SugarChart } from './SugarChart';
 import { MainChart } from './MainChart';
 import getCalories from '@/actions/getCalories';
 import { CustomChart } from './CustomChart';
+
 type CalDayProps = {
   params: {
     date: string;
@@ -26,9 +27,8 @@ export const revalidate = 0;
 
 export default async function CalDay({ params: { date } }: CalDayProps) {
   const currentDate = new Date();
-  const today = new Date().toISOString().split('T')[0];
   const foods = await getFood({ date: date });
-  const foodEnergy = await getFoodEnergy({ date: today });
+  const foodEnergy = await getFoodEnergy();
   const foodCalories = await getCalories();
   const [
     { calories_target, protein_target, carbs_target, fat_target, sugar_target },
@@ -84,6 +84,7 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
     sugar6: 0,
     sugar7: 0,
   };
+
   return (
     <>
       {foods?.forEach((f: any) => {

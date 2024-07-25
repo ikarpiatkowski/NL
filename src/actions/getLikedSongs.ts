@@ -18,7 +18,7 @@ const getLikedSongs = async (): Promise<Song[]> => {
     .order('created_at', { ascending: false });
 
   if (!data) return [];
-  //Added any becouse of error
+
   return data.map((item: any) => ({
     ...item.songs,
   }));

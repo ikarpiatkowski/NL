@@ -1,6 +1,5 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { GeistSans } from 'geist/font';
 import { cookies } from 'next/headers';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -42,7 +41,7 @@ export default async function RootLayout({
   }
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.className} dark:bg-black bg-white`}>
+      <body className="dark:bg-black bg-white">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

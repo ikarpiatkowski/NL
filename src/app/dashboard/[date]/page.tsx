@@ -1,11 +1,13 @@
 import CalDay from '@/components/CalDay';
-import Header from '@/components/Header';
+
 export const revalidate = 0;
+
 type CalDayProps = {
   params: {
     date: string;
   };
 };
+
 const Dashboard = async ({ params: { date } }: CalDayProps) => {
   return (
     <>

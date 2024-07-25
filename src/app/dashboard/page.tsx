@@ -1,6 +1,9 @@
 import CalDay from '@/components/CalDay';
+
 export const revalidate = 0;
+
 const today = new Date().toISOString().split('T')[0];
+
 const Dashboard = async () => {
   return (
     <>

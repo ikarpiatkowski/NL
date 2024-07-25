@@ -1,6 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { format, subDays } from 'date-fns';
+
 const getCalories = async (): Promise<any> => {
   const supabase = createServerComponentClient({
     cookies: cookies,

@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import toast from 'react-hot-toast';
 
-import { useUser } from '@/hooks/useUser';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import AccountContent from '@/components/AccountContent';
 import EditTarget from '@/components/EditTarget';
@@ -13,7 +12,6 @@ import { InputForm } from '@/components/NutritionTargetForm';
 
 const Account = () => {
   const router = useRouter();
-  const { user } = useUser();
   const supabaseClient = useSupabaseClient();
 
   const handleLogout = async () => {
