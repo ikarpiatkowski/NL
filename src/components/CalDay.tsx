@@ -5,7 +5,7 @@ import getFoodEnergy from '@/actions/getFoodEnergy';
 import { format, subDays } from 'date-fns';
 import getFoodTargets from '@/actions/getFoodTargets';
 import { BarChart } from '@/components/BarChart';
-import { App } from '@/components/App';
+import { DoughnutChart } from '@/components/DoughnutChart';
 import FoodCard from '@/components/FoodCard';
 import Header from './Header';
 import AddFood from './AddFood';
@@ -270,9 +270,9 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
             <SugarChart sugars={sugars} sugarTarget={sugar_target} />
           </div>
           <div className="flex w-[600px] h-[400px] justify-center">
-            <App
+            <DoughnutChart
               protein={totalProtein}
-              carbs={totalCarbs}
+              carb={totalCarbs}
               fat={totalFat}
               sugar={totalSugar}
             />

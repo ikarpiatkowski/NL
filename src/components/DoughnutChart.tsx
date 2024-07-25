@@ -5,7 +5,7 @@ import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function App({ protein, fat, carb, sugar }: any) {
+export function DoughnutChart({ protein, fat, carb, sugar }: any) {
   let percentageProtein = (
     (protein / (protein + fat + carb + sugar)) *
     100
