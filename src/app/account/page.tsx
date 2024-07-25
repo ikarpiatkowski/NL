@@ -6,10 +6,10 @@ import toast from 'react-hot-toast';
 
 import { useUser } from '@/hooks/useUser';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { DrawerDemo } from '@/components/Drawer';
 import AccountContent from '@/components/AccountContent';
 import EditTarget from '@/components/EditTarget';
 import Button from '@/components/Button';
+import { InputForm } from '@/components/NutritionTargetForm';
 
 const Account = () => {
   const router = useRouter();
@@ -45,14 +45,17 @@ const Account = () => {
           </h1>
         </div>
       </Header>
-      <EditTarget />
-      <AccountContent />
-      <Button
-        onClick={handleLogout}
-        className="dark:bg-neutral-800 dark:text-white text-black m-4 w-[200px]"
-      >
-        Logout
-      </Button>
+      <div className="m-4 space-y-2">
+        <InputForm />
+        <EditTarget />
+        <AccountContent />
+        <Button
+          onClick={handleLogout}
+          className="dark:bg-neutral-800 dark:text-white text-black w-[200px]"
+        >
+          Logout
+        </Button>
+      </div>
     </div>
   );
 };

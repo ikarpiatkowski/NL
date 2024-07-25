@@ -8,10 +8,6 @@ const EditTarget = () => {
     return editTargetsModal.onOpen();
   };
 
-  return (
-    <Button className="m-4" onClick={() => handleEdit()}>
-      Edit nutrition targets
-    </Button>
-  );
+  return <Button onClick={() => handleEdit()}>Edit nutrition targets</Button>;
 };
 export default EditTarget;

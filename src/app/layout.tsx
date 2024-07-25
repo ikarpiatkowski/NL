@@ -13,6 +13,7 @@ import getSongsByUserId from '@/actions/getSongsByUserId';
 import getActiveProductsWithPrices from '@/actions/getActiveProductsWithPrices';
 import { ThemeProvider } from '@/components/theme-provider';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Toaster } from '@/componentsShadCn/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Nourish Log',
@@ -55,6 +56,7 @@ export default async function RootLayout({
               <Sidebar songs={userSongs} userId={sessionData.session?.user.id!}>
                 {children}
                 <Analytics />
+                <Toaster />
               </Sidebar>
             </UserProvider>
           </SupabaseProvider>

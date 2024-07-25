@@ -35,7 +35,7 @@ const AccountContent = () => {
   };
 
   return (
-    <div className="m-4">
+    <>
       {!subscription && (
         <div className="flex flex-col gap-y-4">
           <p>No active plan.</p>
@@ -60,7 +60,7 @@ const AccountContent = () => {
           </Button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

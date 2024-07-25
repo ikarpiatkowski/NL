@@ -14,6 +14,8 @@ import { FatChart } from './FatChart';
 import { CarbsChart } from './CarbsChart';
 import { SugarChart } from './SugarChart';
 import { MainChart } from './MainChart';
+import getCalories from '@/actions/getCalories';
+import { CustomChart } from './CustomChart';
 type CalDayProps = {
   params: {
     date: string;
@@ -27,6 +29,7 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
   const today = new Date().toISOString().split('T')[0];
   const foods = await getFood({ date: date });
   const foodEnergy = await getFoodEnergy({ date: today });
+  const foodCalories = await getCalories();
   const [
     { calories_target, protein_target, carbs_target, fat_target, sugar_target },
   ] = await getFoodTargets();
@@ -149,7 +152,8 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
         </div>
       </Header>
       <div className="flex flex-col m-4">
-        <MainChart />
+        <MainChart calories={foodCalories} />
+        <CustomChart calories={foodCalories} />
         <div className="flex justify-center">
           <div className="flex flex-col items-center">
             <AddFood />
