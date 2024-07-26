@@ -1,5 +1,5 @@
 import getFood from '@/actions/getFood';
-import { DatePickerDemo } from '@/components/DatePicker';
+import { DatePicker } from '@/components/DatePicker';
 import NutriProgress from '@/components/NutriProgress';
 import getFoodEnergy from '@/actions/getFoodEnergy';
 import { format, subDays } from 'date-fns';
@@ -158,7 +158,7 @@ export default async function CalDay({ params: { date } }: CalDayProps) {
         <div className="flex justify-center">
           <div className="flex flex-col items-center">
             <AddFood />
-            <DatePickerDemo />
+            <DatePicker />
           </div>
         </div>
         <div className="flex justify-center m-4 flex-wrap">

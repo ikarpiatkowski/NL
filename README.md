@@ -1,36 +1,18 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [NourishLog](https://nl-jade.vercel.app) project started as engineering thesis.
 
-## Getting Started
+## Agenda
 
-First, run the development server:
+Przygotowanie tej aplikacji przyniesie użytkownikom ułatwiony sposób na efektowne planowanie diety, monitorowanie spożycia kalorii i utrzymanie zdrowego stylu życia. Za pomocą personalizowanych kont, użytkownicy zyskają prosty i efektywny środek kontroli nad codziennymi nawykami żywieniowymi, wspierając długofalowe cele zdrowotne.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Zadania szczegółowe projektu obejmują:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Wyszukiwanie i dodawanie do bazy danych żywności posiadających określone wartości odżywcze
+2. Tworzenie własnych pozycji i żywności wraz z wartościami odżywczymi
+3. Zapisywanie pozycji i żywności do bazy danych dla wyznaczonych dni
+4. Przeglądanie podsumowań wartości odżywczych dla wskazanych dni za pomocą wykresów
+5. Stworzenie uwierzytelniania użytkownika
+6. Przystosowanie aplikacji do korzystania z urządzeń mobilnych
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Opis projektu
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Projekt zakłada stworzenie kompleksowej aplikacji webowej, która umożliwi użytkownikom skuteczne układanie diety, monitorowanie spożycia kalorii oraz innych wartości odżywczych. Aplikacja pozwoli użytkownikom na spersonalizowane zarządzanie spożywanymi posiłkami dzięki indywidualnym kontom. Użytkownicy będą mogli zapisywać informacje o spożywanych posiłkach na wybranych dniach oraz generować podsumowania i wykresy na podstawie wprowadzonych danych, korzystając jednocześnie z funkcji uwierzytelniania. Baza produktów będzie oparta na publicznych API dotyczących żywienia oraz danych wprowadzonych przez użytkowników. Zakres pracy obejmuje analizę istniejących rozwiązań z dziedziny żywienia. Projekt będzie oparty na językach programowania JavaScript i TypeScript, z wykorzystaniem frameworków React i Next.js do budowy interfejsu. Stylizacja interfejsu będzie realizowana przy użyciu Tailwind CSS. Baza danych Supabase (PostgreSQL) będzie używana do przechowywania danych. Całość projektu będzie rozwijana w środowisku programistycznym Visual Studio Code.

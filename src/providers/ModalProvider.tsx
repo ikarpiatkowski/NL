@@ -1,11 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
-import SubscribeModal from '@/components/SubscribeModal';
+import SubscribeModal from '@/components/modals/SubscribeModal';
 import { ProductWithPrice } from '@/types';
-import AuthModal from '@/components/AuthModal';
-import UploadModal from '@/components/UploadModal';
-import EditFoodModal from '@/components/EditFoodModal';
-import AddFoodModal from '@/components/AddFoodModal';
+import AuthModal from '@/components/modals/AuthModal';
+import UploadModal from '@/components/modals/UploadModal';
+import EditFoodModal from '@/components/modals/EditFoodModal';
+import AddFoodModal from '@/components/modals/AddFoodModal';
 import EditFoodTargets from '@/components/EditFoodTargets';
 interface ModalProviderProps {
   products: ProductWithPrice[];

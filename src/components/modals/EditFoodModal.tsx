@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -8,23 +8,63 @@ import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUser } from '@/hooks/useUser';
 import { Button } from '@/components/ui/button';
+import useEditModal from '@/hooks/useEditModal';
 
-import Modal from './Modal';
-import Input from './Input';
-import useAddFood from '@/hooks/useAddFood';
+import Modal from '../Modal';
+import Input from '../Input';
 
-const AddFoodModal = () => {
+const EditFoodModal = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const addFoodModal = useAddFood();
+  const editModal = useEditModal();
+  const { foodId } = editModal;
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
   const router = useRouter();
-  const { register, handleSubmit, reset } = useForm<FieldValues>();
+  const { register, handleSubmit, reset, setValue } = useForm<FieldValues>();
+
+  useEffect(() => {
+    const fetchFoodData = async () => {
+      try {
+        setIsLoading(true);
+        const { data, error } = await supabaseClient
+          .from('userFood')
+          .select(
+            'name, energy, protein, carb, fat, sugar, created_at, portion'
+          )
+          .eq('id', foodId);
+
+        if (error) {
+          setIsLoading(false);
+          return toast.error('Failed to fetch food data');
+        }
+
+        if (data && data.length > 0) {
+          const foodData = data[0];
+          setValue('name', foodData.name);
+          setValue('calories', foodData.energy.toString());
+          setValue('protein', foodData.protein.toString());
+          setValue('carb', foodData.carb.toString());
+          setValue('fat', foodData.fat.toString());
+          setValue('sugar', foodData.sugar.toString());
+          setValue('portion', foodData.portion.toString());
+          setValue('date', foodData.created_at);
+        }
+      } catch (error) {
+        toast.error('Something went wrong while fetching food data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (foodId) {
+      fetchFoodData();
+    }
+  }, [foodId, supabaseClient, setValue]);
 
   const onChange = (open: boolean) => {
     if (!open) {
       reset();
-      addFoodModal.onClose();
+      editModal.onClose();
     }
   };
 
@@ -37,9 +77,9 @@ const AddFoodModal = () => {
         return;
       }
 
-      const { data, error } = await supabaseClient
+      const { error } = await supabaseClient
         .from('userFood')
-        .insert({
+        .update({
           name: values.name,
           energy: parseFloat(values.calories),
           protein: parseFloat(values.protein),
@@ -48,20 +88,20 @@ const AddFoodModal = () => {
           sugar: parseFloat(values.sugar),
           portion: parseFloat(values.portion),
           created_at: values.date,
-          user_id: user.id,
         })
+        .eq('id', foodId)
         .select();
 
       if (error) {
         setIsLoading(false);
-        return toast.error('Failed adding food');
+        return toast.error('Failed edit food');
       }
 
       router.refresh();
       setIsLoading(false);
-      toast.success('Food added!');
+      toast.success('Food edited!');
       reset();
-      addFoodModal.onClose();
+      editModal.onClose();
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
@@ -71,9 +111,9 @@ const AddFoodModal = () => {
 
   return (
     <Modal
-      title="Add food product"
+      title="Edit food product"
       description="Change whatever you want!"
-      isOpen={addFoodModal.isOpen}
+      isOpen={editModal.isOpen}
       onChange={onChange}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-2">
@@ -150,11 +190,11 @@ const AddFoodModal = () => {
           />
         </div>
         <Button className="mt-6" disabled={isLoading} type="submit">
-          Add
+          Edit
         </Button>
       </form>
     </Modal>
   );
 };
 
-export default AddFoodModal;
+export default EditFoodModal;

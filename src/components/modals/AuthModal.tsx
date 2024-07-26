@@ -11,7 +11,7 @@ import {
 } from '@supabase/auth-helpers-react';
 import useAuthModal from '@/hooks/useAuthModal';
 
-import Modal from './Modal';
+import Modal from '../Modal';
 
 const AuthModal = () => {
   const { session } = useSessionContext();
