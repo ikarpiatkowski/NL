@@ -4,18 +4,18 @@ import NutriProgress from '@/components/NutriProgress';
 import getFoodEnergy from '@/actions/getFoodEnergy';
 import { format, subDays } from 'date-fns';
 import getFoodTargets from '@/actions/getFoodTargets';
-import { BarChart } from '@/components/BarChart';
-import { DoughnutChart } from '@/components/DoughnutChart';
+import { BarChart } from '@/components/charts/BarChart';
+import { DoughnutChart } from '@/components/charts/DoughnutChart';
 import FoodCard from '@/components/FoodCard';
 import Header from './Header';
 import AddFood from './AddFood';
-import { ProteinChart } from './ProteinChart';
-import { FatChart } from './FatChart';
-import { CarbsChart } from './CarbsChart';
-import { SugarChart } from './SugarChart';
-import { MainChart } from './MainChart';
+import { ProteinChart } from './charts/ProteinChart';
+import { FatChart } from './charts/FatChart';
+import { CarbsChart } from './charts/CarbsChart';
+import { SugarChart } from './charts/SugarChart';
+import { MainChart } from './charts/MainChart';
 import getCalories from '@/actions/getCalories';
-import { CustomChart } from './CustomChart';
+import { CustomChart } from './charts/CustomChart';
 
 type CalDayProps = {
   params: {

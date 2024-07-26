@@ -8,7 +8,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import AccountContent from '@/components/AccountContent';
 import EditTarget from '@/components/EditTarget';
 import Button from '@/components/Button';
-import { InputForm } from '@/components/NutritionTargetForm';
+import { InputForm } from '@/components/forms/NutritionTargetForm';
 
 import {
   Accordion,
@@ -16,9 +16,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { GoalsForm } from '@/components/GoalsForm';
+import { GoalsForm } from '@/components/forms/GoalsForm';
 import { LossGainSelector } from '@/components/LossGainSelector';
-import { WieghtForm } from '@/components/WieghtForm';
+import { WieghtForm } from '@/components/forms/WieghtForm';
 
 const Account = () => {
   const router = useRouter();
