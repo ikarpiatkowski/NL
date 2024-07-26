@@ -20,6 +20,7 @@ import { GoalsForm } from '@/components/forms/GoalsForm';
 import { LossGainSelector } from '@/components/LossGainSelector';
 import { WieghtForm } from '@/components/forms/WieghtForm';
 import { useUser } from '@/hooks/useUser';
+import { WeightChart } from '@/components/charts/WeightChart';
 
 const Account = () => {
   const router = useRouter();
@@ -78,6 +79,7 @@ const Account = () => {
       </Header>
       <div className="m-4 space-y-2">
         <UserWeightValue />
+        <WeightChart />
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>Target Calories 🍴</AccordionTrigger>
