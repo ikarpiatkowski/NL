@@ -133,9 +133,8 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function WeightChart() {
+export function WeightChart(data: any) {
   const [timeRange, setTimeRange] = React.useState('90d');
-
   const filteredData = chartData.filter((item) => {
     const date = new Date(item.date);
     const now = new Date();
@@ -148,7 +147,6 @@ export function WeightChart() {
     now.setDate(now.getDate() - daysToSubtract);
     return date >= now;
   });
-
   return (
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">

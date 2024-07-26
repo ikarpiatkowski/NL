@@ -21,8 +21,10 @@ import { LossGainSelector } from '@/components/LossGainSelector';
 import { WieghtForm } from '@/components/forms/WieghtForm';
 import { useUser } from '@/hooks/useUser';
 import { WeightChart } from '@/components/charts/WeightChart';
+import { useEffect, useState } from 'react';
 
 const Account = () => {
+  const [userWeight, setUserWeight] = useState<any[]>([]);
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
 
@@ -57,6 +59,23 @@ const Account = () => {
       </div>
     );
   };
+  useEffect(() => {
+    const fetchUserWeight = async () => {
+      let { data: userWeightData, error } = await supabaseClient
+        .from('userWeight')
+        .select('*')
+        .eq('id', user?.id)
+        .order('date', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching user weight data:', error);
+      } else {
+        setUserWeight(userWeightData ?? []);
+      }
+    };
+
+    fetchUserWeight();
+  }, [supabaseClient, user?.id]);
 
   return (
     <div
@@ -79,7 +98,7 @@ const Account = () => {
       </Header>
       <div className="m-4 space-y-2">
         <UserWeightValue />
-        <WeightChart />
+        <WeightChart data={userWeight} />
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>Target Calories 🍴</AccordionTrigger>
