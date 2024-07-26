@@ -1,5 +1,5 @@
 'use client';
-import { Button } from '@/componentsShadCn/ui/button';
+import { Button } from '@/components/ui/button';
 import useEditTargets from '@/hooks/useEditTargets';
 
 const EditTarget = () => {

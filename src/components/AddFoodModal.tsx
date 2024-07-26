@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUser } from '@/hooks/useUser';
-import { Button } from '@/componentsShadCn/ui/button';
+import { Button } from '@/components/ui/button';
 
 import Modal from './Modal';
 import Input from './Input';

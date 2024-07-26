@@ -9,7 +9,7 @@ import {
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
-} from '@/componentsShadCn/ui/chart';
+} from '@/components/ui/chart';
 
 const chartConfig = {
   energy: {

@@ -6,13 +6,13 @@ import { useRouter } from 'next/navigation';
 
 import useDateStore from '@/hooks/dataStore';
 import { cn } from '@/lib/utils';
-import { Button } from '@/componentsShadCn/ui/button';
-import { Calendar } from '@/componentsShadCn/ui/calendar';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/componentsShadCn/ui/popover';
+} from '@/components/ui/popover';
 
 export function DatePickerDemo() {
   const { selectedDate, setNewDate } = useDateStore();

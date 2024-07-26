@@ -12,7 +12,7 @@ import getSongsByUserId from '@/actions/getSongsByUserId';
 import getActiveProductsWithPrices from '@/actions/getActiveProductsWithPrices';
 import { ThemeProvider } from '@/components/theme-provider';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Toaster } from '@/componentsShadCn/ui/toaster';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Nourish Log',

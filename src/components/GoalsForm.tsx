@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 
 const FormSchema = z.object({
-  calories: z.string().min(2, {
+  weight: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
   }),
   protein: z.string().min(2, {
@@ -35,11 +35,11 @@ const FormSchema = z.object({
   }),
 });
 
-export function InputForm() {
+export function GoalsForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      calories: '',
+      weight: '',
       protein: '',
       fat: '',
       sugar: '',
@@ -60,13 +60,10 @@ export function InputForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-2/3 space-y-6 space-x-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="calories"
+          name="weight"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-yellow-500 font-bold">

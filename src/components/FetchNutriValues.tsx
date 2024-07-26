@@ -5,8 +5,8 @@ import toast from 'react-hot-toast';
 
 import Header from '@/components/Header';
 import Loading from '@/app/(site)/loading';
-import { Input } from '@/componentsShadCn/ui/input';
-import { Button } from '@/componentsShadCn/ui/button';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { BiSearch } from 'react-icons/bi';
 import {
   CardTitle,
@@ -15,12 +15,12 @@ import {
   CardContent,
   CardFooter,
   Card,
-} from '@/componentsShadCn/ui/card';
+} from '@/components/ui/card';
 import {
   HoverCardTrigger,
   HoverCardContent,
   HoverCard,
-} from '@/componentsShadCn/ui/hover-card';
+} from '@/components/ui/hover-card';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 interface foods {

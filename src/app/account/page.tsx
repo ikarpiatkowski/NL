@@ -10,6 +10,16 @@ import EditTarget from '@/components/EditTarget';
 import Button from '@/components/Button';
 import { InputForm } from '@/components/NutritionTargetForm';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { GoalsForm } from '@/components/GoalsForm';
+import { LossGainSelector } from '@/components/LossGainSelector';
+import { WieghtForm } from '@/components/WieghtForm';
+
 const Account = () => {
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
@@ -44,7 +54,28 @@ const Account = () => {
         </div>
       </Header>
       <div className="m-4 space-y-2">
-        <InputForm />
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Target Calories 🍴</AccordionTrigger>
+            <AccordionContent>
+              <InputForm />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Your Goals 🔥</AccordionTrigger>
+            <AccordionContent>
+              <GoalsForm />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Your info 🔎</AccordionTrigger>
+            <AccordionContent>
+              <WieghtForm />
+              <LossGainSelector />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
         <EditTarget />
         <AccountContent />
         <Button
