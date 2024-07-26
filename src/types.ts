@@ -14,6 +14,12 @@ export interface Song {
   sugar: number;
 }
 
+export interface UserWeight {
+  id: string;
+  date: string;
+  weight: number;
+}
+
 export interface Product {
   id: string;
   active?: boolean;

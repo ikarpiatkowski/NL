@@ -19,6 +19,7 @@ import {
 import { GoalsForm } from '@/components/forms/GoalsForm';
 import { LossGainSelector } from '@/components/LossGainSelector';
 import { WieghtForm } from '@/components/forms/WieghtForm';
+import { useUser } from '@/hooks/useUser';
 
 const Account = () => {
   const router = useRouter();
@@ -34,6 +35,28 @@ const Account = () => {
       toast.success('Logged out successfully');
     }
   };
+  const { user } = useUser();
+  const UserWeightValue = async () => {
+    const supabaseClient = useSupabaseClient();
+
+    let { data: userWeight } = await supabaseClient
+      .from('userWeight')
+      .select('*')
+      .eq('id', user?.id)
+      .order('date', { ascending: false });
+
+    return (
+      <div>
+        {userWeight &&
+          userWeight.map((weight: any) => (
+            <p key={weight.id}>
+              {weight.weight}kg from {weight.date}
+            </p>
+          ))}
+      </div>
+    );
+  };
+
   return (
     <div
       className="
@@ -54,6 +77,7 @@ const Account = () => {
         </div>
       </Header>
       <div className="m-4 space-y-2">
+        <UserWeightValue />
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>Target Calories 🍴</AccordionTrigger>
